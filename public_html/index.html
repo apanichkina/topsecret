@@ -11,6 +11,7 @@
 </head><body>
     <div id="page">what the f</div>
     <script>
+
         var $page = $('#page'),
                 currentScreen = 'main';
 
@@ -51,13 +52,22 @@
             $page.html(loginTmpl()); // Рендерим шаблон
             // Инициализируем обработчики событий
             $page.find('.js-back').on('click', showMainScreen);
+
+            $('#login').on('submit', function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: "/api/v1/auth/signin",
+                }).done(function(data){
+                    alert(data);
+                });
+            });
         }
 
         /* Деструктор экрана "Авторизация" */
         function hideLoginScreen() {
+            $('#login').off('submit');
             // Удаляем установленные обработчики событий
             $page.find('.js-back').off('click', showMainScreen);
-
         }
 
         /* Конструктор экрана "Главный" */
