@@ -1,5 +1,4 @@
-*.pyc
-*.egg-info
+node_modules
 .DS_Store
 ._.DS_Store
 .Trash
