@@ -23,10 +23,10 @@ fest: {
             dest: 'public_html/js/tmpl' /* результирующая директория */
         }],
         options: {
-            template: function (data) { /* задаем формат функции-шаблона */
+            template: function (data) {
                 return grunt.template.process(
-                    // 'define(function () { return <%= contents %> ; });',
-                    'var <%= name %>Tmpl = <%= contents %> ;', /* присваиваем функцию-шаблон переменной */
+                    // 'var <%= name %>Tmpl = <%= contents %> ;',
+                    'define(function () { return <%= contents %> ; });',
                     {data: data}
                 );
             }

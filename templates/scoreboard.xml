@@ -1,4 +1,4 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <h2>Score Board</h2>
-    <h1 class="js-back">Back</h1>
+    <h2>Tut koroche doska</h2>
+    <a href="/#"><h1>BACK</h1></a>
 </fest:template>
