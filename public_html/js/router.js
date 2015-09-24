@@ -7,12 +7,14 @@ define([
     'views/login',
     'views/main',
     'views/scoreboard',
+    'views/game',
     'views/manager'
 ], function(
     Backbone,
     loginScreen,
     mainScreen,
     scoreboardScreen,
+    gameScreen,
     viewManager
 ){
 
@@ -27,19 +29,19 @@ define([
             viewManager.addView(scoreboardScreen);
             viewManager.addView(loginScreen);
             viewManager.addView(mainScreen);
+            viewManager.addView(gameScreen);
         },
         defaultActions: function () {
             mainScreen.show();
         },
         scoreboardAction: function () {
-            alert('scoreboard viexal');
             scoreboardScreen.show();
         },
         gameAction: function () {
-            // TODO
+            gameScreen.show();
         },
         loginAction: function () {
-
+            loginScreen.show();
         }
     });
 

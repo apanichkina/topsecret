@@ -13,16 +13,13 @@ define([
     var View = Backbone.View.extend({
 
         template: tmpl,
-        //classname: 'main',
 
         initialize: function () {
-            alert('init');
             $('body').append(this.el);
             this.render();
         },
         render: function () {
             this.$el.html(this.template);
-            return this;
         },
         show: function () {
             this.$el.show();

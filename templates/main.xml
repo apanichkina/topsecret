@@ -2,5 +2,5 @@
 	<h2>MAIN MENU</h2>
 	<a href="/#scoreboard"><h1>Score BOARD</h1></a>
 	<h1 class="js-start-game">Start Game</h1>
-	<h1 class="js-login">Login</h1>
+	<a href="/#login"><h1>LOGIN NOW PLS</h1></a>
 </fest:template>

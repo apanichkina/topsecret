@@ -14,16 +14,18 @@ define([
 
         template: tmpl,
         initialize: function () {
-            // TODO
+            $('body').append(this.el);
+            this.render();
         },
         render: function () {
-            // TODO
+            this.$el.html(this.template);
         },
         show: function () {
-            // TODO
+            this.$el.show();
+            this.trigger('show', this);
         },
         hide: function () {
-            // TODO
+            this.$el.hide();
         }
 
     });

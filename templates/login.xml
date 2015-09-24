@@ -9,6 +9,6 @@
         <br></br>
         <input type="submit" value="Submit"></input>
     </form>
-        <h1 class="js-back">Back</h1>
+        <a href="/"><h1>Back</h1></a>
 </fest:template>
 
