@@ -1,6 +1,13 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-	<h2>MAIN MENU</h2>
-	<a href="/#scoreboard"><h1>Score BOARD</h1></a>
-	<h1 class="js-start-game">Start Game</h1>
-	<a href="/#login"><h1>LOGIN NOW PLS</h1></a>
+    <div class="main-menu">
+        <a href="/#scoreboard" class="main-menu__button">
+            Scoreboard
+        </a>
+        <a href="/#game" class="main-menu__button">
+            Play
+        </a>
+        <a href="/#login" class="main-menu__button">
+            Login
+        </a>
+    </div>
 </fest:template>
