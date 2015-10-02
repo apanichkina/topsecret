@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
 
     <h1> Football</h1>
-    <table>
+    <table class="scoreboard__table">
         <tr>
             <td>Username</td>
             <td>Score</td>
