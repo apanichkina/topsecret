@@ -1,4 +1,18 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-    <h2>Tut koroche doska</h2>
-    <a href="/#"><h1>BACK</h1></a>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+
+    <h1> Football</h1>
+    <table>
+        <tr>
+            <td>Username</td>
+            <td>Score</td>
+        </tr>
+        <fest:each iterate="json" index="i" value="top">
+            <tr>
+                <td><fest:value>json[i].name</fest:value></td>
+                <td><fest:value>json[i].score</fest:value></td>
+            </tr>
+        </fest:each>
+    </table>
+    <a  href="/#"><button> Back </button></a>
+
 </fest:template>

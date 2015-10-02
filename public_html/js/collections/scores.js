@@ -3,13 +3,17 @@
  */
 
 define([
-    'backbone'
+    'backbone',
+    'models/scores'
 ], function(
-    Backbone
+    Backbone,
+    Score
 ){
 
     var Collection = Backbone.Collection.extend({
+        model: Score													//связываем коллекцию с модель
     });
 
-    return new Collection();
+    //return new Collection();
+    return Collection;
 });

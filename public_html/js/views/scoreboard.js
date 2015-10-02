@@ -4,10 +4,14 @@
 
 define([
     'backbone',
-    'tmpl/scoreboard'
+    'tmpl/scoreboard',
+    'models/scores',
+    'collections/scores'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    Score,
+    collection
 ){
 
     var View = Backbone.View.extend({
@@ -15,10 +19,21 @@ define([
         template: tmpl,
         initialize: function () {
             $('body').append(this.el);
+            this.collection = new collection();
+            this.collection.comparator = function(atribute) {
+                return atribute.get("score");
+            };
+            this.collection.set(
+                [
+                    {name: "Ann", score: 78809},
+                    {name: "Annjhhj", score: 78809},
+                    {name:"Aa", score:1000}
+                ]);
+            this.collection.sort();
             this.render();
         },
         render: function () {
-            this.$el.html(this.template);
+            this.$el.html(this.template(this.collection.toJSON()));
         },
         show: function () {
             this.$el.show();
