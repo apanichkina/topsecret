@@ -14,7 +14,7 @@ define([
 
         template: tmpl,
         initialize: function () {
-            $('body').append(this.el);
+            $('#page').append(this.el);
             this.render();
         },
         render: function () {

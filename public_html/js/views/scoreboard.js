@@ -18,7 +18,7 @@ define([
 
         template: tmpl,
         initialize: function () {
-            $('body').append(this.el);
+            $('#page').append(this.el);
             this.collection = new collection();
             this.collection.comparator = function(atribute) {
                 return -atribute.get("score");
