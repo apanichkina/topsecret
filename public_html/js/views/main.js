@@ -4,36 +4,33 @@
 
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/main',
+    'models/user'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    userModel
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
+        user: userModel,
 
         initialize: function () {
-
-		          $('#page').append(this.el);
+            $('#page').append(this.el);
             this.render();
         },
         render: function () {
-				        $('#page').addClass('cVHPW');
-				        $(this.el).addClass('cVHP');
+            $(this.el).addClass('main-menu');
             this.$el.html(this.template);
         },
         show: function () {
             this.$el.show();
-				        $('#page').addClass('cVHPW');
-				        $(this.el).addClass('cVHP');
             this.trigger("show", this);
         },
         hide: function () {
             this.$el.hide();
-				        $('#page').removeClass('cVHPW');
-				        $(this.el).removeClass('cVHP');
         }
 
     });

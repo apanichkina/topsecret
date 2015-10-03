@@ -4,15 +4,19 @@
 
 define([
     'backbone',
-    'tmpl/login'
+    'tmpl/login',
+    'models/user'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    userModel
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
+        user: userModel,
+
         initialize: function () {
             $('#page').append(this.el);
             this.render();
