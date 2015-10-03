@@ -36,13 +36,13 @@ define([
                     {name:"Setgey", score:670},
                     {name:"Belodedov", score:9999999},
                     {name:"Aa", score:1},
-                    {name:"Cat", score:1234567}
+                    {name:"Mr.Cat", score:1234567}
                 ]);
             this.render();
         },
         render: function () {
             this.collection.sort();
-            this.collection.reset(this.collection.first(10));
+            this.collection.models = this.collection.first(10);
             this.$el.html(this.template(this.collection.toJSON()));
         },
         show: function () {

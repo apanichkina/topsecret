@@ -11,7 +11,7 @@ define([
 ){
 
     var Collection = Backbone.Collection.extend({
-        model: Score													//связываем коллекцию с модель
+        model: Score
     });
 
     //return new Collection();
