@@ -20,12 +20,23 @@ define([
         initialize: function () {
             $('#page').append(this.el);
             this.render();
+            this.listenTo(this.user, this.user.signupCompleteEvent, function(){
+                this.render();
+            });
         },
         render: function () {
-            $(this.el).addClass('main-menu');
             this.$el.html(this.template);
+            $(this.el).addClass('main-menu');
+            if (this.user.logged_in) {
+                this.$('#js-login').hide();
+                this.$('#js-signup').hide();
+            }
+
+            return this;
+
         },
         show: function () {
+            console.log(this.user.logged_in+" //"+this.user.email);
             this.$el.show();
             this.trigger("show", this);
         },

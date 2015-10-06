@@ -6,11 +6,11 @@ grunt.initConfig({
 
 shell: {
     options: {
-                stdout: true,
-                stderr: true
+        stdout: true,
+        stderr: true
     },
 	server: { /* Подзадача */
-    		command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+        command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
 	}
 },
 /* разобрать fest */

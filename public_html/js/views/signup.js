@@ -53,22 +53,40 @@ define([
             return pw1 === pw2;
         },
 
+        allFilled: function() {
+            var isValid = true;
+            this.$(".login-form__input").each(function(formValid){
+                if ($.trim($(this).val()).length == 0){
+                    isValid = false;
+                }
+            });
+            return isValid;
+        },
+
         send: function (event) {
             event.preventDefault();
-            alert(this.user.password);
 
-            var pass = this.$("input[name=password]").val();
-
-            if (!this.passwordMatch()) {
-                this.$(".login-form__error").show();
+            if(!this.allFilled()){
+                this.$(".login-form__error").text("All fields must be filled!").show();
+            }
+            else if (!this.passwordMatch()) {
+                this.$(".login-form__error").text("Passwords don't match!").show();
             }
             else {
                 this.$(".login-form__error").hide();
-                this.user.password = pass;
+                var pass = this.$("input[name=password]").val();
+                var name = this.$("input[name=name]").val();
+                var email = this.$("input[name=email]").val();
+
+                this.user.set("password", pass);
+                this.user.set("email", email);
+                this.user.set("name", name);
+                this.user.set("logged_in", true);
+                this.user.save();
+                Backbone.history.navigate('', {trigger: true});
             }
 
         }
-
 
 
     });

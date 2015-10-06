@@ -1,15 +1,15 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div class="main-menu__header">Da football</div>
-    <a href="/#game" class="main-menu__button">
+    <a href="/#game" class="main-menu__button js-play">
         Play
     </a>
-    <a href="/#scoreboard" class="main-menu__button">
+    <a href="/#scoreboard" class="main-menu__button js-scoreboard">
         Scoreboard
     </a>
-    <a href="/#login" class="main-menu__button">
+    <a href="/#login" id="js-login" class="main-menu__button js-login">
         Login
     </a>
-    <a href="/#signup" class="main-menu__button">
+    <a href="/#signup" id="js-signup" class="main-menu__button">
         Sign Up
     </a>
 
