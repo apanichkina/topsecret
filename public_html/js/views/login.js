@@ -17,6 +17,10 @@ define([
         template: tmpl,
         user: userModel,
 
+        events: {
+            "submit": "send"
+        },
+
         initialize: function () {
             $('#page').append(this.el);
             this.render();
@@ -30,6 +34,12 @@ define([
         },
         hide: function () {
             this.$el.hide();
+        },
+
+        send: function(event) {
+            event.preventDefault();
+            this.user.save();
+            Backbone.history.navigate('', {trigger: true});
         }
 
     });

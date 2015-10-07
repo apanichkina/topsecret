@@ -4,15 +4,19 @@
 
 define([
     'backbone',
-    'tmpl/game'
+    'tmpl/game',
+    'models/user'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    userModel
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
+        user: userModel,
+
         initialize: function () {
             // TODO
         },
@@ -20,7 +24,7 @@ define([
             // TODO
         },
         show: function () {
-            // TODO
+            console.log(this.user.logged_in);
         },
         hide: function () {
             // TODO

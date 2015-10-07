@@ -15,6 +15,7 @@ define([
         sync: userSync,
 
         signupCompleteEvent: 'signupCompleteEvent',
+        loginCompleteEvent: 'loginCompleteEvent',
 
 
         logged_in: false,
@@ -22,10 +23,14 @@ define([
         password: "",
         email: "",
 
+        loginSuccess: function (data) {
+            this.name = data.name;
+            this.logged_in = true;
+            this.trigger(this.loginCompleteEvent);
+        },
 
         signupSuccess: function(data) {
             this.name = data.name;
-            this.password = data.password;
             this.email = data.email;
             this.logged_in = true;
             this.trigger(this.signupCompleteEvent)

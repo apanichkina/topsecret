@@ -20,7 +20,7 @@ define([
         initialize: function () {
             $('#page').append(this.el);
             this.render();
-            this.listenTo(this.user, this.user.signupCompleteEvent, function(){
+            this.listenTo(this.user, this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function(){
                 this.render();
             });
         },
@@ -36,7 +36,6 @@ define([
 
         },
         show: function () {
-            console.log(this.user.logged_in+" //"+this.user.email);
             this.$el.show();
             this.trigger("show", this);
         },

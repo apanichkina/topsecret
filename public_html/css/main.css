@@ -137,20 +137,20 @@ body {
     height: 100%;
 }
 
-.cVHPW {
-    position: relative;
-    text-align: center;
-}
+/*.cVHPW {*/
+    /*position: relative;*/
+    /*text-align: center;*/
+/*}*/
 
-.cVHPW:before {
-    display: inline-block;
-    content: '';
-    vertical-align: middle;
-    height: 100%;
-    width: 0;
-}
+/*.cVHPW:before {*/
+    /*display: inline-block;*/
+    /*content: '';*/
+    /*vertical-align: middle;*/
+    /*height: 100%;*/
+    /*width: 0;*/
+/*}*/
 
-.cVHPW .cVHP {
-    display: inline-block;
-    vertical-align: middle;
-}
+/*.cVHPW .cVHP {*/
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+/*}*/

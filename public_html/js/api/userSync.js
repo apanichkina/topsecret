@@ -8,10 +8,7 @@ define([
 ) {
 
     var methodMap = {
-        'create': 'POST',
-        'update': 'POST',
-        'delete': 'GET',
-        'read': 'GET'
+        'create': 'POST'
     };
 
     var urlMap  = {
@@ -29,17 +26,21 @@ define([
             params.processData = false;
             var success;
 
-            if (model.get('email') === "") {
+            if (model.email == "") {
                 params.url = urlMap['login'];
+                params.data = JSON.stringify(modelData);
+                params.error = function () {
+                    model.loginSuccess(modelData);
+                };
             } else {
                 params.url = urlMap['signup'];
-                params.data = JSON.stringify(modelData)
+                params.data = JSON.stringify(modelData);
+                params.error = function () {
+                    model.signupSuccess(modelData);
+                };
             }
         }
 
-        params.error = function () {
-            model.signupSuccess(modelData);
-        };
 
         return Backbone.ajax(params);
     }
