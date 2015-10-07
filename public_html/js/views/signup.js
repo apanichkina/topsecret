@@ -46,10 +46,6 @@ define([
             var pw1 = this.$("input[name=password]").val();
             var pw2 = this.$("input[name=password_repeat]").val();
 
-            if(!pw1 || !pw2){
-                return false;
-            }
-
             return pw1 === pw2;
         },
 
@@ -63,11 +59,29 @@ define([
             return isValid;
         },
 
+        validLogin: function() {
+            var login = this.$("input[name=login]").val();
+            var regex = /^[a-zA-Z\-]+$/;
+            return regex.test(login);
+        },
+
+        validEmail: function () {
+            var email = this.$("input[name=email]").val();
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        },
+
         send: function (event) {
             event.preventDefault();
 
             if(!this.allFilled()){
                 this.$(".login-form__error").text("All fields must be filled!").show();
+            }
+            else if (!this.validLogin()) {
+                this.$(".login-form__error").text("Wrong login!").show();
+            }
+            else if (!this.validEmail()) {
+                this.$(".login-form__error").text("Wrong email!").show();
             }
             else if (!this.passwordMatch()) {
                 this.$(".login-form__error").text("Passwords don't match!").show();
