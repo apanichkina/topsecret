@@ -5,7 +5,7 @@
 define([
     'backbone',
     'jquery',
-    'rouer'
+    'router'
 ], function(Backbone, jQuery, router) {
 
     var views = [];
