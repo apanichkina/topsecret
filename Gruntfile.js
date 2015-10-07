@@ -9,11 +9,11 @@ shell: {
         stdout: true,
         stderr: true
     },
-	server: { /* Подзадача */
+	server: {
         command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
 	}
 },
-/* разобрать fest */
+
 fest: {
     templates: {
         files: [{
@@ -56,19 +56,18 @@ watch: {
 concurrent: {
     target: ['watch', 'shell'],
     options: {
-        logConcurrentOutput: true, /* Вывод процесса логов*/
+        logConcurrentOutput: true /* Вывод процесса логов*/
     }
 }, 
 any_other_name: 'hello' /* Любое произвольное свойство */
 });
-// Загрузка плагинов, на примере "concat».
-grunt.loadNpmTasks('grunt-contrib-concat');
 
+grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-concurrent');
 grunt.loadNpmTasks('grunt-shell');
 grunt.loadNpmTasks('grunt-fest');
-// Определение задач, default должен быть всегда.
+
 grunt.registerTask('default', ['concurrent']);
 
 };

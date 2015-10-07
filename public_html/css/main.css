@@ -95,9 +95,42 @@ body {
     background: rgba(255,3,62,0.75);
     margin: 10px auto;
 }
-
+.scoreboard{
+    width: 400px;
+    margin: 30px auto;
+    text-align: center;
+}
+.scoreboard__header{
+    font: bold 28px Helvetica;
+    color: #fff;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
 .scoreboard__table {
-    background-color: white;
+    font: 18px Georgia;
+    text-decoration: none;
+    text-align: center;
+    width: 60%;
+    margin: 10px auto;
+    padding: 20px;
+    color: #000;
+    background: white;
+    border-radius: 10px;
+}
+
+.scoreboard__table_header-color {
+    font:bold 18px Georgia;
+}
+
+.scoreboard__button {
+    font: bold 18px Georgia;
+    text-decoration: none;
+    display: block;
+    width: 50%;
+    margin: 10px auto;
+    padding: 20px;
+    color: #000;
+    background: white;
+    border-radius: 10px;
 }
 
 #page {
