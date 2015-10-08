@@ -1,4 +1,4 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="collection">
     <div class="scoreboard">
         <div class="scoreboard__header">Scoreboard</div>
         <table class="scoreboard__table">
@@ -6,13 +6,13 @@
                 <td>Username</td>
                 <td>Score</td>
             </tr>
-            <fest:each iterate="json" index="i" value="top">
+            <fest:each iterate="collection" index="i" value="top">
                 <tr>
                     <td>
-                        <fest:value>json[i].name</fest:value>
+                        <fest:value>collection[i].name</fest:value>
                     </td>
                     <td>
-                        <fest:value>json[i].score</fest:value>
+                        <fest:value>collection[i].score</fest:value>
                     </td>
                 </tr>
             </fest:each>

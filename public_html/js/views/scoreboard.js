@@ -1,5 +1,5 @@
 /**
- * Created by Alex on 21.09.15.
+ * Created by Ann on 21.09.15.
  */
 
 define([
@@ -41,9 +41,7 @@ define([
             this.render();
         },
         render: function () {
-            this.collection.sort();
-            this.collection.models = this.collection.first(10);
-            this.$el.html(this.template(this.collection.toJSON()));
+            this.$el.html(this.template(this.collection.firstN(10)));
         },
         show: function () {
             this.$el.show();

@@ -11,9 +11,13 @@ define([
 ){
 
     var Collection = Backbone.Collection.extend({
-        model: Score
+        model: Score,
+        firstN: function(n){
+            return this.first(n).map(function(model) { return model.attributes;})
+        }
+
     });
 
-    //return new Collection();
+
     return Collection;
 });

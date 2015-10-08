@@ -105,6 +105,22 @@ body {
     color: #fff;
     text-shadow: black 0.1em 0.1em 0.2em;
 }
+
+.scoreboard__header_3D{
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    border: none;
+    font: normal 50px/normal "Chau Philomene One", Helvetica, sans-serif;
+    color: rgb(51, 51, 51);
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    letter-spacing: 3px;
+    text-shadow: -3px 0 1px rgb(30,242,241) , 3px 0 1px rgb(246,5,10) ;
+}
+
+
 .scoreboard__table {
     font: 18px Georgia;
     text-decoration: none;
