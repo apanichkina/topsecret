@@ -7,7 +7,7 @@ define([
     'jquery',
     'router'
 ], function(Backbone, jQuery, router) {
-
+    /*TODO*/
     var views = [];
 
     var Manager = Backbone.View.extend({

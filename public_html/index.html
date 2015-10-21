@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html><head>
     <meta charset="utf-8" />
@@ -8,3 +9,92 @@
 <script data-main="js/main" src="js/lib/require.js"></script>
 <script src="js/lib/snowfall.js"></script>
 </body></html>
+-->
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<script>
+    window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                function(callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+    })();
+
+    function drawArc(myArc, context) {
+        context.beginPath();
+        context.arc(myArc.x, myArc.y, myArc.radius, myArc.startAngle, myArc.endAngle, myArc.counterClockwise);
+        context.fillStyle = '#8ED6FF';
+        context.fill();
+        context.lineWidth = myArc.borderWidth;
+        context.strokeStyle = 'black';
+        context.stroke();
+    }
+    function animate(myArc, canvas, context, startTime) {
+        resizeCanvas();
+        // update
+        var time = (new Date()).getTime() - startTime;
+
+        var linearSpeed = 100;
+        // pixels / second
+        var newX = myArc.radius+ myArc.borderWidth + linearSpeed * time / 1000;
+
+        if(newX < canvas.width - myArc.radius - myArc.borderWidth / 2) {
+            myArc.x = newX;
+        }
+
+        // clear
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawArc(myArc, context);
+
+        // request new frame
+        requestAnimFrame(function() {
+            animate(myArc, canvas, context, startTime);
+        });
+    }
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+
+    window.addEventListener('resize', resizeCanvas, false);
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        /**
+         * Your drawings need to be inside this function otherwise they will be reset when
+         * you resize the browser window and the canvas goes will be cleared.
+         */
+
+    }
+    resizeCanvas();
+    var myArc = {
+        x: 75,
+        y: canvas.height / 2,
+        radius: 75,
+        startAngle: Math.PI,
+        endAngle: 4 * Math.PI,
+        counterClockwise: false,
+        borderWidth: 3
+    };
+
+    drawArc(myArc, context);
+    setTimeout(function() {
+        var startTime = (new Date()).getTime();
+        animate(myArc, canvas, context, startTime);
+    }, 1000);
+
+</script>
+</body>
+</html>

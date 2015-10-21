@@ -17,7 +17,5 @@ define([
         }
 
     });
-
-
     return Collection;
 });
