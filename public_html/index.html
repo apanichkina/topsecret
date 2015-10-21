@@ -10,7 +10,6 @@
 <script src="js/lib/snowfall.js"></script>
 </body></html>
 -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -40,28 +39,38 @@
         context.strokeStyle = 'black';
         context.stroke();
     }
-    function animate(myArc, canvas, context, startTime) {
-        resizeCanvas();
-        // update
-        var time = (new Date()).getTime() - startTime;
+    function animate(lastTime, myArc, runAnimation, canvas, context, koefX, koefY) {
+        if(runAnimation.value) {
+            // update
+            var time = (new Date()).getTime();
+            var timeDiff = time - lastTime;
 
-        var linearSpeed = 100;
-        // pixels / second
-        var newX = myArc.radius+ myArc.borderWidth + linearSpeed * time / 1000;
+            // pixels / second
+            var linearSpeed = 100;
+            var linearDistEachFrame = linearSpeed * timeDiff / 1000;
+            var currentX = myArc.x;
+            var currentY = myArc.y;
 
-        if(newX < canvas.width - myArc.radius - myArc.borderWidth / 2) {
-            myArc.x = newX;
+            if(currentX <= canvas.width - myArc.radius - myArc.borderWidth / 2 && currentX >= myArc.radius + myArc.borderWidth) {
+                var newX = currentX + koefX * linearDistEachFrame;
+                myArc.x = newX;
+            }
+
+            if(currentY <= canvas.height - myArc.radius - myArc.borderWidth / 2 && currentY >= myArc.radius + myArc.borderWidth) {
+                var newY = currentY + koefY * linearDistEachFrame;
+                myArc.y = newY;
+            }
+            // clear
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // draw
+            drawArc(myArc, context);
+
+            // request new frame
+            requestAnimFrame(function() {
+                animate(time, myArc, runAnimation, canvas, context, koefX, koefY);
+            });
         }
-
-        // clear
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawArc(myArc, context);
-
-        // request new frame
-        requestAnimFrame(function() {
-            animate(myArc, canvas, context, startTime);
-        });
     }
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
@@ -80,20 +89,79 @@
     }
     resizeCanvas();
     var myArc = {
-        x: 75,
+        x: 50,
         y: canvas.height / 2,
-        radius: 75,
+        radius: 35,
         startAngle: Math.PI,
         endAngle: 4 * Math.PI,
         counterClockwise: false,
         borderWidth: 3
     };
+    var runAnimation = {
+        //value: false
+        value: true
+    };
+    function processKey(e) {
+        if (e.keyCode == 37) {
+            // flip flag
+            //runAnimation.value = !runAnimation.value;
+
+            if(runAnimation.value) {
+                var date = new Date();
+                var time = date.getTime();
+                animate(time, myArc, runAnimation, canvas, context, -1, 0);
+            }
+        }
+        if (e.keyCode == 39){
+            // flip flag
+            //runAnimation.value = !runAnimation.value;
+
+            if(runAnimation.value) {
+                var date = new Date();
+                var time = date.getTime();
+                animate(time, myArc, runAnimation, canvas, context, 1, 0);
+            }
+        }
+        if (e.keyCode == 38){
+            // flip flag
+            //runAnimation.value = !runAnimation.value;
+
+            if(runAnimation.value) {
+                var date = new Date();
+                var time = date.getTime();
+                animate(time, myArc, runAnimation, canvas, context, 0, -1);
+            }
+        }
+        if (e.keyCode == 40){
+            // flip flag
+            //runAnimation.value = !runAnimation.value;
+
+            if(runAnimation.value) {
+                var date = new Date();
+                var time = date.getTime();
+                animate(time, myArc, runAnimation, canvas, context, 0, 1);
+            }
+        }
+    }
+
+    window.onkeydown = processKey;
+    // add click listener to canvas
+    /*
+    document.getElementById('myCanvas').addEventListener('keydown', function(e) {
+        if (e.keyCode == 37) {
+        // flip flag
+        runAnimation.value = !runAnimation.value;
+
+        if(runAnimation.value) {
+            var date = new Date();
+            var time = date.getTime();
+            animate(time, myArc, runAnimation, canvas, context);
+        }
+        }
+    });
+    */
 
     drawArc(myArc, context);
-    setTimeout(function() {
-        var startTime = (new Date()).getTime();
-        animate(myArc, canvas, context, startTime);
-    }, 1000);
 
 </script>
 </body>
