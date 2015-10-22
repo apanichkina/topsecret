@@ -148,6 +148,10 @@ body {
     background: white;
     border-radius: 10px;
 }
+.game__field {
+    margin: 0px;
+    padding: 0px;
+}
 
 #page {
     height: 100%;
