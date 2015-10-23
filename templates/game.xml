@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <h2>The Game</h2>
-    <canvas id="myCanvas"></canvas>
+    <canvas id="myCanvas" width="1200" height="300" ></canvas>
     <h1 class="js-back">Back</h1>
 </fest:template>
 
