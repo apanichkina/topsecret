@@ -23,8 +23,12 @@ define([
         render: function () {
             this.$el.html(this.template);
 
-            window.requestAnimFrame = (function (callback) {
-                return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+            window.requestAnimFrame = (function () {
+                return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
                     function (callback) {
                         window.setTimeout(callback, 1000 / 60);
                     };
@@ -32,7 +36,8 @@ define([
 
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
             //window.addEventListener('resize', this.resizeCanvas(), false);
             //resizeCanvas();
             this.myArc = {
@@ -48,6 +53,9 @@ define([
             window.onkeydown = this.processKey.bind(this);
 
             this.drawArc(this.myArc, this.context);
+            this.Vx = 0;
+            this.Vy = 0;
+            this.animate();
         },
         show: function () {
             console.log(this.user.logged_in);
@@ -58,43 +66,29 @@ define([
             this.$el.hide();
         },
 
-        // runAnimation : true,
-
 
         //helpers
-
-
-        animate: function (lastTime, myArc, koefX, koefY) {
-            console.log("animate");
+        animate: function (lastTime) {
             if (this.runAnimation) {
-                // update
-                var time = (new Date()).getTime();
-                var timeDiff = time - lastTime;
-
-                // pixels / second
-                var linearSpeed = 100;
-                var linearDistEachFrame = linearSpeed * timeDiff / 1000;
                 var myArc = this.myArc;
                 var currentX = myArc.x;
                 var currentY = myArc.y;
 
                 if (currentX <= this.canvas.width - myArc.radius - myArc.borderWidth / 2 && currentX >= myArc.radius + myArc.borderWidth) {
-                    var newX = currentX + koefX * linearDistEachFrame;
+                    var newX = currentX + this.Vx  ;
                     myArc.x = newX;
                 }
 
                 if (currentY <= this.canvas.height - myArc.radius - myArc.borderWidth / 2 && currentY >= myArc.radius + myArc.borderWidth) {
-                    var newY = currentY + koefY * linearDistEachFrame;
+                    var newY = currentY +  this.Vy;
                     myArc.y = newY;
                 }
-                // clear
+
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
                 // draw
                 this.drawArc(myArc, this.context);
-
                 requestAnimFrame(this.animate.bind(this));
-
             }
 
         },
@@ -112,57 +106,35 @@ define([
             canvas.height = window.innerHeight;
         },
         processKey: function (e) {
-            console.log("click");
-            // e = e || window.event;
             if (e.keyCode == 37) {
                 // flip flag
                 //runAnimation.value = !runAnimation.value;
-                console.log("37");
-                //if(this.runAnimation) {
-                console.log("37");
-                var date = new Date();
-                var time = date.getTime();
-                this.animate(time, this.myArc, -1, 0);
-                //this.animate(time, this.myArc, this.runAnimation, this.canvas, this.context, -1, 0);
-                //}
+                if(this.runAnimation) {
+                this.Vx -= 1;
+                }
             }
             if (e.keyCode == 39) {
                 // flip flag
                 //runAnimation.value = !runAnimation.value;
-
                 if (this.runAnimation) {
-                    console.log("39");
-                    var date = new Date();
-                    var time = date.getTime();
-                    this.animate(time, this.myArc, 1, 0);
-                    //this.animate(time, myArc, runAnimation, canvas, context, 1, 0);
+                    this.Vx += 1;
                 }
             }
             if (e.keyCode == 38) {
                 // flip flag
                 //runAnimation.value = !runAnimation.value;
-
                 if (this.runAnimation) {
-                    var date = new Date();
-                    var time = date.getTime();
-                    //animate(time, myArc, runAnimation, canvas, context, 0, -1);
-                    this.animate(time, this.myArc, 0, -1);
+                    this.Vy -= 1;
                 }
             }
             if (e.keyCode == 40) {
                 // flip flag
                 //runAnimation.value = !runAnimation.value;
-
                 if (this.runAnimation) {
-                    var date = new Date();
-                    var time = date.getTime();
-                    //animate(time, myArc, runAnimation, canvas, context, 0, 1);
-                    this.animate(time, this.myArc, 0, 1);
+                    this.Vy += 1;
                 }
             }
         }
-
-
     });
 
     return new View();

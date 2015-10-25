@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  /*  background-image: url("../img/back.jpg");*/
+    background-image: url("../img/back.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -151,6 +151,8 @@ body {
 .game__field {
     margin: 0px;
     padding: 0px;
+    width: 100%;
+    height:100%;
 }
 
 #page {
