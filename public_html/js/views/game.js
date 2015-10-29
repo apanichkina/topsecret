@@ -36,25 +36,49 @@ define([
 
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-            //window.addEventListener('resize', this.resizeCanvas(), false);
-            //resizeCanvas();
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            this.canvas.width = width;
+            this.canvas.height = height;
+
+            this.container = {x: 0, y: 0, width: width, height: height};
+
+            this.imageObj = new Image();
+            this.imageObj.src = "../../img/football_field.jpg";
+
+            this.imageObjBall = new Image();
+            this.imageObjBall.src = "../../img/ball.jpg";
+
+            this.imageObjHead = new Image();
+            this.imageObjHead.src = "../../img/head.png";
+
+            this.balls = [];
             this.myArc = {
                 x: 50,
                 y: this.canvas.height / 2,
-                radius: 35,
-                startAngle: Math.PI,
-                endAngle: 4 * Math.PI,
-                counterClockwise: false,
-                borderWidth: 3
+                radius: 20,
+                Vx: 0,
+                Vy: 0
             };
-            this.runAnimation = true;
+            this.myArc2 = {
+                x: this.container.width - 50,
+                y: this.canvas.height / 2,
+                radius: 20,
+                Vx: -0,
+                Vy: 0
+            };
+            this.ball = {
+                x: this.container.width / 2,
+                y: this.canvas.height / 2,
+                radius:10,
+                Vx: 5,
+                Vy: 5
+            };
+            this.balls.push(this.myArc);
+            this.balls.push(this.myArc2);
             window.onkeydown = this.processKey.bind(this);
 
             this.drawArc(this.myArc, this.context);
-            this.Vx = 0;
-            this.Vy = 0;
             this.animate();
         },
         show: function () {
@@ -68,72 +92,83 @@ define([
 
 
         //helpers
-        animate: function (lastTime) {
-            if (this.runAnimation) {
-                var myArc = this.myArc;
-                var currentX = myArc.x;
-                var currentY = myArc.y;
 
-                if (currentX <= this.canvas.width - myArc.radius - myArc.borderWidth / 2 && currentX >= myArc.radius + myArc.borderWidth) {
-                    var newX = currentX + this.Vx  ;
-                    myArc.x = newX;
+        onload: function () {
+            var container = this.container;
+            var imageObj = this.imageObj;
+            this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+        },
+        animate: function () {
+            this.context.fillStyle = this.onload();
+            for(var i=0; i < this.balls.length; i++) {
+                var myArc = this.balls[i];
+
+                if ((myArc.x + myArc.Vx + myArc.radius > this.container.x + this.container.width) || (myArc.x - myArc.radius + myArc.Vx < this.container.x)) {
+                    myArc.Vx = -myArc.Vx;
                 }
-
-                if (currentY <= this.canvas.height - myArc.radius - myArc.borderWidth / 2 && currentY >= myArc.radius + myArc.borderWidth) {
-                    var newY = currentY +  this.Vy;
-                    myArc.y = newY;
+                if ((myArc.y + myArc.Vy + myArc.radius > this.container.y + this.container.height) || (myArc.y - myArc.radius + myArc.Vy < this.container.y)) {
+                    myArc.Vy = -myArc.Vy;
                 }
+                myArc.x += myArc.Vx;
+                myArc.y += myArc.Vy;
 
-                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-                // draw
                 this.drawArc(myArc, this.context);
-                requestAnimFrame(this.animate.bind(this));
             }
+            requestAnimFrame(this.animate.bind(this));
+
 
         },
         drawArc: function (myArc, context) {
+            context.save();
             context.beginPath();
-            context.arc(myArc.x, myArc.y, myArc.radius, myArc.startAngle, myArc.endAngle, myArc.counterClockwise);
-            context.fillStyle = '#8ED6FF';
+            context.translate(myArc.x, myArc.y);
+            var imgW = myArc.radius * 2;
+            var imgH = myArc.radius * 2;
+            context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+            var grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+            context.fillStyle = grd;
             context.fill();
-            context.lineWidth = myArc.borderWidth;
-            context.strokeStyle = 'black';
-            context.stroke();
+            context.restore();
         },
-        resizeCanvas: function () {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        drawBall: function (ball, context) {
+            context.save();
+            context.beginPath();
+            context.translate(ball.x, ball.y);
+            var imgW = ball.radius * 2;
+            var imgH = ball.radius * 2;
+            context.rotate(Math.atan2(ball.Vy, ball.Vx) - Math.PI / 2);
+            var grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+            context.fillStyle = grd;
+            context.fill();
+            context.restore();
         },
         processKey: function (e) {
             if (e.keyCode == 37) {
-                // flip flag
-                //runAnimation.value = !runAnimation.value;
-                if(this.runAnimation) {
-                this.Vx -= 1;
-                }
+                this.myArc.Vx -= 1;
             }
             if (e.keyCode == 39) {
-                // flip flag
-                //runAnimation.value = !runAnimation.value;
-                if (this.runAnimation) {
-                    this.Vx += 1;
-                }
+                this.myArc.Vx += 1;
             }
             if (e.keyCode == 38) {
-                // flip flag
-                //runAnimation.value = !runAnimation.value;
-                if (this.runAnimation) {
-                    this.Vy -= 1;
-                }
+                this.myArc.Vy -= 1;
             }
             if (e.keyCode == 40) {
-                // flip flag
-                //runAnimation.value = !runAnimation.value;
-                if (this.runAnimation) {
-                    this.Vy += 1;
-                }
+                this.myArc.Vy += 1;
             }
+
+            if (e.keyCode == 65) {
+                this.myArc2.Vx -= 1;
+            }
+            if (e.keyCode == 68) {
+                this.myArc2.Vx += 1;
+            }
+            if (e.keyCode == 87) {
+                this.myArc2.Vy -= 1;
+            }
+            if (e.keyCode == 83) {
+                this.myArc2.Vy += 1;
+            }
+
         }
     });
 
