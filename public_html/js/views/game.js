@@ -113,6 +113,7 @@ define([
                 myArc.y += myArc.Vy;
 
                 this.drawArc(myArc, this.context);
+                this.drawBall(myArc, this.context);
             }
             requestAnimFrame(this.animate.bind(this));
 
@@ -125,7 +126,7 @@ define([
             var imgW = myArc.radius * 2;
             var imgH = myArc.radius * 2;
             context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-            var grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+            var grd = context.drawImage(this.imageObjBall, -imgW / 2, -imgH / 2, imgW, imgH);
             context.fillStyle = grd;
             context.fill();
             context.restore();
