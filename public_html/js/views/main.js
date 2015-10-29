@@ -26,7 +26,6 @@ define([
         },
         render: function () {
             this.$el.html(this.template);
-            $(this.el).addClass('main-menu');
             if (this.user.logged_in) {
                 this.$('#js-login').hide();
                 this.$('#js-signup').hide();

@@ -148,6 +148,8 @@ define([
 
         },
         drawArc: function (myArc, context) {
+            var grd;
+
             context.save();
             context.beginPath();
             if (myArc.type == "human") {
@@ -155,10 +157,10 @@ define([
                 var imgW = myArc.radius * 2;
                 var imgH = myArc.radius * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-                var grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
             } else {
                 context.arc(myArc.x, myArc.y, myArc.radius, 0, 2 * Math.PI, false);
-                var grd = context.createPattern(this.imageObjBall, 'repeat');
+                grd = context.createPattern(this.imageObjBall, 'repeat');
             }
             context.fillStyle = grd;
             context.fill();

@@ -7,7 +7,7 @@ define([
     'jquery',
     'router'
 ], function(Backbone, jQuery, router) {
-    /*TODO*/
+    //TODO убрать ненужные библиотеки
     var views = [];
 
     var Manager = Backbone.View.extend({
