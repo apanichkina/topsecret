@@ -19,6 +19,9 @@ define([
 
         initialize: function () {
             $('#page').append(this.el);
+            this.listenTo(this.user, this.user.loginFailedEvent, function () {
+                this.$(".user-form__error").text("Invalid credentials!").show();
+            });
             this.render();
         },
         render: function () {
@@ -40,7 +43,6 @@ define([
             this.user.set("name", name);
             this.user.set("password", pass);
             this.user.save();
-            Backbone.history.navigate('', {trigger: true});
         }
 
     });

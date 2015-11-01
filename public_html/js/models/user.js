@@ -13,6 +13,7 @@ define([
 
         signupCompleteEvent: 'signupCompleteEvent',
         loginCompleteEvent: 'loginCompleteEvent',
+        loginFailedEvent: 'loginFailedEvent',
 
         /* Properties */
         logged_in: false,
@@ -25,6 +26,10 @@ define([
             this.email = data.email;
             this.logged_in = true;
             this.trigger(this.loginCompleteEvent);
+        },
+
+        loginFailed: function (data) {
+            this.trigger(this.loginFailedEvent);
         },
 
         signupSuccess: function(data) {

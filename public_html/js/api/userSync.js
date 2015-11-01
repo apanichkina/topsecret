@@ -10,15 +10,15 @@ define([
 
 
     var urlMap  = {
-        'login': '/api/v1/auth/signin',
-        'signup': '/api/v1/auth/signup'
+        'login': '/api/v1/auth/signin/',
+        'signup': '/api/v1/auth/signup/'
     };
 
     return function(method, model, options) {
+        alert(method);
         var params = {type: methodMap[method]};
         var modelData = model.toJSON();
 
-        alert(modelData.email);
         if (method === 'create') {
             params.dataType = 'json';
             params.contentType = 'application/json';
@@ -28,14 +28,27 @@ define([
             if (model.email == "") {
                 params.url = urlMap['login'];
                 params.data = JSON.stringify(modelData);
-                params.error = function () {
-                    model.loginSuccess(modelData);
+                params.success = function (data) {
+                    console.log(data);
+                    alert(data.response.description);
+                    if(data.code == 0) {
+                        model.loginSuccess(data);
+                    } else {
+                        model.loginFailed(data);
+                    }
                 };
+                params.error = function () {
+                    alert("BAD SHIT");
+                }
             } else {
                 params.url = urlMap['signup'];
                 params.data = JSON.stringify(modelData);
-                params.error = function () {
+                params.success = function () {
                     model.signupSuccess(modelData);
+                };
+
+                params.error = function () {
+                    alert("BAD SHIT");
                 };
             }
         }
