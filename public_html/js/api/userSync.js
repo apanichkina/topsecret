@@ -1,6 +1,3 @@
-/**
- * Created by Alex on 04.10.15
- */
 define([
     'backbone'
 ], function(
@@ -11,6 +8,7 @@ define([
         'create': 'POST'
     };
 
+
     var urlMap  = {
         'login': '/api/v1/auth/signin',
         'signup': '/api/v1/auth/signup'
@@ -20,6 +18,7 @@ define([
         var params = {type: methodMap[method]};
         var modelData = model.toJSON();
 
+        alert(modelData.email);
         if (method === 'create') {
             params.dataType = 'json';
             params.contentType = 'application/json';

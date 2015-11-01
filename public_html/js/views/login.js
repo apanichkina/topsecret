@@ -1,7 +1,3 @@
-/**
- * Created by Alex on 21.09.15.
- */
-
 define([
     'backbone',
     'tmpl/login',
@@ -38,6 +34,11 @@ define([
 
         send: function(event) {
             event.preventDefault();
+            var pass = this.$("input[name=password]").val();
+            var name = this.$("input[name=name]").val();
+
+            this.user.set("name", name);
+            this.user.set("password", pass);
             this.user.save();
             Backbone.history.navigate('', {trigger: true});
         }

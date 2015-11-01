@@ -1,6 +1,3 @@
-/**
- * Created by Alex on 03.10.15.
- */
 define([
     'backbone',
     'api/userSync'
@@ -17,7 +14,7 @@ define([
         signupCompleteEvent: 'signupCompleteEvent',
         loginCompleteEvent: 'loginCompleteEvent',
 
-
+        /* Properties */
         logged_in: false,
         name: "",
         password: "",
@@ -25,6 +22,7 @@ define([
 
         loginSuccess: function (data) {
             this.name = data.name;
+            this.email = data.email;
             this.logged_in = true;
             this.trigger(this.loginCompleteEvent);
         },
@@ -33,7 +31,7 @@ define([
             this.name = data.name;
             this.email = data.email;
             this.logged_in = true;
-            this.trigger(this.signupCompleteEvent)
+            this.trigger(this.signupCompleteEvent);
         }
 
 

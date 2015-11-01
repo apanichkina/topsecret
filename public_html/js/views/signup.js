@@ -1,7 +1,3 @@
-/**
- * Created by Alex ot dushi da
- */
-
 define([
     'backbone',
     'tmpl/signup',
@@ -51,7 +47,7 @@ define([
 
         allFilled: function() {
             var isValid = true;
-            this.$(".login-form__input").each(function(formValid){
+            this.$(".user-form__input").each(function(formValid){
                 if ($.trim($(this).val()).length == 0){
                     isValid = false;
                 }
@@ -75,19 +71,19 @@ define([
             event.preventDefault();
 
             if(!this.allFilled()){
-                this.$(".login-form__error").text("All fields must be filled!").show();
+                this.$(".user-form__error").text("All fields must be filled!").show();
             }
             else if (!this.validLogin()) {
-                this.$(".login-form__error").text("Wrong login!").show();
+                this.$(".user-form__error").text("Wrong login!").show();
             }
             else if (!this.validEmail()) {
-                this.$(".login-form__error").text("Wrong email!").show();
+                this.$(".user-form__error").text("Wrong email!").show();
             }
             else if (!this.passwordMatch()) {
-                this.$(".login-form__error").text("Passwords don't match!").show();
+                this.$(".user-form__error").text("Passwords don't match!").show();
             }
             else {
-                this.$(".login-form__error").hide();
+                this.$(".user-form__error").hide();
                 var pass = this.$("input[name=password]").val();
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
@@ -95,9 +91,7 @@ define([
                 this.user.set("password", pass);
                 this.user.set("email", email);
                 this.user.set("name", name);
-                this.user.set("logged_in", true);
                 this.user.save();
-                Backbone.history.navigate('', {trigger: true});
             }
 
         }

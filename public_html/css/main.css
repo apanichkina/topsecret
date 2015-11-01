@@ -11,7 +11,7 @@ body {
 
 .main-menu {
     width: 400px;
-    margin: 30px auto;
+    margin: 50px auto;
     text-align: center;
 }
 
@@ -35,17 +35,17 @@ body {
     text-shadow: black 0.1em 0.1em 0.2em;
 }
 
-.login-menu {
+.box {
     margin: 50px auto;
 }
 
-.login-menu__button-back {
+.button-back {
     font: bold 18px Georgia;
     text-decoration: none;
     text-align: center;
     display: block;
-    width: 25%;
-    margin: 30px auto;
+    width: 50%;
+    margin: 10px auto;
     padding: 10px;
     color: #000;
     background: white;
@@ -53,7 +53,7 @@ body {
     border: 2px solid black;
 }
 
-.login-form {
+.user-form {
     margin: 0 auto;
     width: 50%;
     background: transparent;
@@ -62,7 +62,7 @@ body {
     text-align: center;
 }
 
-.login-form__input {
+.user-form__input {
     font: 18px Georgia;
     width: 50%;
     margin-bottom: 10px;
@@ -72,21 +72,21 @@ body {
     border-radius: 10px;
 }
 
-.login-form__submit {
+.user-form__submit {
+    cursor: pointer;
     font: bold 18px Georgia;
     text-align: center;
     display: block;
     margin: 0 auto;
+    width: 50%;
     padding: 10px;
-    padding-left: 21%;
-    padding-right: 21%;
     color: #000;
     background: #fff;
     border: 2px solid black;
     border-radius: 10px;
 }
 
-.login-form__error {
+.user-form__error {
     color: #fff;
     font: 14px Georgia;
     padding: 15px;
@@ -149,12 +149,8 @@ body {
     border-radius: 10px;
 }
 .game__field {
-    margin: 0px;
-    padding: 0px;
-    /*background-image: url("../img/football_field.jpg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    */
+    margin: 0;
+    padding: 0;
 }
 
 #page {
