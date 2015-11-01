@@ -2,12 +2,8 @@
  * Created by Alex on 21.09.15.
  */
 
-define([
-    'backbone',
-    'jquery',
-    'router'
-], function(Backbone, jQuery, router) {
-    //TODO убрать ненужные библиотеки
+define(['backbone'], function(Backbone) {
+
     var views = [];
 
     var Manager = Backbone.View.extend({

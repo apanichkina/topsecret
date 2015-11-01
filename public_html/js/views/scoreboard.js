@@ -20,9 +20,6 @@ define([
         initialize: function () {
             $('#page').append(this.el);
             this.collection = new collection();
-            this.collection.comparator = function(atribute) {
-                return -atribute.get("score");
-            };
             this.collection.set(
                 [
                     {name: "Ann", score:78809},

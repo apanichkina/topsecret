@@ -12,6 +12,9 @@ define([
 //TODO перенести сюда компаратор
     var Collection = Backbone.Collection.extend({
         model: Score,
+        comparator: function(atribute) {
+        return -atribute.get("score");
+        },
         firstN: function(n){
             return this.first(n).map(function(model) {
                 return model.toJSON();
