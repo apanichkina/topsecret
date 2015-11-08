@@ -14,16 +14,25 @@ define([
         user: userModel,
 
         events: {
-            "submit": "send"
+            "click .user-form__submit": "send",
+            "enter": "send"
         },
 
         initialize: function () {
             $('#page').append(this.el);
+            this.listenTo(this.user, this.user.signupFailedEvent, function () {
+                this.$(".user-form__error").show();
+            });
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
+            $('input').keyup(function(e){
+                if(e.keyCode == 13){
+                    $(this).trigger('enter');
+                }
+            });
         },
 
         show: function () {
@@ -47,7 +56,7 @@ define([
 
         allFilled: function() {
             var isValid = true;
-            this.$(".user-form__input").each(function(formValid){
+            this.$(".user-form__input").each(function(){
                 if ($.trim($(this).val()).length == 0){
                     isValid = false;
                 }
@@ -88,10 +97,15 @@ define([
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
 
-                this.user.set("password", pass);
-                this.user.set("email", email);
-                this.user.set("name", name);
-                this.user.save();
+                this.user.set('name', name);
+                this.user.set('password', pass);
+                this.user.set('email', email);
+
+                this.user.save({
+                    name: name,
+                    password: pass,
+                    email: email
+                });
             }
 
         }

@@ -12,31 +12,29 @@ define([
         sync: userSync,
 
         signupCompleteEvent: 'signupCompleteEvent',
+        signupFailedEvent: 'signupFailedEvent',
         loginCompleteEvent: 'loginCompleteEvent',
         loginFailedEvent: 'loginFailedEvent',
 
-        /* Properties */
-        logged_in: false,
-        name: "",
-        password: "",
-        email: "",
-
         loginSuccess: function (data) {
-            this.name = data.name;
-            this.email = data.email;
-            this.logged_in = true;
+            this.set('email', data.response.email);
+            this.set('logged_in', true);
             this.trigger(this.loginCompleteEvent);
         },
 
         loginFailed: function (data) {
+            this.clear();
             this.trigger(this.loginFailedEvent);
         },
 
         signupSuccess: function(data) {
-            this.name = data.name;
-            this.email = data.email;
-            this.logged_in = true;
+            this.set('logged_in', true);
             this.trigger(this.signupCompleteEvent);
+        },
+
+        signupFailed: function (data) {
+            this.clear();
+            this.trigger(this.signupFailedEvent);
         }
 
 

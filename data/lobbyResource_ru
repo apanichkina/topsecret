@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<lobbyProperties>
+    <properties>
+        <maxCount>2</maxCount>
+        <maxTeams>2</maxTeams>
+    </properties>
+    <errors>
+
+    </errors>
+    <answers>
+
+    </answers>
+</lobbyProperties>

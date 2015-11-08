@@ -13,6 +13,9 @@
         <a href="/#signup" id="js-signup" class="main-menu__button">
             Sign Up
         </a>
+        <a href="/#" id="js-logout" class="main-menu__button">
+            Logout
+        </a>
     </div>
 
 

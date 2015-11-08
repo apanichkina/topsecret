@@ -13,6 +13,10 @@ define([
         template: tmpl,
         user: userModel,
 
+        events: {
+            "click #js-logout": "logout"
+        },
+
         initialize: function () {
             $('#page').append(this.el);
             this.render();
@@ -20,20 +24,25 @@ define([
                 this.render();
                 Backbone.history.navigate('', {trigger: true});
             });
+
         },
         render: function () {
-            console.log(this.user.logged_in);
             this.$el.html(this.template);
-            if (this.user.logged_in) {
+
+
+            if (this.user.get('logged_in')) {
                 this.$('#js-login').hide();
                 this.$('#js-signup').hide();
                 this.$('#js-play').show();
+                this.$('#js-logout').show();
             }
             else {
+                this.$('#js-logout').hide();
                 this.$('#js-login').show();
                 this.$('#js-signup').show();
                 this.$('#js-play').hide();
             }
+
             return this;
         },
         show: function () {
@@ -42,6 +51,12 @@ define([
         },
         hide: function () {
             this.$el.hide();
+        },
+
+        logout: function () {
+            this.user.clear();
+            console.log(this.user);
+            this.render();
         }
 
     });

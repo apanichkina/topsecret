@@ -8,14 +8,12 @@ define([
         'create': 'POST'
     };
 
-
     var urlMap  = {
         'login': '/api/v1/auth/signin/',
         'signup': '/api/v1/auth/signup/'
     };
 
     return function(method, model, options) {
-        alert(method);
         var params = {type: methodMap[method]};
         var modelData = model.toJSON();
 
@@ -23,14 +21,11 @@ define([
             params.dataType = 'json';
             params.contentType = 'application/json';
             params.processData = false;
-            var success;
 
-            if (model.email == "") {
+            if (!model.attributes.email) {
                 params.url = urlMap['login'];
                 params.data = JSON.stringify(modelData);
                 params.success = function (data) {
-                    console.log(data);
-                    alert(data.response.description);
                     if(data.code == 0) {
                         model.loginSuccess(data);
                     } else {
@@ -43,16 +38,18 @@ define([
             } else {
                 params.url = urlMap['signup'];
                 params.data = JSON.stringify(modelData);
-                params.success = function () {
-                    model.signupSuccess(modelData);
+                params.success = function (data) {
+                    if(data.code == 0) {
+                        model.signupSuccess(data);
+                    } else {
+                        model.signupFailed(data);
+                    }
                 };
-
                 params.error = function () {
                     alert("BAD SHIT");
                 };
             }
         }
-
 
         return Backbone.ajax(params);
     }
