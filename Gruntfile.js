@@ -10,7 +10,7 @@ shell: {
         stderr: true
     },
 	server: {
-        command: 'java -cp 4pg-0.0.1-jar-with-dependencies.jar main.Main'
+        command: 'java -cp 4pg.jar main.Main'
 	}
 },
 
