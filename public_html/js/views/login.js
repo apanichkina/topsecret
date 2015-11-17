@@ -53,8 +53,8 @@ define([
             var name = this.$("input[name=name]").val();
             var pass = this.$("input[name=password]").val();
 
-            this.user.set("name", name);
-            this.user.set("password", pass);
+            this.user.set("name", "p1");
+            this.user.set("password", "1");
 
             this.user.save();
         }

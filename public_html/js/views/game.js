@@ -5,15 +5,21 @@
 define([
     'backbone',
     'tmpl/game',
-    'models/user'
+    'models/user',
+    'models/player',
+    'collections/players'
 ], function (Backbone,
              tmpl,
-             userModel) {
+             userModel,
+             player,
+             players) {
 
     var View = Backbone.View.extend({
 
         template: tmpl,
         user: userModel,
+        player: player,
+        players: players,
 
 
         initialize: function () {
@@ -36,12 +42,12 @@ define([
 
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-            var fieldW = 1397;
-            var fieldH = 953;
+            this.fieldW = 1397;
+            this.fieldH = 953;
             var width = window.innerWidth;
-            this.coordinateStepX = width / fieldW;
+            this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight;
-            this.coordinateStepY = height / fieldH;
+            this.coordinateStepY = height / this.fieldH;
             this.canvas.width = width;
             this.canvas.height = height;
 
@@ -57,39 +63,11 @@ define([
             this.imageObjHead.src = "../../img/head.png";
 
             this.balls = [];
-            this.myArc = {
-                x: 50,
-                scaleX: this.x * this.coordinateStepX,
-                y: fieldH / 2,
-                scaleY: this.y * this.coordinateStepY,
-                radius: 20,
-                Vx: 0,
-                scaleVx: this.Vx * this.coordinateStepX,
-                Vy: 0,
-                scaleVy: this.Vy + this.coordinateStepY,
-                type: "human",
-                borderColor: "red",
-                isNotStop: function() {
-                    return this.Vx + this.Vy;
-                }
-            };
-            //TODO нужна ли модель игрока?
 
-            this.myArc2 = {
-                x: fieldW - 50,
-                y: fieldH / 2,
-                radius: 20 ,
-                Vx: -0,
-                Vy: 0,
-                type: "human",
-                isNotStop: function() {
-                   return this.Vx + this.Vy;
-                }
-            };
             //TODO сделать как наследника
             this.ball = {
-                x: fieldW / 2,
-                y: fieldH / 2,
+                x: this.fieldW / 2,
+                y: this.fieldH / 2,
                 radius: 10,
                 Vx: 0,
                 Vy: 0,
@@ -97,12 +75,9 @@ define([
             };
             this.maxBallSpeed = 3;
             this.balls.push(this.ball);
-            this.balls.push(this.myArc);
-            this.balls.push(this.myArc2);
+
 
             window.onkeydown = this.processKey.bind(this);
-
-            this.drawArc(this.myArc, this.context);
 
             this.animate();
         },
@@ -110,6 +85,65 @@ define([
             console.log(this.user.logged_in);
             this.$el.show();
             this.trigger("show", this);
+
+
+            /////Oleg
+            this.ws = new WebSocket("ws://localhost:8083/game/");
+
+            var that = this;
+            this.ws.onmessage = function (event) {
+                var msg = JSON.parse(event.data);
+                var ID = msg.code;
+                console.log(msg);
+                switch (ID) {
+                    case 0:
+                        break;
+                    case 3:
+                        break;
+                    case 8:
+                        if (!that.isStarted) {
+                            that.isStarted = true;
+                            var ballses = msg.balls;
+                            that.addPlayers(ballses);
+                        }
+                        else {
+                            console.log("another start");
+                        }
+                        break;
+                    case 10:
+                        var ballses = msg.balls;
+                        if (!that.isStarted) {
+                            that.isStarted = true;
+                            that.addPlayers(ballses);
+                        }
+                        var playersCount = ballses.length;
+                        for (var i = 0; i < playersCount; i++) {
+                            that.balls[i].x = ballses[i].x;
+                            that.balls[i].y = ballses[i].y;
+                            that.balls[i].Vx = ballses[i].vx;
+                            that.balls[i].Vy = ballses[i].vy;
+                        }
+                        break;
+                    default:
+                        console.log(msg);
+                }
+
+            };
+            this.ws.onopen = function () {
+                var msg = {
+                    code: 2,
+                    lobby: "test"
+                };
+                this.send(JSON.stringify(msg));
+                msg = {
+                    code: 3
+                };
+                this.send(JSON.stringify(msg));
+                console.log("open");
+            };
+            this.ws.onclose = function (event) {
+                console.log("closed");
+            }
         },
         hide: function () {
             this.$el.hide();
@@ -117,14 +151,30 @@ define([
 
 
         //helpers
-
-
+        addPlayers:function(ballses){
+            var playersCount = ballses.length;
+            for (var i = 1; i < playersCount; i++) {
+                var myArc = {
+                    x: ballses[i].x.valueOf(),
+                    y: ballses[i].y.valueOf(),
+                    radius: 20,
+                    Vx: ballses[i].vx.valueOf(),
+                    Vy: ballses[i].vy.valueOf(),
+                    type: "human",
+                    isNotStop: function () {
+                        return this.Vx + this.Vy;
+                    }
+                };
+                this.balls.push(myArc);
+            }
+        },
+        
         isCollision: function (i, j) { //проверить удар по касательной
             var a = parseFloat(this.balls[j].x) - parseFloat(this.balls[i].x);
             var b = parseFloat(this.balls[j].y) - parseFloat(this.balls[i].y);
             var distance = Math.sqrt(a * a + b * b);
             var minDistance = parseFloat(this.balls[j].radius) + parseFloat(this.balls[i].radius);
-            return distance <= minDistance+1;
+            return distance <= minDistance + 1;
         },
         onload: function () {
             var container = this.container;
@@ -133,10 +183,17 @@ define([
         },
         animate: function () {
             this.context.fillStyle = this.onload();
-
             for (var i = 0; i < this.balls.length; i++) {
                 var myArc = this.balls[i];
                 this.drawArc(myArc, this.context);
+                var goal_right = false;
+                var goal_left = false;
+                if (myArc.type == "ball") {
+                    if (myArc.y - myArc.radius > this.fieldH * 0.44 && myArc.y + myArc.radius < this.fieldH * 0.565) {
+                        if (myArc.x - myArc.radius <= 20) goal_left = true;
+                        else if (myArc.x + myArc.radius >= this.fieldW - 20) goal_right = true;
+                    }
+                }
 
                 if (((myArc.x + myArc.Vx + myArc.radius) * this.coordinateStepX > this.container.x + this.container.width) || ((myArc.x - myArc.radius + myArc.Vx) * this.coordinateStepX < this.container.x)) {
                     myArc.Vx = -myArc.Vx;
@@ -153,7 +210,7 @@ define([
                     if (this.isCollision(i, j)) {
                         //if (this.balls[i].type == "ball") this.collision(i,j);
                         //else if (this.balls[j].type == "ball") this.collision(j,i);
-                        this.collision(i,j);
+                        this.collision(i, j);
                     }
                 }
             }
@@ -161,14 +218,11 @@ define([
 
 
         },
-
-        //TODO попробовать чтобы не останавливалсь
         //TODO попробовать с трением
-        //TODO деление на 0
-        collision: function(i,j) {
+        collision: function (i, j) {
             if (this.balls[i].type != "ball") {
-            this.balls[i].Vx = -this.balls[i].Vx;
-            this.balls[i].Vy = -this.balls[i].Vy;
+                this.balls[i].Vx = -this.balls[i].Vx;
+                this.balls[i].Vy = -this.balls[i].Vy;
                 this.balls[j].Vx = -this.balls[j].Vx;
                 this.balls[j].Vy = -this.balls[j].Vy;
             }
@@ -178,49 +232,49 @@ define([
                     this.balls[i].Vy = -this.balls[i].Vy;
                 }
                 else { //игрок бежали и тогда мячик принимает скорость игрока, а игрок останавливается
-                    var delta =  - this.balls[i].Vx + this.balls[j].Vx;
+                    var delta = -this.balls[i].Vx + this.balls[j].Vx;
                     if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
                     else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;
-                        this.balls[i].Vx = delta
+                    this.balls[i].Vx = delta;
                     if (delta != 0)
-                        this.balls[j].Vx = -delta/Math.abs(delta);
+                        this.balls[j].Vx = -delta / Math.abs(delta);
 
 
-                    delta =  - this.balls[i].Vy + this.balls[j].Vy;
+                    delta = -this.balls[i].Vy + this.balls[j].Vy;
                     if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
                     else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;
 
-                    this.balls[i].Vy = delta
+                    this.balls[i].Vy = delta;
                     //this.balls[i].Vy = - this.balls[i].Vy + this.balls[j].Vy;
                     if (delta != 0)
-                    this.balls[j].Vy = -delta/Math.abs(delta);
+                        this.balls[j].Vy = -delta / Math.abs(delta);
                 }
                 this.balls[i].x += this.balls[i].Vx;
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
         /*
+         drawArc: function (myArc, context) {
+         var grd;
+         context.save();
+         context.beginPath();
+         if (myArc.type == "human") {
+         context.translate(myArc.x, myArc.y);
+         var imgW = myArc.radius * 2;
+         var imgH = myArc.radius * 2;
+         context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+         grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+         } else {
+         context.arc(myArc.x, myArc.y, myArc.radius, 0, 2 * Math.PI, false);
+         grd = context.createPattern(this.imageObjBall, 'repeat');
+         }
+         context.fillStyle = grd;
+         context.fill();
+         context.restore();
+         },
+         */
         drawArc: function (myArc, context) {
-            var grd;
-            context.save();
-            context.beginPath();
-            if (myArc.type == "human") {
-                context.translate(myArc.x, myArc.y);
-                var imgW = myArc.radius * 2;
-                var imgH = myArc.radius * 2;
-                context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-                grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
-            } else {
-                context.arc(myArc.x, myArc.y, myArc.radius, 0, 2 * Math.PI, false);
-                grd = context.createPattern(this.imageObjBall, 'repeat');
-            }
-            context.fillStyle = grd;
-            context.fill();
-            context.restore();
-        },
-        */
-        drawArc: function (myArc, context) {
-            var grd;
+            var img;
             context.save();
             context.beginPath();
             if (myArc.type == "human") {
@@ -228,51 +282,47 @@ define([
                 var imgW = myArc.radius * this.coordinateStepX * 2;
                 var imgH = myArc.radius * this.coordinateStepX * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-                grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+
+                context.strokeStyle = "red";
+                context.lineWidth   = 50;
+                context.stroke();
             } else {
                 context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepX, 0, 2 * Math.PI, false);
-                grd = context.createPattern(this.imageObjBall, 'repeat');
+                img = context.createPattern(this.imageObjBall, 'repeat');
             }
-            context.fillStyle = grd;
+            context.fillStyle = img;
             context.fill();
             context.restore();
         },
+
         processKey: function (e) {
             var maxSpeed = 5;
-            if (e.keyCode == 37 && this.myArc.Vx > -maxSpeed) {
-                this.myArc.Vx -= 1;
-                if (!this.myArc.isNotStop()) this.myArc.Vx -= 1;
+            var msg;
+            if (e.keyCode == 37) {
+                msg = {
+                    code: 5
+                };
+                this.ws.send(JSON.stringify(msg));
             }
-            if (e.keyCode == 39 && this.myArc.Vx < maxSpeed) {
-                this.myArc.Vx += 1;
-                if (!this.myArc.isNotStop()) this.myArc.Vx += 1;
+            if (e.keyCode == 39) {
+                msg = {
+                    code: 4
+                };
+                this.ws.send(JSON.stringify(msg));
             }
-            if (e.keyCode == 38 && this.myArc.Vy > -maxSpeed) {
-                this.myArc.Vy -= 1;
-                if (!this.myArc.isNotStop()) this.myArc.Vy -= 1;
+            if (e.keyCode == 38) {
+                msg = {
+                    code: 7
+                };
+                this.ws.send(JSON.stringify(msg));
             }
-            if (e.keyCode == 40 && this.myArc.Vy < maxSpeed) {
-                this.myArc.Vy += 1;
-                if (!this.myArc.isNotStop()) this.myArc.Vy += 1;
+            if (e.keyCode == 40) {
+                msg = {
+                    code: 6
+                };
+                this.ws.send(JSON.stringify(msg));
             }
-
-            if (e.keyCode == 65 && this.myArc2.Vx > -maxSpeed) {
-                this.myArc2.Vx -= 1;
-                if (!this.myArc2.isNotStop()) this.myArc2.Vx -= 1;
-            }
-            if (e.keyCode == 68 && this.myArc2.Vx < maxSpeed) {
-                this.myArc2.Vx += 1;
-                if (!this.myArc2.isNotStop()) this.myArc2.Vx += 1;
-            }
-            if (e.keyCode == 87 && this.myArc2.Vy > -maxSpeed) {
-                this.myArc2.Vy -= 1;
-                if (!this.myArc2.isNotStop()) this.myArc2.Vy -= 1;
-            }
-            if (e.keyCode == 83 && this.myArc2.Vy < maxSpeed) {
-                this.myArc2.Vy += 1;
-                if (!this.myArc2.isNotStop()) this.myArc2.Vy += 1;
-            }
-
         }
     });
 
