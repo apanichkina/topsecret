@@ -1,7 +1,3 @@
-/**
- * Created by Alex on 21.09.15.
- */
-
 define([
     'backbone',
     'tmpl/main',
@@ -17,23 +13,37 @@ define([
         template: tmpl,
         user: userModel,
 
+        events: {
+            "click #js-logout": "logout"
+        },
+
         initialize: function () {
             $('#page').append(this.el);
             this.render();
             this.listenTo(this.user, this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function(){
                 this.render();
+                Backbone.history.navigate('', {trigger: true});
             });
+
         },
         render: function () {
             this.$el.html(this.template);
-            $(this.el).addClass('main-menu');
-            if (this.user.logged_in) {
+
+
+            if (this.user.get('logged_in')) {
                 this.$('#js-login').hide();
                 this.$('#js-signup').hide();
+                this.$('#js-play').show();
+                this.$('#js-logout').show();
+            }
+            else {
+                this.$('#js-logout').hide();
+                this.$('#js-login').show();
+                this.$('#js-signup').show();
+                this.$('#js-play').hide();
             }
 
             return this;
-
         },
         show: function () {
             this.$el.show();
@@ -41,6 +51,11 @@ define([
         },
         hide: function () {
             this.$el.hide();
+        },
+
+        logout: function () {
+            this.user.clear();
+            this.render();
         }
 
     });

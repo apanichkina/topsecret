@@ -2,11 +2,7 @@
  * Created by Alex on 21.09.15.
  */
 
-define([
-    'backbone',
-    'jquery',
-    'router'
-], function(Backbone, jQuery, router) {
+define(['backbone'], function(Backbone) {
 
     var views = [];
 

@@ -3,21 +3,23 @@ html {
 }
 
 body {
-    background-image: url("../img/back.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
+    background-image: url("../img/football_field.jpg");
+    overflow: hidden;
 }
 
 .main-menu {
     width: 400px;
-    margin: 30px auto;
+    margin: 50px auto;
     text-align: center;
 }
 
 /*eto bem detka*/
 .main-menu__button {
     font: bold 18px Georgia;
+    box-shadow: #333333 0.3em 0.3em 0.2em;
     text-decoration: none;
     text-align: center;
     display: block;
@@ -35,17 +37,17 @@ body {
     text-shadow: black 0.1em 0.1em 0.2em;
 }
 
-.login-menu {
+.box {
     margin: 50px auto;
 }
 
-.login-menu__button-back {
+.button-back {
     font: bold 18px Georgia;
     text-decoration: none;
     text-align: center;
     display: block;
-    width: 25%;
-    margin: 30px auto;
+    width: 50%;
+    margin: 10px auto;
     padding: 10px;
     color: #000;
     background: white;
@@ -53,16 +55,14 @@ body {
     border: 2px solid black;
 }
 
-.login-form {
+.user-form {
     margin: 0 auto;
     width: 50%;
     background: transparent;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
-.login-form__input {
+.user-form__input {
     font: 18px Georgia;
     width: 50%;
     margin-bottom: 10px;
@@ -72,21 +72,22 @@ body {
     border-radius: 10px;
 }
 
-.login-form__submit {
+.user-form__submit {
+    cursor: pointer;
+    text-decoration: none;
     font: bold 18px Georgia;
     text-align: center;
     display: block;
     margin: 0 auto;
+    width: 50%;
     padding: 10px;
-    padding-left: 21%;
-    padding-right: 21%;
     color: #000;
     background: #fff;
     border: 2px solid black;
     border-radius: 10px;
 }
 
-.login-form__error {
+.user-form__error {
     color: #fff;
     font: 14px Georgia;
     padding: 15px;
@@ -148,7 +149,57 @@ body {
     background: white;
     border-radius: 10px;
 }
+.game__header {
+    margin: 0;
+    padding: 0;
+    background-image: url("../img/tablo.png");
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    min-width: 800px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    text-align: center;
+}
+.game__header_left {
+    float: left;
+}
+.game__header_center {
+    text-align: center;
+    box-sizing: content-box;
+}
 
+.game__header_right {
+    right: 10px;
+    padding: 0 14px;
+    float: right;
+
+}
+.game__header__button {
+    background-color: white;
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 2px;
+    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.game__header__text {
+    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
+.game__field {
+    margin: 0;
+    padding: 0;
+}
+.game{
+    margin: -8px;
+    padding: 10px;
+    background-image: url("../img/background_color.jpg");
+}
 #page {
     height: 100%;
 }
