@@ -148,11 +148,57 @@ body {
     background: white;
     border-radius: 10px;
 }
+.game__header {
+    margin: 0;
+    padding: 0;
+    background-image: url("../img/tablo.png");
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    min-width: 800px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    text-align: center;
+}
+.game__header_left {
+    float: left;
+}
+.game__header_center {
+    text-align: center;
+    box-sizing: content-box;
+}
+
+.game__header_right {
+    right: 10px;
+    padding: 0 14px;
+    float: right;
+
+}
+.game__header__button {
+    background-color: white;
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 2px;
+    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+.game__header__text {
+    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
 .game__field {
     margin: 0;
     padding: 0;
 }
-
+.game{
+    margin: -8px;
+    padding: 10px;
+    background-image: url("../img/background_color.jpg");
+}
 #page {
     height: 100%;
 }

@@ -44,14 +44,8 @@ define([
             this.context = this.canvas.getContext('2d');
             this.fieldW = 1397;
             this.fieldH = 953;
-            var width = window.innerWidth;
-            this.coordinateStepX = width / this.fieldW;
-            var height = window.innerHeight;
-            this.coordinateStepY = height / this.fieldH;
-            this.canvas.width = width;
-            this.canvas.height = height;
 
-            this.container = {x: 0, y: 0, width: width, height: height};
+            this.resizeCanvas();
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -63,7 +57,10 @@ define([
             this.imageObjHead.src = "../../img/head.png";
 
             this.balls = [];
+            this.players = new players();
 
+
+            this.borderWidth = 3;
             //TODO сделать как наследника
             this.ball = {
                 x: this.fieldW / 2,
@@ -75,9 +72,11 @@ define([
             };
             this.maxBallSpeed = 3;
             this.balls.push(this.ball);
-
+            this.teamColors = ["ball","yellow","yellow","blue","blue"];
+            this.whoIs = [0,1,0,0,0];
 
             window.onkeydown = this.processKey.bind(this);
+            window.addEventListener('resize', this.resizeCanvas.bind(this), false);
 
             this.animate();
         },
@@ -150,10 +149,25 @@ define([
         },
 
 
+        resizeCanvas: function () {
+            var width = window.innerWidth - 26;
+            if (width < 800) width = 800;
+            this.coordinateStepX = width / this.fieldW;
+            var height = window.innerHeight - 40;
+            if (height < 550) height = 550;
+            //if (height < width * this.koef) height = width * this.koef;
+            this.coordinateStepY = height / this.fieldH;
+            this.canvas.width = width;
+            this.canvas.height = height;
+            this.container = {x: 0, y: 0, width: width, height: height};
+
+        },
         //helpers
-        addPlayers:function(ballses){
+        addPlayers: function (ballses) {
             var playersCount = ballses.length;
             for (var i = 1; i < playersCount; i++) {
+                //var newplayer=new player(i,ballses[i].x.valueOf(),ballses[i].y.valueOf());
+                //this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf()}]);
                 var myArc = {
                     x: ballses[i].x.valueOf(),
                     y: ballses[i].y.valueOf(),
@@ -163,12 +177,15 @@ define([
                     type: "human",
                     isNotStop: function () {
                         return this.Vx + this.Vy;
-                    }
+                    },
+                    borderColor: this.teamColors[i],
+                    isMyPlayer: this.whoIs[i]
+
                 };
                 this.balls.push(myArc);
             }
         },
-        
+
         isCollision: function (i, j) { //проверить удар по касательной
             var a = parseFloat(this.balls[j].x) - parseFloat(this.balls[i].x);
             var b = parseFloat(this.balls[j].y) - parseFloat(this.balls[i].y);
@@ -182,10 +199,13 @@ define([
             this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
         animate: function () {
+            this.resizeCanvas();
             this.context.fillStyle = this.onload();
             for (var i = 0; i < this.balls.length; i++) {
                 var myArc = this.balls[i];
                 this.drawArc(myArc, this.context);
+
+                //Временно не используется
                 var goal_right = false;
                 var goal_left = false;
                 if (myArc.type == "ball") {
@@ -201,9 +221,11 @@ define([
                 if (((myArc.y + myArc.Vy + myArc.radius) * this.coordinateStepY > this.container.y + this.container.height) || ((myArc.y - myArc.radius + myArc.Vy) * this.coordinateStepY < this.container.y)) {
                     myArc.Vy = -myArc.Vy;
                 }
+
                 myArc.x += myArc.Vx;
                 myArc.y += myArc.Vy;
             }
+            //Временно не используется
             for (var j = 1; j < this.balls.length; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
@@ -214,6 +236,7 @@ define([
                     }
                 }
             }
+
             requestAnimFrame(this.animate.bind(this));
 
 
@@ -253,51 +276,47 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        /*
-         drawArc: function (myArc, context) {
-         var grd;
-         context.save();
-         context.beginPath();
-         if (myArc.type == "human") {
-         context.translate(myArc.x, myArc.y);
-         var imgW = myArc.radius * 2;
-         var imgH = myArc.radius * 2;
-         context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-         grd = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
-         } else {
-         context.arc(myArc.x, myArc.y, myArc.radius, 0, 2 * Math.PI, false);
-         grd = context.createPattern(this.imageObjBall, 'repeat');
-         }
-         context.fillStyle = grd;
-         context.fill();
-         context.restore();
-         },
-         */
+
         drawArc: function (myArc, context) {
             var img;
             context.save();
             context.beginPath();
             if (myArc.type == "human") {
+
                 context.translate(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY);
-                var imgW = myArc.radius * this.coordinateStepX * 2;
-                var imgH = myArc.radius * this.coordinateStepX * 2;
+                var imgW = myArc.radius * this.coordinateStepY * 2;
+                var imgH = myArc.radius * this.coordinateStepY * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+
+                context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
+                context.strokeStyle = myArc.borderColor;
+                context.lineWidth = this.borderWidth;
+                context.stroke();
+                context.fill();
+
+                context.beginPath();
                 img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
 
-                context.strokeStyle = "red";
-                context.lineWidth   = 50;
-                context.stroke();
+                context.fillStyle = img;
+                context.fill();
+
+                if (myArc.isMyPlayer) {
+                    context.beginPath();
+                    context.font = 'bold 10pt Calibri';
+                    context.fillText('YOU', -13, 0);
+                }
+
             } else {
-                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepX, 0, 2 * Math.PI, false);
+                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
+                context.fillStyle = img;
+                context.fill();
             }
-            context.fillStyle = img;
-            context.fill();
             context.restore();
+
         },
 
         processKey: function (e) {
-            var maxSpeed = 5;
             var msg;
             if (e.keyCode == 37) {
                 msg = {
