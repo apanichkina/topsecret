@@ -21,9 +21,9 @@ define([
             $('#page').append(this.el);
             this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, function () {
                 if(!this.user.get('logged_in')) {
-                    this.$(".user-form__error").text("Invalid credentials!").show();
+                    this.$(".user-form__error").text(this.user.get('error')).show();
                 } else {
-                    this.$(".user-form__error").text("Invalid credentials!").hide();
+                    this.render();
                 }
             });
 
@@ -45,8 +45,23 @@ define([
             this.$el.hide();
         },
 
+        allFilled: function() {
+            var isValid = true;
+            this.$(".user-form__input").each(function(){
+                if ($.trim($(this).val()).length == 0){
+                    isValid = false;
+                }
+            });
+            return isValid;
+        },
+
         send: function(event) {
             event.preventDefault();
+
+            if(!this.allFilled()){
+                this.$(".user-form__error").text("All fields must be filled!").show();
+                return;
+            }
 
             var name = this.$("input[name=name]").val();
             var pass = this.$("input[name=password]").val();
