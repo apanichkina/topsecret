@@ -9,6 +9,7 @@ define([
 
     var Model = Backbone.Model.extend({
         defaults: {
+            id: 0,
             x: 0,
             y: 0,
             radius: 20,
@@ -19,11 +20,12 @@ define([
                 return this.Vx + this.Vy;
             }
         },
-        constructor: function(currX,currY) {
+        constructor: function(id,currX,currY) {
+            this.id = id;
             this.x = currX;
             this.y = currY;
         }
     });
 
-    return new Model;
+    return new Model();
 });
