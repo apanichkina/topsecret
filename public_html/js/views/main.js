@@ -55,7 +55,6 @@ define([
 
         logout: function () {
             this.user.clear();
-            console.log(this.user);
             this.render();
         }
 

@@ -28,7 +28,7 @@ define([
 
         render: function () {
             this.$el.html(this.template);
-            $('input').keyup(function(e){
+            this.$el.find('input').keyup(function(e){
                 if(e.keyCode == 13){
                     $(this).trigger('enter');
                 }
@@ -97,20 +97,13 @@ define([
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
 
-                this.user.set('name', name);
-                this.user.set('password', pass);
-                this.user.set('email', email);
-
                 this.user.save({
                     name: name,
                     password: pass,
                     email: email
                 });
             }
-
         }
-
-
     });
 
     return new View();

@@ -7,7 +7,6 @@ define([
     tmpl,
     userModel
 ){
-
     var View = Backbone.View.extend({
 
         template: tmpl,
@@ -32,12 +31,11 @@ define([
         },
         render: function () {
             this.$el.html(this.template);
-            $('input').keyup(function(e){
+            this.$el.find('input').on('keyup', function(e){
                 if(e.keyCode == 13){
                     $(this).trigger('enter');
                 }
             });
-
         },
         show: function () {
             this.$el.show();
@@ -53,10 +51,13 @@ define([
             var name = this.$("input[name=name]").val();
             var pass = this.$("input[name=password]").val();
 
-            this.user.set("name", "p1");
-            this.user.set("password", "1");
+            this.user.set("name", name);
+            this.user.set("password", pass);
 
-            this.user.save();
+            this.user.fetch({
+                name: name,
+                password: pass
+            });
         }
 
     });

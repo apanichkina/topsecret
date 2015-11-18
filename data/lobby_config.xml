@@ -1,0 +1,10 @@
+<class type="resourceSystem.LobbyConfig">
+    <teams>2</teams>
+    <members>3</members>
+    <fieldWidth>1397</fieldWidth>
+    <fieldHeight>953</fieldHeight>
+    <ballRadius>10</ballRadius>
+    <playerRadius>20</playerRadius>
+    <maxSpeed>5</maxSpeed>
+    <gameTime>10</gameTime>
+</class>
