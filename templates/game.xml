@@ -1,4 +1,20 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
-    <h2>The Game</h2>
-    <h1 class="js-back">Back</h1>
+    <div class="game">
+        <header class="game__header">
+            <span>
+                <a class="game__header_left game__header__text">TIME: 021</a>
+            </span>
+            <span>
+                <a class="game__header_center game__header__text">Yellow 0 : 1 Blue</a>
+            </span>
+            <span>
+                <div class="game__header_right">
+                    <a href="/#" class="game__header__button">Back</a>
+                </div>
+            </span>
+        </header>
+        <canvas id="myCanvas" class="game__field"></canvas>
+    </div>
 </fest:template>
+
+

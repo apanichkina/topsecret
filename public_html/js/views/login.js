@@ -1,7 +1,3 @@
-/**
- * Created by Alex on 21.09.15.
- */
-
 define([
     'backbone',
     'tmpl/login',
@@ -11,22 +7,35 @@ define([
     tmpl,
     userModel
 ){
-
     var View = Backbone.View.extend({
 
         template: tmpl,
         user: userModel,
 
         events: {
-            "submit": "send"
+            "click .user-form__submit": "send",
+            "enter": "send"
         },
 
         initialize: function () {
             $('#page').append(this.el);
+            this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, function () {
+                if(!this.user.get('logged_in')) {
+                    this.$(".user-form__error").text("Invalid credentials!").show();
+                } else {
+                    this.$(".user-form__error").text("Invalid credentials!").hide();
+                }
+            });
+
             this.render();
         },
         render: function () {
             this.$el.html(this.template);
+            this.$el.find('input').on('keyup', function(e){
+                if(e.keyCode == 13){
+                    $(this).trigger('enter');
+                }
+            });
         },
         show: function () {
             this.$el.show();
@@ -38,8 +47,17 @@ define([
 
         send: function(event) {
             event.preventDefault();
-            this.user.save();
-            Backbone.history.navigate('', {trigger: true});
+
+            var name = this.$("input[name=name]").val();
+            var pass = this.$("input[name=password]").val();
+
+            this.user.set("name", name);
+            this.user.set("password", pass);
+
+            this.user.fetch({
+                name: name,
+                password: pass
+            });
         }
 
     });
