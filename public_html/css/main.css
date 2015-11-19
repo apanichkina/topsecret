@@ -1,3 +1,8 @@
+@font-face {
+    font-family: digital-7;
+    src: url(../fonts/digital-7.ttf);
+}
+
 html {
     height: 100%;
 }
@@ -14,27 +19,33 @@ body {
     width: 400px;
     margin: 50px auto;
     text-align: center;
+    background: rgba(28, 28, 28, 0.7);
+    border: 2px red dashed;
+    padding:10px;
 }
 
 /*eto bem detka*/
 .main-menu__button {
-    font: bold 18px Georgia;
-    box-shadow: #333333 0.3em 0.3em 0.2em;
+    font: bold 28px digital-7;
+    //2box-shadow: #333333 0.3em 0.3em 0.2em;
     text-decoration: none;
     text-align: center;
     display: block;
     width: 60%;
     margin: 10px auto;
     padding: 20px;
-    color: #000;
-    background: white;
+    color: red;
     border-radius: 10px;
 }
 
+.main-menu__button:hover{
+    color: yellow;
+}
+
 .main-menu__header {
-    font: bold 28px Helvetica;
-    color: #fff;
-    text-shadow: black 0.1em 0.1em 0.2em;
+    font: bold 56px digital-7;
+    color: red;
+    //text-shadow: black 0.1em 0.1em 0.2em;
 }
 
 .box {
@@ -101,7 +112,6 @@ body {
 }
 
 .lobby-box__button{
-    float: left;
     font: bold 18px Georgia;
     box-shadow: #333333 0.3em 0.3em 0.2em;
     text-decoration: none;
@@ -115,9 +125,8 @@ body {
     border-radius: 10px;
 }
 
-.lobby-box__button__left {
-    float: left;
-    display: inline-block;
+.lobby-table {
+    border: 0;
 }
 
 .lobby-box__button__right{
@@ -132,7 +141,7 @@ body {
     text-align: center;
 }
 .scoreboard__header{
-    font: bold 28px Helvetica;
+    font: bold 28px digital-7;
     color: #fff;
     text-shadow: black 0.1em 0.1em 0.2em;
 }
@@ -142,7 +151,7 @@ body {
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     border: none;
-    font: normal 50px/normal "Chau Philomene One", Helvetica, sans-serif;
+    font: normal 50px/normal "Chau Philomene One", digital-7, sans-serif;
     color: rgb(51, 51, 51);
     text-align: center;
     -o-text-overflow: clip;
@@ -211,13 +220,13 @@ body {
     height: 30px;
     padding: 0 14px;
     border-radius: 2px;
-    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    font: normal normal bold 20px/1 "advent-pro", digital-7, sans-serif;
     color: black;
     text-align: center;
     text-decoration: none;
 }
 .game__header__text {
-    font: normal normal bold 20px/1 "advent-pro", Helvetica, sans-serif;
+    font: normal normal bold 20px/1 "advent-pro", digital-7, sans-serif;
     color: #ffffff;
     text-align: center;
 }
