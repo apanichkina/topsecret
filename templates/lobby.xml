@@ -1,0 +1,9 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="lobbies">
+    <div class="lobby-box">
+        <fest:each iterate="lobbies" index="i" value="top">
+            <div class="lobby-box__button">
+                <fest:value>lobbies[i].attributes.name</fest:value>
+            </div>
+        </fest:each>
+    </div>
+</fest:template>
