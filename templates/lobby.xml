@@ -1,12 +1,60 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="lobbies">
     <div class="lobby-box">
-        <fest:each iterate="lobbies" index="i" value="top">
-            <div class="lobby-box__button">
-                <span class="lobby-box__button__left">
-                    <fest:value>lobbies[i].attributes.name</fest:value>
-                </span>
-                <span class="lobby-box__button__right"> players: <fest:value>lobbies[i].attributes.count</fest:value>/6</span>
+        <div class="lobby-box__header">AVAILABLE LOBBIES</div>
+        <div class="lobby-box__outer-table">
+            <div class="lobby-box__inside-table">
+                <table class="lobby-table">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>PLAYERS</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <fest:each iterate="lobbies" index="i" value="top">
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+
+                        <!-- TEST CASE -->
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+
+                        <!-- TEST CASE END -->
+
+                    </fest:each>
+                </table>
             </div>
-        </fest:each>
+        </div>
     </div>
 </fest:template>

@@ -4,6 +4,7 @@
 
 define([
     'backbone',
+    'views/websocket',
     'views/login',
     'views/signup',
     'views/main',
@@ -13,6 +14,7 @@ define([
     'views/lobby'
 ], function(
     Backbone,
+    webSocket,
     loginScreen,
     signupScreen,
     mainScreen,

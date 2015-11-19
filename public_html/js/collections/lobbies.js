@@ -6,12 +6,16 @@ define([
     lobbyModel
 ){
 
-    return Backbone.Collection.extend({
+    var Collection = Backbone.Collection.extend({
         model: lobbyModel,
+        changed: 'lobbiesChanged',
 
-        getAll: function(){
-            return this;
+        fetchAll: function(){
+            return this.toJSON();
         }
+
     });
+
+    return new Collection();
 
 });
