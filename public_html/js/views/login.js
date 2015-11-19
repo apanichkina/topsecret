@@ -31,11 +31,6 @@ define([
         },
         render: function () {
             this.$el.html(this.template);
-            this.$el.find('input').on('keyup', function(e){
-                if(e.keyCode == 13){
-                    $(this).trigger('enter');
-                }
-            });
         },
         show: function () {
             this.$el.show();

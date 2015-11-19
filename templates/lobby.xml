@@ -2,7 +2,10 @@
     <div class="lobby-box">
         <fest:each iterate="lobbies" index="i" value="top">
             <div class="lobby-box__button">
-                <fest:value>lobbies[i].attributes.name</fest:value>
+                <span class="lobby-box__button__left">
+                    <fest:value>lobbies[i].attributes.name</fest:value>
+                </span>
+                <span class="lobby-box__button__right"> players: <fest:value>lobbies[i].attributes.count</fest:value>/6</span>
             </div>
         </fest:each>
     </div>

@@ -6,7 +6,7 @@
             <input class="user-form__input" type="text" name="email" placeholder="Email" />
             <input class="user-form__input" type="password" name="password" placeholder="Password" />
             <input class="user-form__input" type="password" name="password_repeat" placeholder="Repeat Password" />
-            <a href="#" class="user-form__submit">Sign Up</a>
+            <input class="user-form__submit" type="submit"  value="Sign up"> </input>
             <a href="/#" class="button-back">
                 Back
             </a>

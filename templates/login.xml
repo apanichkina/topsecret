@@ -4,7 +4,7 @@
             <div class="user-form__error" hidden="hidden"> </div>
             <input class="user-form__input" type="text" name="name" placeholder="Login" required="required"/>
             <input class="user-form__input" type="password" name="password" placeholder="Password" required="required"/>
-            <a class="user-form__submit" href="/#">Log in</a>
+            <input class="user-form__submit" type="submit" value="Log in"> </input>
             <a href="/#" class="button-back">Back</a>
         </form>
     </div>
