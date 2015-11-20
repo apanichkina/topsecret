@@ -1,0 +1,252 @@
+$main-font-color: #fff;
+$main-font-style: digital-7;
+$background-url: "../img/football_field.jpg";
+$black-background: rgba(28, 28, 28, 0.7);
+$border-style: solid;
+$border-color: white;
+
+@font-face {
+  font-family: digital-7;
+  src: url(../fonts/digital-7-mono.ttf); }
+
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  background-image: url(#{$background-url});
+  overflow: hidden; }
+
+html {
+  height: 100%;
+}
+
+.main-menu {
+  width: 50%;
+  margin: 50px auto;
+  text-align: center;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+  padding:10px;
+  min-width: 300px;
+
+    &__button {
+      font: bold 28px #{$main-font-style};
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      width: 60%;
+      margin: 10px auto;
+      padding: 20px;
+      color: #{$main-font-color};
+      border-radius: 10px;
+      &:hover{
+        color: yellow;
+      }
+  }
+
+    &__header{
+      font: bold 56px #{$main-font-style};
+      color: #{$main-font-color};
+    }
+}
+
+.box{
+  margin: 50px auto;
+}
+
+.button-back {
+  font: bold 28px #{$main-font-style};
+  color: #{$main-font-color};
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+  background: transparent;
+  &:hover{
+    color: yellow;
+  }
+}
+
+.user-form {
+  margin: 0 auto;
+  width: 50%;
+  background: #{$black-background};
+  padding-top: 20px;
+  text-align: center;
+  border: 2px #{$border-style} #{$border-color};
+  min-width: 300px;
+
+  &__input{
+    font: 28px #{$main-font-style};
+    color: #{$main-font-color};
+    width: 50%;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: transparent;
+    border: 2px #{$border-style} #{$border-color};
+  }
+
+  &__submit{
+    cursor: pointer;
+    font: bold 28px #{$main-font-style};
+    margin: 0 auto;
+    padding: 10px;
+    color: #{$main-font-color};
+    background: transparent;
+    display: block;
+    border: 0;
+    &:hover{
+      color: yellow;
+    }
+  }
+
+  &__error{
+    color: #fff;
+    font: 14px #{$main-font-style};
+    padding: 15px;
+    width: 50%;
+    text-align: center;
+    background: rgba(255, 3, 62, 0.75);
+    margin: 10px auto;
+    margin-top: 0;
+  }
+}
+
+.lobby-box {
+  margin: 50px auto;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+  width: 50%;
+  max-height: 650px;
+  min-width: 300px;
+
+  &__header{
+    text-align: center;
+    font: bold 48px #{$main-font-style};
+    color: #{$main-font-color};
+    margin-top: 10px;
+  }
+
+  &__outer-table{
+    position: relative;
+    padding: 50px 0 5px 0;
+
+    & thead tr {
+      position: absolute;
+      left: 0;
+      top: 20px;
+    }
+  }
+
+  &__inside-table{
+    overflow: auto;
+    max-height: 500px;
+    & td {
+      padding: 10px;
+      width: 33.3%;
+    }
+  }
+}
+
+.lobby-table{
+  border: 0;
+  width: 100%;
+  text-align: center;
+  color: #{$main-font-color};
+  padding: 10px 0 10px 0;
+  font: 28px #{$main-font-style};
+
+  &__join{
+    text-decoration: none;
+    color: #{$main-font-color};
+    &:hover{
+      color: yellow;
+    }
+  }
+
+  & thead th {
+    border-bottom: 2px #{$border-color} dashed;
+    width: 10em;
+  }
+
+}
+
+
+.scoreboard {
+  width: 400px;
+  margin: 30px auto;
+  text-align: center;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+
+  &__header{
+    margin-top: 20px;
+    font: bold 28px #{$main-font-style};
+    color: #fff;
+  }
+
+  &__table{
+    font: 28px #{$main-font-style};
+    text-decoration: none;
+    text-align: center;
+    width: 80%;
+    margin: 10px auto;
+    padding: 20px;
+    color: #{$main-font-color};
+    background: transparent;
+    border-radius: 10px;
+  }
+
+}
+
+.game {
+  margin: -8px;
+  padding: 10px;
+  background-image: url("../img/background_color.jpg");
+
+  &__header{
+    margin: 0;
+    background-image: url("../img/tablo.png");
+    padding: 10px 0 10px 10px;
+    min-width: 800px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    text-align: center;
+    &_left{
+      float: left;
+    }
+    &_right{
+      right: 10px;
+      padding: 0 14px;
+      float: right;
+    }
+
+    &__button{
+      background-color: white;
+      height: 30px;
+      padding: 0 14px;
+      border-radius: 2px;
+      font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    &__text{
+      font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+
+  &__field{
+    margin: 0;
+    padding: 0;
+  }
+}
+
+#page {
+  height: 100%;
+}

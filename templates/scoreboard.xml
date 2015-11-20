@@ -17,6 +17,6 @@
                 </tr>
             </fest:each>
         </table>
-        <a href="/#" class="scoreboard__button">Back</a>
+        <a href="/#" class="button-back">Back</a>
     </div>
 </fest:template>
