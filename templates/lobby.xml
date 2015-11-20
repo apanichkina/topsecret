@@ -15,40 +15,46 @@
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
 
                         <!-- TEST CASE -->
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
                         <tr>
                             <td><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
-                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
                         </tr>
+                        <tr>
+                            <td><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#game" class="lobby-table__join">JOIN</a></td>
+                        </tr>
+
 
                         <!-- TEST CASE END -->
 
