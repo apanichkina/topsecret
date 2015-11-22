@@ -24,6 +24,7 @@ define([
 
         initialize: function () {
             $('#page').append(this.el);
+            //this.listenTo(this.players.changed, this.render);
             this.render();
         },
         render: function () {
@@ -56,9 +57,7 @@ define([
             this.imageObjHead = new Image();
             this.imageObjHead.src = "../../img/head.png";
 
-            this.balls = [];
-            this.players = new players();
-
+            //this.balls = [];
 
             this.borderWidth = 3;
             //TODO сделать как наследника
@@ -70,8 +69,12 @@ define([
                 Vy: 0,
                 type: "ball"
             };
+
             this.maxBallSpeed = 3;
-            this.balls.push(this.ball);
+
+            this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:10,type:"ball"}]);
+            //this.balls.push(this.ball);
+            this.team = [0,1];
             this.teamColors = ["ball","yellow","yellow","blue","blue"];
             this.whoIs = [0,1,0,0,0];
 
@@ -85,7 +88,6 @@ define([
             this.$el.show();
             this.trigger("show", this);
 
-
             /////Oleg
             this.ws = new WebSocket("ws://localhost:8083/game/");
 
@@ -95,10 +97,6 @@ define([
                 var ID = msg.code;
                 console.log(msg);
                 switch (ID) {
-                    case 0:
-                        break;
-                    case 3:
-                        break;
                     case 8:
                         if (!that.isStarted) {
                             that.isStarted = true;
@@ -117,10 +115,13 @@ define([
                         }
                         var playersCount = ballses.length;
                         for (var i = 0; i < playersCount; i++) {
-                            that.balls[i].x = ballses[i].x;
-                            that.balls[i].y = ballses[i].y;
-                            that.balls[i].Vx = ballses[i].vx;
-                            that.balls[i].Vy = ballses[i].vy;
+
+                            //that.balls[i].x = ballses[i].x;
+                            //that.balls[i].y = ballses[i].y;
+                            //that.balls[i].Vx = ballses[i].vx;
+                            //that.balls[i].Vy = ballses[i].vy;
+
+                            that.players.at(i).set({x: ballses[i].x, y: ballses[i].y, Vx: ballses[i].vx,Vy: ballses[i].vy });
                         }
                         break;
                     default:
@@ -128,6 +129,7 @@ define([
                 }
 
             };
+
             this.ws.onopen = function () {
                 var msg = {
                     code: 2,
@@ -155,7 +157,6 @@ define([
             this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight - 40;
             if (height < 550) height = 550;
-            //if (height < width * this.koef) height = width * this.koef;
             this.coordinateStepY = height / this.fieldH;
             this.canvas.width = width;
             this.canvas.height = height;
@@ -166,24 +167,24 @@ define([
         addPlayers: function (ballses) {
             var playersCount = ballses.length;
             for (var i = 1; i < playersCount; i++) {
-                //var newplayer=new player(i,ballses[i].x.valueOf(),ballses[i].y.valueOf());
-                //this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf()}]);
-                var myArc = {
-                    x: ballses[i].x.valueOf(),
-                    y: ballses[i].y.valueOf(),
-                    radius: 20,
-                    Vx: ballses[i].vx.valueOf(),
-                    Vy: ballses[i].vy.valueOf(),
-                    type: "human",
-                    isNotStop: function () {
-                        return this.Vx + this.Vy;
-                    },
-                    borderColor: this.teamColors[i],
-                    isMyPlayer: this.whoIs[i]
-
-                };
-                this.balls.push(myArc);
+                this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf(),borderColor:this.teamColors[i],isMyPlayer: this.whoIs[i]}]);
+                //var myArc = {
+                //    x: ballses[i].x.valueOf(),
+                //    y: ballses[i].y.valueOf(),
+                //    radius: 20,
+                //    Vx: ballses[i].vx.valueOf(),
+                //    Vy: ballses[i].vy.valueOf(),
+                //    type: "human",
+                //    isNotStop: function () {
+                //        return this.Vx + this.Vy;
+                //    },
+                //    borderColor: this.teamColors[i],
+                //    isMyPlayer: this.whoIs[i]
+                //
+                //};
+                //this.balls.push(myArc);
             }
+            alert(JSON.stringify(this.players));
         },
 
         isCollision: function (i, j) { //проверить удар по касательной
@@ -201,11 +202,26 @@ define([
         animate: function () {
             this.resizeCanvas();
             this.context.fillStyle = this.onload();
-            for (var i = 0; i < this.balls.length; i++) {
-                var myArc = this.balls[i];
+            var gameSpritesCount = this.players.length;
+            for (var i = 0; i < gameSpritesCount; i++) {
+                //var myArc = this.balls[i];
+
+                var sprite = this.players.at(i);
+                var myArc = {
+                   radius: sprite.get("radius"),
+                    type: sprite.get("type"),
+                    Vx: sprite.get("Vx"),
+                    Vy: sprite.get("Vy"),
+                    y: sprite.get("y"),
+                    x: sprite.get("x"),
+                    borderColor: sprite.get("borderColor"),
+                    isMyPlayer: sprite.get("isMyPlayer")
+                };
                 this.drawArc(myArc, this.context);
+                sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
 
                 //Временно не используется
+                /*
                 var goal_right = false;
                 var goal_left = false;
                 if (myArc.type == "ball") {
@@ -221,11 +237,12 @@ define([
                 if (((myArc.y + myArc.Vy + myArc.radius) * this.coordinateStepY > this.container.y + this.container.height) || ((myArc.y - myArc.radius + myArc.Vy) * this.coordinateStepY < this.container.y)) {
                     myArc.Vy = -myArc.Vy;
                 }
-
-                myArc.x += myArc.Vx;
-                myArc.y += myArc.Vy;
+                */
+                //myArc.x += myArc.Vx;
+                //myArc.y += myArc.Vy;
             }
             //Временно не используется
+            /*
             for (var j = 1; j < this.balls.length; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
@@ -236,7 +253,7 @@ define([
                     }
                 }
             }
-
+               */
             requestAnimFrame(this.animate.bind(this));
 
 
@@ -276,7 +293,53 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
+        drawSprite:function(sprite, context){
 
+            var radius = sprite.get("radius");
+            var type = sprite.get("type");
+            var Vx = sprite.get("Vx");
+            var Vy = sprite.get("Vy");
+            var y = sprite.get("y");
+            var x = sprite.get("x");
+            var borderColor = sprite.get("borderColor");
+
+            var img;
+            context.save();
+            context.beginPath();
+            if (type == "human") {
+
+                context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
+                var imgW = radius * this.coordinateStepY * 2;
+                var imgH = radius * this.coordinateStepY * 2;
+                context.rotate(Math.atan2(Vy, Vx) - Math.PI / 2);
+
+                context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
+                context.strokeStyle = borderColor;
+                context.lineWidth = this.borderWidth;
+                context.stroke();
+                context.fill();
+
+                context.beginPath();
+                img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+
+                context.fillStyle = img;
+                context.fill();
+
+                if (sprite.isMyPlayer) {
+                    context.beginPath();
+                    context.font = 'bold 10pt Calibri';
+                    context.fillText('YOU', -13, 0);
+                }
+
+            } else {
+                context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
+                img = context.createPattern(this.imageObjBall, 'repeat');
+                context.fillStyle = img;
+                context.fill();
+            }
+            context.restore();
+
+        },
         drawArc: function (myArc, context) {
             var img;
             context.save();
