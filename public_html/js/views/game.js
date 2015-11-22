@@ -15,7 +15,7 @@ define([
 
         template: tmpl,
         user: userModel,
-        player: player,
+        player: new player(),
         players: players,
 
 
@@ -84,72 +84,56 @@ define([
             this.animate();
         },
         show: function () {
-
             if(!this.user.get('logged_in')){
                 Backbone.history.navigate('#', {trigger: true});
                 return;
             }
-
             this.$el.show();
             this.trigger("show", this);
 
             /////Oleg
-            this.ws = new WebSocket("ws://localhost:8083/game/");
+            //this.ws = new WebSocket("ws://localhost:8083/game/");
+            //
+            //var that = this;
+            //this.ws.onmessage = function (event) {
+            //    var msg = JSON.parse(event.data);
+            //    var ID = msg.code;
+            //    console.log(msg);
+            //    switch (ID) {
+            //        case 8:
+            //            if (!that.isStarted) {
+            //                that.isStarted = true;
+            //                var ballses = msg.balls;
+            //                that.addPlayers(ballses);
+            //            }
+            //            else {
+            //                console.log("another start");
+            //            }
+            //            break;
+            //        case 10:
+            //            var ballses = msg.balls;
+            //            if (!that.isStarted) {
+            //                that.isStarted = true;
+            //                that.addPlayers(ballses);
+            //            }
+            //            var playersCount = ballses.length;
+            //            for (var i = 0; i < playersCount; i++) {
+            //
+            //                //that.balls[i].x = ballses[i].x;
+            //                //that.balls[i].y = ballses[i].y;
+            //                //that.balls[i].Vx = ballses[i].vx;
+            //                //that.balls[i].Vy = ballses[i].vy;
+            //
+            //                that.players.at(i).set({x: ballses[i].x, y: ballses[i].y, Vx: ballses[i].vx,Vy: ballses[i].vy });
+            //            }
+            //            break;
+            //        default:
+            //            console.log(msg);
+            //    }
+            //
+            //};
 
-            var that = this;
-            this.ws.onmessage = function (event) {
-                var msg = JSON.parse(event.data);
-                var ID = msg.code;
-                console.log(msg);
-                switch (ID) {
-                    case 8:
-                        if (!that.isStarted) {
-                            that.isStarted = true;
-                            var ballses = msg.balls;
-                            that.addPlayers(ballses);
-                        }
-                        else {
-                            console.log("another start");
-                        }
-                        break;
-                    case 10:
-                        var ballses = msg.balls;
-                        if (!that.isStarted) {
-                            that.isStarted = true;
-                            that.addPlayers(ballses);
-                        }
-                        var playersCount = ballses.length;
-                        for (var i = 0; i < playersCount; i++) {
 
-                            //that.balls[i].x = ballses[i].x;
-                            //that.balls[i].y = ballses[i].y;
-                            //that.balls[i].Vx = ballses[i].vx;
-                            //that.balls[i].Vy = ballses[i].vy;
-
-                            that.players.at(i).set({x: ballses[i].x, y: ballses[i].y, Vx: ballses[i].vx,Vy: ballses[i].vy });
-                        }
-                        break;
-                    default:
-                        console.log(msg);
-                }
-
-            };
-
-            this.ws.onopen = function () {
-                var msg = {
-                    code: 2,
-                    lobby: "test"
-                };
-                this.send(JSON.stringify(msg));
-                msg = {
-                    code: 3
-                };
-                this.send(JSON.stringify(msg));
-                console.log("open");
-            };
-            this.ws.onclose = function (event) {
-                console.log("closed");
-            }
         },
         hide: function () {
             this.$el.hide();
@@ -394,28 +378,38 @@ define([
         processKey: function (e) {
             var msg;
             if (e.keyCode == 37) {
+                this.player.set({clickCode: 5});
+                console.log(this.player);
+                this.player.trigger(this.player.click);
                 msg = {
                     code: 5
                 };
                 this.ws.send(JSON.stringify(msg));
+
             }
             if (e.keyCode == 39) {
+                this.player.set({clickCode: 4});
+                this.player.trigger(this.player.click);
                 msg = {
                     code: 4
                 };
-                this.ws.send(JSON.stringify(msg));
+               // this.ws.send(JSON.stringify(msg));
             }
             if (e.keyCode == 38) {
+                this.player.set({clickCode: 7});
+                this.player.trigger(this.player.click);
                 msg = {
                     code: 7
                 };
-                this.ws.send(JSON.stringify(msg));
+                //this.ws.send(JSON.stringify(msg));
             }
             if (e.keyCode == 40) {
-                msg = {
-                    code: 6
-                };
-                this.ws.send(JSON.stringify(msg));
+                this.player.set({clickCode: 6});
+                this.player.trigger(this.player.click);
+                //msg = {
+                //    code: 6
+                //};
+                //this.ws.send(JSON.stringify(msg));
             }
         }
     });
