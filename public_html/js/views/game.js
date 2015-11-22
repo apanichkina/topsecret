@@ -1,7 +1,3 @@
-/**
- * Created by Alex on 21.09.15.
- */
-
 define([
     'backbone',
     'tmpl/game',
@@ -12,7 +8,8 @@ define([
              tmpl,
              userModel,
              player,
-             players) {
+             players)
+{
 
     var View = Backbone.View.extend({
 
@@ -81,7 +78,12 @@ define([
             this.animate();
         },
         show: function () {
-            console.log(this.user.logged_in);
+
+            if(!this.user.get('logged_in')){
+                Backbone.history.navigate('#', {trigger: true});
+                return;
+            }
+
             this.$el.show();
             this.trigger("show", this);
 

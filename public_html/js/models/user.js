@@ -15,6 +15,8 @@ define([
         signupFailedEvent: 'signupFailedEvent',
         loginCompleteEvent: 'loginCompleteEvent',
         loginFailedEvent: 'loginFailedEvent',
+        joinedLobby: 'joinedLobby',
+        createdLobby: 'createdLobby',
 
         loginSuccess: function (data) {
             this.clear();

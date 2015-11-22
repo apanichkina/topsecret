@@ -4,20 +4,24 @@
 
 define([
     'backbone',
+    'views/websocket',
     'views/login',
     'views/signup',
     'views/main',
     'views/scoreboard',
     'views/game',
-    'views/manager'
+    'views/manager',
+    'views/lobby'
 ], function(
     Backbone,
+    webSocket,
     loginScreen,
     signupScreen,
     mainScreen,
     scoreboardScreen,
     gameScreen,
-    viewManager
+    viewManager,
+    lobbyScreen
 ){
 
     var Router = Backbone.Router.extend({
@@ -26,6 +30,7 @@ define([
             'game': 'gameAction',
             'login': 'loginAction',
             'signup': 'signupAction',
+            'lobby': 'lobbyAction',
             '*default': 'defaultActions'
         },
         initialize: function () {
@@ -34,6 +39,7 @@ define([
             viewManager.addView(mainScreen);
             viewManager.addView(gameScreen);
             viewManager.addView(signupScreen);
+            viewManager.addView(lobbyScreen);
         },
         defaultActions: function () {
             mainScreen.show();
@@ -49,6 +55,9 @@ define([
         },
         signupAction: function () {
             signupScreen.show();
+        },
+        lobbyAction: function() {
+            lobbyScreen.show();
         }
     });
 

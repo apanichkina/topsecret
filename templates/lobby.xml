@@ -1,0 +1,33 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="lobbies">
+    <div class="new-lobby-box">
+        <div class="new-lobby-box__header">NEW LOBBY</div>
+        <form class="new-lobby-box__form">
+            <input class="new-lobby-box__input" placeholder="Lobby name" />
+            <input class="new-lobby-box__submit" type="submit" value="CREATE"/>
+        </form>
+    </div>
+
+    <div class="lobby-box">
+        <div class="lobby-box__header">AVAILABLE LOBBIES</div>
+        <div class="lobby-box__outer-table">
+            <div class="lobby-box__inside-table">
+                <table class="lobby-table">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>PLAYERS</th>
+                            <th><a href="#" class="lobby-box__create">CREATE</a></th>
+                        </tr>
+                    </thead>
+                    <fest:each iterate="lobbies" index="i" value="top">
+                        <tr>
+                            <td class="lobby_name"><fest:value>lobbies[i].name</fest:value></td>
+                            <td><fest:value>lobbies[i].count</fest:value>/6</td>
+                            <td><a href="#" class="lobby-table__join">Join</a></td>
+                        </tr>
+                    </fest:each>
+                </table>
+            </div>
+        </div>
+    </div>
+</fest:template>

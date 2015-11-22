@@ -32,13 +32,12 @@ define([
                     model.signupFailed(data);
                 }
             };
-            params.error = function () {
-                alert("BAD SHIT");
+            params.error = function (data) {
+                model.signupFailed(data);
             };
         }
 
         if(method === 'read') {
-            alert('login');
             params.url = urlMap['login'];
             params.data = JSON.stringify(modelData);
             params.success = function (data) {
@@ -48,8 +47,8 @@ define([
                     model.loginFailed(data);
                 }
             };
-            params.error = function () {
-                alert("BAD SHIT");
+            params.error = function (data) {
+                model.loginFailed(data);
             }
         }
 

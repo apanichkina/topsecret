@@ -3,20 +3,20 @@
         <div class="scoreboard__header">Scoreboard</div>
         <table class="scoreboard__table">
             <tr class="scoreboard__table_header-color">
-                <td>Username</td>
-                <td>Score</td>
+                <th>Username</th>
+                <th class="scoreboard__table_padding-left">Score</th>
             </tr>
             <fest:each iterate="collection" index="i" value="top">
                 <tr>
                     <td>
                         <fest:value>collection[i].name</fest:value>
                     </td>
-                    <td>
+                    <td class="scoreboard__table_move-right">
                         <fest:value>collection[i].score</fest:value>
                     </td>
                 </tr>
             </fest:each>
         </table>
-        <a href="/#" class="scoreboard__button">Back</a>
+        <a href="/#" class="button-back">Back</a>
     </div>
 </fest:template>
