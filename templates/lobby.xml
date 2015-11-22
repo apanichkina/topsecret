@@ -21,7 +21,7 @@
                     </thead>
                     <fest:each iterate="lobbies" index="i" value="top">
                         <tr>
-                            <td class="lobby_name"><fest:value>lobbies[i].name</fest:value></td>
+                            <td class="lobby-table__name"><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/6</td>
                             <td><a href="#" class="lobby-table__join">Join</a></td>
                         </tr>

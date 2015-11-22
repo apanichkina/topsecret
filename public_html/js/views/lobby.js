@@ -32,7 +32,7 @@ define([
 
             this.$('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
-                var lobbyName = $(this).parent().siblings('.lobby_name').text();
+                var lobbyName = $(this).parent().siblings('.lobby-table__name').text();
                 self.joinLobby(lobbyName);
             });
 

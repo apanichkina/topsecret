@@ -93,9 +93,6 @@ html {
     padding: 10px;
     background: transparent;
     border: 2px #{$border-style} #{$border-color};
-    &_spaced{
-      letter-spacing: 4px;
-    }
   }
 
   &__submit{
@@ -212,6 +209,10 @@ html {
     }
   }
 
+  &__name{
+    word-break: break-all;
+  }
+
   & thead th {
     border-bottom: 2px #{$border-color} dashed;
     width: 10em;
@@ -219,9 +220,9 @@ html {
 
 }
 
-
 .scoreboard {
-  width: 400px;
+  width: 50%;
+  min-width: 400px;
   margin: 30px auto;
   text-align: center;
   background: #{$black-background};
@@ -243,16 +244,10 @@ html {
     color: #{$main-font-color};
     background: transparent;
     border-radius: 10px;
-    &_move-right{
-      text-align: right;
-    }
     & th{
       padding-bottom: 5px;
     }
 
-    &_padding-left{
-      padding-left: 45px;
-    }
   }
 
 }
