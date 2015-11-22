@@ -11,8 +11,9 @@ define([
     Player
 ){
     var Collection = Backbone.Collection.extend({
-        model: Player
+        model: Player,
+        changed: 'playersChanged'
     });
     //return new Collection([{x:300, y:300, radius: 10, type:"ball"}],false);
-    return Collection;
+    return new Collection();
 });
