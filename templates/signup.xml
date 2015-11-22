@@ -2,8 +2,8 @@
     <div class="box">
         <form class="user-form">
             <div class="user-form__error" hidden="hidden"> </div>
-            <input class="user-form__input" type="text" name="name" placeholder="Login" />
-            <input class="user-form__input" type="text" name="email" placeholder="Email" />
+            <input class="user-form__input user-form__input_spaced" type="text" name="name" placeholder="Login" />
+            <input class="user-form__input user-form__input_spaced" type="text" name="email" placeholder="Email" />
             <input class="user-form__input" type="password" name="password" placeholder="Password" />
             <input class="user-form__input" type="password" name="password_repeat" placeholder="Repeat Password" />
             <input class="user-form__submit" type="submit"  value="Sign up"> </input>

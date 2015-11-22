@@ -78,7 +78,12 @@ define([
             this.animate();
         },
         show: function () {
-            console.log(this.user.logged_in);
+
+            if(!this.user.get('logged_in')){
+                Backbone.history.navigate('#', {trigger: true});
+                return;
+            }
+
             this.$el.show();
             this.trigger("show", this);
 

@@ -1,5 +1,5 @@
 $main-font-color: #fff;
-$main-font-style: digital-7;
+$main-font-style: led-digital-7;
 $background-url: "../img/football_field.jpg";
 $black-background: rgba(28, 28, 28, 0.7);
 $border-style: solid;
@@ -7,7 +7,13 @@ $border-color: white;
 
 @font-face {
   font-family: digital-7;
-  src: url(../fonts/digital-7-mono.ttf); }
+  src: url(../fonts/digital-7-mono.ttf);
+}
+
+@font-face{
+  font-family: led-digital-7;
+  src: url(../fonts/led-counter-7.ttf);
+}
 
 body {
   background-size: cover;
@@ -26,11 +32,11 @@ html {
   text-align: center;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
-  padding:10px;
+  padding: 10px;
   min-width: 300px;
 
     &__button {
-      font: bold 28px #{$main-font-style};
+      font: bold 38px #{$main-font-style};
       text-decoration: none;
       text-align: center;
       display: block;
@@ -41,6 +47,7 @@ html {
       border-radius: 10px;
       &:hover{
         color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
       }
   }
 
@@ -65,6 +72,7 @@ html {
   background: transparent;
   &:hover{
     color: yellow;
+    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
   }
 }
 
@@ -85,6 +93,9 @@ html {
     padding: 10px;
     background: transparent;
     border: 2px #{$border-style} #{$border-color};
+    &_spaced{
+      letter-spacing: 4px;
+    }
   }
 
   &__submit{
@@ -98,6 +109,7 @@ html {
     border: 0;
     &:hover{
       color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
@@ -113,19 +125,29 @@ html {
   }
 }
 
+
 .lobby-box {
   margin: 50px auto;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
   width: 50%;
   max-height: 650px;
-  min-width: 300px;
+  min-width: 400px;
 
   &__header{
     text-align: center;
     font: bold 48px #{$main-font-style};
     color: #{$main-font-color};
     margin-top: 10px;
+  }
+
+  &__create{
+    text-decoration: none;
+    color: #{$main-font-color};
+    &:hover{
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
   }
 
   &__outer-table{
@@ -149,6 +171,30 @@ html {
   }
 }
 
+.new-lobby-box{
+  @extend .lobby-box;
+  display: none;
+
+  &__header{
+    @extend .lobby-box__header;
+  }
+
+  &__form{
+    @extend .user-form;
+    background: transparent;
+    border: 0;
+  }
+
+  &__input{
+    @extend .user-form__input;
+    width: 100%;
+  }
+
+  &__submit{
+    @extend .user-form__submit;
+  }
+}
+
 .lobby-table{
   border: 0;
   width: 100%;
@@ -162,6 +208,7 @@ html {
     color: #{$main-font-color};
     &:hover{
       color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
@@ -196,6 +243,16 @@ html {
     color: #{$main-font-color};
     background: transparent;
     border-radius: 10px;
+    &_move-right{
+      text-align: right;
+    }
+    & th{
+      padding-bottom: 5px;
+    }
+
+    &_padding-left{
+      padding-left: 45px;
+    }
   }
 
 }
@@ -224,14 +281,18 @@ html {
     }
 
     &__button{
-      background-color: white;
+      background-color: transparent;
       height: 30px;
       padding: 0 14px;
       border-radius: 2px;
       font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
-      color: black;
+      color: white;
       text-align: center;
       text-decoration: none;
+      &:hover{
+        color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+      }
     }
 
     &__text{
