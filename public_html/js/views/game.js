@@ -57,6 +57,9 @@ define([
             this.imageObjHead = new Image();
             this.imageObjHead.src = "../../img/head.png";
 
+            this.imageObjHead2 = new Image();
+            this.imageObjHead2.src = "../../img/head2.png";
+
             //this.balls = [];
 
             this.borderWidth = 3;
@@ -167,7 +170,7 @@ define([
         addPlayers: function (ballses) {
             var playersCount = ballses.length;
             for (var i = 1; i < playersCount; i++) {
-                this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf(),borderColor:this.teamColors[i],isMyPlayer: this.whoIs[i]}]);
+                this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf(),borderColor:this.teamColors[i],isMyPlayer: this.whoIs[i],team:i-1}]);
                 //var myArc = {
                 //    x: ballses[i].x.valueOf(),
                 //    y: ballses[i].y.valueOf(),
@@ -215,7 +218,8 @@ define([
                     y: sprite.get("y"),
                     x: sprite.get("x"),
                     borderColor: sprite.get("borderColor"),
-                    isMyPlayer: sprite.get("isMyPlayer")
+                    isMyPlayer: sprite.get("isMyPlayer"),
+                    team: sprite.get("team")
                 };
                 this.drawArc(myArc, this.context);
                 sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
@@ -351,23 +355,29 @@ define([
                 var imgH = myArc.radius * this.coordinateStepY * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
 
-                context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
-                context.strokeStyle = myArc.borderColor;
-                context.lineWidth = this.borderWidth;
-                context.stroke();
-                context.fill();
-
+                if (myArc.isMyPlayer) {
+                    context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
+                    context.strokeStyle = "white";
+                    context.lineWidth = this.borderWidth;
+                    context.stroke();
+                    context.fill();
+                }
                 context.beginPath();
-                img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                if (myArc.team == 0 || myArc.team == 2 ) {
+                    img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
                 context.fillStyle = img;
                 context.fill();
 
+                /*
                 if (myArc.isMyPlayer) {
                     context.beginPath();
                     context.font = 'bold 10pt Calibri';
                     context.fillText('YOU', -13, 0);
                 }
+                */
+
 
             } else {
                 context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
