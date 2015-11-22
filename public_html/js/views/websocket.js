@@ -18,7 +18,7 @@ define([
         lobbies: lobbyCollection,
         user: userModel,
         players: players,
-        player: new player(),
+        player:  player,
 
         initialize: function() {
             $('#page').append(this.el);
@@ -33,16 +33,13 @@ define([
                 this.ws.send(JSON.stringify({code: 2, lobby: lobbyName}));
                 alert("i joined " + lobbyName);
             });
-
             this.listenTo(this.user, this.user.createdLobby, function () {
                 var lobbyName = this.user.get('createdLobby');
                 this.ws.send(JSON.stringify({code: 1, name: lobbyName}));
             });
 
-            this.listenTo(this.player, this.player.click, function () {
-                var code = this.player.get('clickCode');
-                alert(code);
-                //console.log("codeeeee"+code);
+            this.listenTo(this.user, this.user.click, function () {
+                var code = this.user.get('clickCode');
                 this.ws.send(JSON.stringify({code: code}));
             });
 
@@ -109,6 +106,7 @@ define([
                                 ]);
                             }
                         }
+                        var playersCount = ballses.length;
                         for (var i = 0; i < playersCount; i++) {
                             self.players.at(i).set({
                                 x: ballses[i].x,
@@ -117,6 +115,7 @@ define([
                                 Vy: ballses[i].vy
                             });
                         }
+                        //console.log(self.players.toJSON());
                         break;
 
                     default:
@@ -141,6 +140,10 @@ define([
             this.ws.onclose = function (event) {
                 console.log("closed");
             }
+            this.ws.onerror = function (event) {
+                console.log("OMGWTFERROR!!!");
+            }
+
         }
 
     });

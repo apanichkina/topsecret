@@ -8,7 +8,6 @@ define([
 ){
 
     var Model = Backbone.Model.extend({
-        click: "clickCode",
         defaults: {
             x: 0,
             y: 0,

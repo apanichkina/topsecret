@@ -78,16 +78,17 @@ define([
             this.teamColors = ["ball","yellow","yellow","blue","blue"];
             this.whoIs = [0,1,0,0,0];
 
-            window.onkeydown = this.processKey.bind(this);
+            window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
 
             this.animate();
         },
         show: function () {
-            if(!this.user.get('logged_in')){
-                Backbone.history.navigate('#', {trigger: true});
-                return;
-            }
+
+            //if(!this.user.get('logged_in')){
+            //    Backbone.history.navigate('#', {trigger: true});
+            //    return;
+            //}
             this.$el.show();
             this.trigger("show", this);
 
@@ -315,11 +316,11 @@ define([
                 context.fillStyle = img;
                 context.fill();
 
-                if (sprite.isMyPlayer) {
-                    context.beginPath();
-                    context.font = 'bold 10pt Calibri';
-                    context.fillText('YOU', -13, 0);
-                }
+                //if (sprite.isMyPlayer) {
+                //    context.beginPath();
+                //    context.font = 'bold 10pt Calibri';
+                //    context.fillText('YOU', -13, 0);
+                //}
 
             } else {
                 context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
@@ -378,38 +379,22 @@ define([
         processKey: function (e) {
             var msg;
             if (e.keyCode == 37) {
-                this.player.set({clickCode: 5});
-                console.log(this.player);
-                this.player.trigger(this.player.click);
-                msg = {
-                    code: 5
-                };
-                this.ws.send(JSON.stringify(msg));
-
+                this.user.set({clickCode: 5});
+                this.user.trigger(this.user.click);
             }
             if (e.keyCode == 39) {
-                this.player.set({clickCode: 4});
-                this.player.trigger(this.player.click);
-                msg = {
-                    code: 4
-                };
-               // this.ws.send(JSON.stringify(msg));
+                this.user.set({clickCode: 4});
+                this.user.trigger(this.user.click);
             }
             if (e.keyCode == 38) {
-                this.player.set({clickCode: 7});
-                this.player.trigger(this.player.click);
-                msg = {
-                    code: 7
-                };
-                //this.ws.send(JSON.stringify(msg));
+                this.user.set({clickCode: 7});
+                this.user.trigger(this.user.click);
+
             }
             if (e.keyCode == 40) {
-                this.player.set({clickCode: 6});
-                this.player.trigger(this.player.click);
-                //msg = {
-                //    code: 6
-                //};
-                //this.ws.send(JSON.stringify(msg));
+                this.user.set({clickCode: 6});
+                this.user.trigger(this.user.click);
+
             }
         }
     });
