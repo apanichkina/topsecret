@@ -20,8 +20,12 @@ define([
 
         initialize: function () {
             $('#page').append(this.el);
-            this.listenTo(this.user, this.user.signupFailedEvent, function () {
-                this.$(".user-form__error").show();
+            this.listenTo(this.user, this.user.signupFailedEvent + " " + this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function () {
+                if(!this.user.get('logged_in')) {
+                    this.$(".user-form__error").text(this.user.get('error')).show();
+                } else {
+                    this.render();
+                }
             });
             this.render();
         },
