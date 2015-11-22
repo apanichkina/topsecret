@@ -8,6 +8,7 @@ define([
 ){
 
     var Model = Backbone.Model.extend({
+        click: "clickCode",
         defaults: {
             x: 0,
             y: 0,
@@ -21,7 +22,7 @@ define([
         },
         initialize: function () {
         }
-        //idAttribute: "_id"
+        //idAttribute: id
         //constructor: function(id,currX,currY) {
         //    this.id = id;
         //    this.x = currX;
@@ -29,5 +30,5 @@ define([
         //}
     });
 
-    return Model;
+    return  Model;
 });
