@@ -92,9 +92,9 @@ define([
                         break;
                     case 10:
                         var ballses = msg.balls;
+                        var playersCount = ballses.length;
                         if (!self.isStarted) {
                             self.isStarted = true;
-                            var playersCount = ballses.length;
                             for (var i = 1; i < playersCount; i++) {
                                 self.players.add([{
                                     id: i,
@@ -106,7 +106,6 @@ define([
                                 ]);
                             }
                         }
-                        var playersCount = ballses.length;
                         for (var i = 0; i < playersCount; i++) {
                             self.players.at(i).set({
                                 x: ballses[i].x,
@@ -115,7 +114,6 @@ define([
                                 Vy: ballses[i].vy
                             });
                         }
-                        //console.log(self.players.toJSON());
                         break;
 
                     default:
