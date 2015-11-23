@@ -18,10 +18,27 @@ define([
         model: Score,
 
         changed: 'changedEvent',
-
+        storage: window.localStorage,
         setScores: function(data) {
             this.set(data.users);
+            for (var i=0; i<data.users.length; ++i){
+                this.storage.setItem(data.users[i].name, data.users[i].score) ;
+            }
             this.trigger(this.changed);
+        },
+
+        setFromLocalStorage: function(){
+            var name;
+            var score;
+            this.reset();
+            for (var i=0; i < this.storage.length; ++i){
+                name = this.storage.key(i);
+                score = this.storage.getItem(name);
+                this.add({name: name, score: score});
+            }
+            alert(this.storage.length);
+            this.trigger(this.changed);
+
         },
 
         comparator: function(atribute) {

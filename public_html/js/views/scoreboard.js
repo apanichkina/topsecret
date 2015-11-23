@@ -21,7 +21,7 @@ define([
 
         initialize: function () {
             $('#page').append(this.el);
-            this.collection.fetch();
+
 
             this.listenTo(this.collection, this.collection.changed, this.render);
 
@@ -51,6 +51,7 @@ define([
             this.$el.html(this.template(this.collection.firstN(10)));
         },
         show: function () {
+            this.collection.fetch();
             this.$el.show();
             this.trigger("show", this);
         },

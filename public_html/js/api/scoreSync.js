@@ -14,9 +14,8 @@ define([
     var urlMap = {
         status: '/status/'
     };
-
+    var storage = window.localStorage;
     return function(method, collection, options) {
-        alert('syncing');
         var params = {type: methodMap[method]};
         params.dataType = 'json';
         params.contentType = 'application/json';
@@ -27,7 +26,9 @@ define([
         };
 
         params.error = function (data) {
-            alert(data.code);
+            //if (data.status>= 500){
+                collection.setFromLocalStorage();
+
         };
 
         return Backbone.ajax(params);
