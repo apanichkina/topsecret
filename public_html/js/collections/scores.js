@@ -4,23 +4,35 @@
 
 define([
     'backbone',
-    'models/scores'
+    'models/scores',
+    'api/scoreSync'
 ], function(
     Backbone,
-    Score
+    Score,
+    scoreSync
 ){
-//TODO перенести сюда компаратор
+
     var Collection = Backbone.Collection.extend({
+
+        sync: scoreSync,
         model: Score,
+
+        changed: 'changedEvent',
+
+        setScores: function(data) {
+            this.set(data.users);
+            this.trigger(this.changed);
+        },
+
         comparator: function(atribute) {
-        return -atribute.get("score");
+            return -atribute.get("score");
         },
         firstN: function(n){
             return this.first(n).map(function(model) {
                 return model.toJSON();
             })
         }
-
     });
-    return Collection;
+
+    return new Collection();
 });

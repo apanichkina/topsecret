@@ -3,17 +3,34 @@
  */
 
 define([
-    'backbone'
+    'backbone',
+    'api/scoreSync'
 ], function(
-    Backbone
+    Backbone,
+    scoreSync
 ){
 
-    var Model = Backbone.Model.extend({
+    return Backbone.Model.extend({
+        url: "/",
+
         defaults: {
             name:'',
             score:0
-        }
-    });
+        },
 
-    return Model;
+    scoreboardSuccess: function (data) {
+        this.clear();
+        this.set({
+            'name': data.response.name,
+            'score': data.response.score
+        });
+        this.trigger(this.loginCompleteEvent);
+    },
+
+    scoreboardFailed: function (data) {
+        this.clear();
+        this.set('error', data.response.description);
+        this.trigger(this.loginFailedEvent);
+    }
+    });
 });

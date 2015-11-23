@@ -195,7 +195,7 @@ define([
                 //this.balls[i].x += this.balls[i].Vx;
                 //this.balls[i].y += this.balls[i].Vy;
             }
-            
+
         },
         collision: function (i, j) {
             if (this.balls[i].type != "ball") {
