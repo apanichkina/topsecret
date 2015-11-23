@@ -11,6 +11,7 @@ define([
     'views/scoreboard',
     'views/game',
     'views/manager',
+    'views/lobbies',
     'views/lobby'
 ], function(
     Backbone,
@@ -21,6 +22,7 @@ define([
     scoreboardScreen,
     gameScreen,
     viewManager,
+    lobbiesScreen,
     lobbyScreen
 ){
 
@@ -30,6 +32,7 @@ define([
             'game': 'gameAction',
             'login': 'loginAction',
             'signup': 'signupAction',
+            'lobbies': 'lobbiesAction',
             'lobby': 'lobbyAction',
             '*default': 'defaultActions'
         },
@@ -39,6 +42,7 @@ define([
             viewManager.addView(mainScreen);
             viewManager.addView(gameScreen);
             viewManager.addView(signupScreen);
+            viewManager.addView(lobbiesScreen);
             viewManager.addView(lobbyScreen);
         },
         defaultActions: function () {
@@ -55,6 +59,9 @@ define([
         },
         signupAction: function () {
             signupScreen.show();
+        },
+        lobbiesAction: function() {
+            lobbiesScreen.show();
         },
         lobbyAction: function() {
             lobbyScreen.show();

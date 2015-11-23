@@ -34,12 +34,15 @@ define([
 
             var self = this;
 
+            this.ws.onopen = function(event){
+                //TODO?
+            };
+
             this.ws.onmessage = function (event) {
                 var msg = JSON.parse(event.data);
                 var code = msg.code;
                 switch (code) {
                     case 0:
-                        alert(JSON.stringify(msg));
                         self.lobbies.set(msg.lobbies);
                         self.lobbies.trigger(self.lobbies.changed);
                         break;
@@ -52,12 +55,12 @@ define([
                         break;
                     case 2:
                         self.user.set('inLobby', self.user.get('createdLobby'));
-                        console.log(self.user);
                         break;
                     case 3:
                         alert(JSON.stringify(msg));
                         break;
-                    case 4:
+                    case 4: //joinLobby
+                        console.log(self.user);
                         alert(JSON.stringify(msg));
                         break;
                     default:

@@ -20,24 +20,18 @@ define([
         initialize: function () {
             $('#page').append(this.el);
             this.collection = new collection();
-            this.collection.set(
-                [
-                    {name: "Ann", score:78809},
-                    {name: "Sanya", score:78809},
-                    {name:"Oleg", score:1000},
-                    {name:"Artem", score:1200},
-                    {name:"Ivan", score:1000},
-                    {name:"Ilya", score:48680},
-                    {name:"Ira", score:200},
-                    {name:"Katya", score:2345},
-                    {name:"Setgey", score:670},
-                    {name:"Belodedov", score:9999999},
-                    {name:"Aa", score:1},
-                    {name:"Mr.Cat", score:1234567}
-                ]);
+
             this.render();
         },
         render: function () {
+            var storage = window.localStorage;
+            var name;
+            var score;
+            for (var i = 0; i < storage.length; ++i){
+                name = storage[i];
+                score = storage[name];
+                this.collection.set({name: name, score: score});
+            }
             this.$el.html(this.template(this.collection.firstN(10)));
         },
         show: function () {
