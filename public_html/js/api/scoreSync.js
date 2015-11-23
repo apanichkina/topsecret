@@ -14,7 +14,6 @@ define([
     var urlMap = {
         status: '/status/'
     };
-    var storage = window.localStorage;
     return function(method, collection, options) {
         var params = {type: methodMap[method]};
         params.dataType = 'json';

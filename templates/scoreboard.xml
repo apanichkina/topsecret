@@ -4,14 +4,14 @@
         <table class="scoreboard__table">
             <tr class="scoreboard__table_header-color">
                 <th>Username</th>
-                <th class="scoreboard__table_padding-left">Score</th>
+                <th>Score</th>
             </tr>
             <fest:each iterate="collection" index="i" value="top">
                 <tr>
                     <td>
                         <fest:value>collection[i].name</fest:value>
                     </td>
-                    <td class="scoreboard__table_move-right">
+                    <td>
                         <fest:value>collection[i].score</fest:value>
                     </td>
                 </tr>

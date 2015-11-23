@@ -22,7 +22,6 @@ define([
         initialize: function () {
             $('#page').append(this.el);
 
-
             this.listenTo(this.collection, this.collection.changed, this.render);
 
             if (!this.supportsStorage()) alert("You don't have localstorage");

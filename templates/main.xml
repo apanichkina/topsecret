@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div class="main-menu">
         <div class="main-menu__header">Da football<sub style="font-size: 15px">alpha v.0.1.0</sub></div>
-        <a href="/#lobby" id="js-play" class="main-menu__button">
+        <a href="/#lobbies" id="js-play" class="main-menu__button">
             Play
         </a>
         <a href="/#scoreboard" class="main-menu__button">

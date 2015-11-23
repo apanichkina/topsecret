@@ -13,7 +13,7 @@ define([
         user: userModel,
 
         events: {
-            "click .user-form__submit": "send",
+            submit: "send",
         },
 
         initialize: function () {

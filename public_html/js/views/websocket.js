@@ -50,7 +50,6 @@ define([
                 var code = msg.code;
                 switch (code) {
                     case 0:
-                        alert(JSON.stringify(msg));
                         self.lobbies.set(msg.lobbies);
                         self.lobbies.trigger(self.lobbies.changed);
                         break;
@@ -63,12 +62,12 @@ define([
                         break;
                     case 2:
                         self.user.set('inLobby', self.user.get('createdLobby'));
-                        console.log(self.user);
                         break;
                     case 3:
                         alert(JSON.stringify(msg));
                         break;
-                    case 4:
+                    case 4: //joinLobby
+                        console.log(self.user);
                         alert(JSON.stringify(msg));
                         break;
                     case 8:
@@ -137,7 +136,7 @@ define([
 
             this.ws.onclose = function (event) {
                 console.log("closed");
-            }
+            };
             this.ws.onerror = function (event) {
                 console.log("OMGWTFERROR!!!");
             }

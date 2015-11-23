@@ -73,8 +73,6 @@ html {
     padding: 10px;
     background: transparent;
     border: 2px solid white; }
-    .user-form__input_spaced {
-      letter-spacing: 4px; }
   .user-form__submit, .new-lobby-box__submit {
     cursor: pointer;
     font: bold 28px led-digital-7;
@@ -150,12 +148,15 @@ html {
     .lobby-table__join:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
+  .lobby-table__name {
+    word-break: break-all; }
   .lobby-table thead th {
     border-bottom: 2px white dashed;
     width: 10em; }
 
 .scoreboard {
-  width: 400px;
+  width: 50%;
+  min-width: 400px;
   margin: 30px auto;
   text-align: center;
   background: rgba(28, 28, 28, 0.7);
@@ -174,12 +175,8 @@ html {
     color: #fff;
     background: transparent;
     border-radius: 10px; }
-    .scoreboard__table_move-right {
-      text-align: right; }
     .scoreboard__table th {
       padding-bottom: 5px; }
-    .scoreboard__table_padding-left {
-      padding-left: 45px; }
 
 .game {
   margin: -8px;
