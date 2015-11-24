@@ -50,5 +50,5 @@ define([
         }
     });
 
-    return new Collection();
+    return Collection;
 });

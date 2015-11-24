@@ -10,7 +10,7 @@ define([
     scoreSync
 ){
 
-    return Backbone.Model.extend({
+    var Model = Backbone.Model.extend({
         url: "/",
 
         defaults: {
@@ -19,4 +19,6 @@ define([
         }
 
     });
+
+    return Model;
 });

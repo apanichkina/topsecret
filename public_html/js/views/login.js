@@ -1,23 +1,21 @@
 define([
     'backbone',
-    'tmpl/login',
-    'models/user'
+    'tmpl/login'
 ], function(
     Backbone,
-    tmpl,
-    userModel
+    tmpl
 ){
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
 
         events: {
             submit: "send"
         },
 
-        initialize: function () {
-            $('#page').append(this.el);
+        initialize: function (userModel) {
+            this.user = userModel;
+
             this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, function () {
                 if(!this.user.get('logged_in')) {
                     this.$(".user-form__error").text(this.user.get('error')).show();
@@ -35,7 +33,7 @@ define([
         show: function () {
 
             if(this.user.get('logged_in')){
-                Backbone.history.navigate('#', {trigger: true});
+                Backbone.history.navigate('#', true);
                 return;
             }
 
@@ -79,5 +77,5 @@ define([
 
     });
 
-    return new View();
+    return View;
 });

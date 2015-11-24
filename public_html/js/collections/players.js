@@ -14,5 +14,6 @@ define([
         model: Player,
         changed: 'playersChanged'
     });
-    return new Collection();
+
+    return Collection;
 });

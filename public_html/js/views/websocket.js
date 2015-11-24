@@ -1,33 +1,21 @@
 define([
-    'backbone',
-    'collections/lobbies',
-    'models/user',
-    'collections/players',
-    'models/player',
-    'models/currentLobby',
-    'models/game'
+    'backbone'
 
 ], function(
-    Backbone,
-    lobbyCollection,
-    userModel,
-    players,
-    player,
-    currentLobby,
-    gameModel
+    Backbone
 ){
 
     var View = Backbone.View.extend({
 
-        lobbies: lobbyCollection,
-        lobby: currentLobby,
-        user: userModel,
-        players: players,
-        player: player,
-        game: gameModel,
+        initialize: function (userModel, lobbyCollection, currentLobby, playerModel, playerCollection, gameModel) {
 
-        initialize: function () {
-            $('#page').append(this.el);
+            this.user = userModel;
+            this.lobbies = lobbyCollection;
+            this.lobby = currentLobby;
+            this.players = playerCollection;
+            this.player = playerModel;
+            this.game = gameModel;
+
             this.listenTo(this.user, this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, this.render);
 
             this.listenTo(this.user, this.user.joinedLobby, function () {
@@ -43,7 +31,7 @@ define([
             });
 
             this.listenTo(this.user, this.user.click, function () {
-                if(!this.ws) return;this.lobby.init();
+                if(!this.ws) return;
                 var code = this.user.get('clickCode');
                 this.ws.send(JSON.stringify({code: code}));
             });
@@ -74,14 +62,14 @@ define([
                         self.user.set('inLobby', msg.name);
                         self.lobby.set('name', msg.name);
                         self.lobby.trigger(self.lobby.lobbyChanged);
-                        Backbone.history.navigate('#lobby', {trigger: true});
+                        Backbone.history.navigate('#lobby', true);
                         break;
                     case 3:
                         alert(JSON.stringify(msg));
                         break;
                     case 4: //joinLobby
                         console.log(msg);
-                        Backbone.history.navigate('#lobby', {trigger: true});
+                        Backbone.history.navigate('#lobby', true);
                         break;
                     case 7: //user joins lobby
                         console.log(msg);
@@ -141,22 +129,13 @@ define([
             };
 
             this.ws.onopen = function () {
-                var msg = {
-                    code: 2,
-                    lobby: "test"
-                };
-                this.send(JSON.stringify(msg));
-                msg = {
-                    code: 3
-                };
-                this.send(JSON.stringify(msg));
                 console.log("open");
             };
 
             this.ws.onclose = function (event) {
                 console.log("closed");
                 alert('WEBSOCKET CLOSED :C');
-                Backbone.history.navigate('#', {trigger: true});
+                Backbone.history.navigate('#', true);
             };
             this.ws.onerror = function (event) {
                 console.log("OMGWTFERROR!!!");
@@ -166,6 +145,6 @@ define([
 
     });
 
-    return new View();
+    return View;
 
 });

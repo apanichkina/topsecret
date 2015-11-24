@@ -1,32 +1,26 @@
 define([
     'backbone',
-    'tmpl/lobbies',
-    'models/user',
-    'collections/lobbies',
-    'models/currentLobby'
+    'tmpl/lobbies'
 ], function (
     Backbone,
-    tmpl,
-    userModel,
-    lobbyCollection,
-    currentLobby
+    tmpl
 ) {
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-        lobbies: lobbyCollection,
-        lobby: currentLobby,
 
         events: {
             "submit": 'createLobby'
         },
 
+        initialize: function (userModel, lobbyCollection, currentLobby) {
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.listenTo(lobbyCollection, this.lobbies.changed, this.render);
+            this.user = userModel;
+            this.lobbies = lobbyCollection;
+            this.lobby = currentLobby;
+
+            this.listenTo(this.lobbies, this.lobbies.changed, this.render);
         },
 
         render: function () {
@@ -69,12 +63,12 @@ define([
 
         show: function(){
             if(!this.user.get('logged_in')){
-                Backbone.history.navigate('#', {trigger: true});
+                Backbone.history.navigate('#', true);
                 return;
             }
 
             if(this.user.get('inLobby')){
-                Backbone.history.navigate('#lobby', {trigger: true});
+                Backbone.history.navigate('#lobby', true);
                 return;
             }
 
@@ -89,6 +83,6 @@ define([
 
     });
 
-    return new View();
+    return View;
 
 });

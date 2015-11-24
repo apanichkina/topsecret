@@ -29,5 +29,5 @@ define([
         //}
     });
 
-    return  Model;
+    return Model;
 });

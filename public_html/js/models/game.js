@@ -33,5 +33,6 @@ define([
         }
 
     });
-    return new GameModel();
+
+    return GameModel;
 });

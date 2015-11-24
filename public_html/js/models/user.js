@@ -6,7 +6,7 @@ define([
     userSync
 ) {
 
-    var UserModel = Backbone.Model.extend({
+    var Model = Backbone.Model.extend({
 
         url: "/",
         sync: userSync,
@@ -21,14 +21,14 @@ define([
         createdLobby: 'createdLobby',
         click: "clickCode",
 
-        idAttribute: 'name',
+        //idAttribute: 'name',
 
         loginSuccess: function (data) {
             this.clear();
             this.set({
                 'email': data.response.email,
-                'id': 1,
                 'name': data.response.name,
+                'id': 1,
                 'logged_in': true
             });
             this.trigger(this.loginCompleteEvent);
@@ -45,7 +45,8 @@ define([
             this.set({
                 'email': data.response.email,
                 'name': data.response.name,
-                'logged_in': true
+                'logged_in': true,
+                'id': 1,
             });
             this.trigger(this.signupCompleteEvent);
         },
@@ -63,6 +64,6 @@ define([
 
     });
 
-    return new UserModel();
+    return Model;
 
 });

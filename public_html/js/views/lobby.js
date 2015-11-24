@@ -1,23 +1,20 @@
 define([
     'backbone',
-    'tmpl/lobby',
-    'models/user',
-    'models/currentLobby'
+    'tmpl/lobby'
 ], function(
     Backbone,
-    tmpl,
-    userModel,
-    currentLobby
+    tmpl
 ){
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-        lobby: currentLobby,
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.listenTo(this.lobby, this.lobby.changed, this.render);
+        initialize: function (userModel, currentLobby) {
+
+            this.user = userModel;
+            this.lobby = currentLobby;
+
+            this.listenTo(this.lobby, this.lobby.lobbyChanged, this.render);
         },
 
         render: function () {
@@ -28,7 +25,7 @@ define([
         show: function () {
 
             if(!this.user.get('logged_in')){
-                Backbone.history.navigate('#', {trigger: true});
+                Backbone.history.navigate('#', true);
                 return;
             }
 
@@ -42,5 +39,5 @@ define([
 
     });
 
-    return new View();
+    return View;
 });

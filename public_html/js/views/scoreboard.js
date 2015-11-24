@@ -4,23 +4,19 @@
 
 define([
     'backbone',
-    'tmpl/scoreboard',
-    'models/scores',
-    'collections/scores'
+    'tmpl/scoreboard'
 ], function(
     Backbone,
-    tmpl,
-    Score,
-    scoreCollection
+    tmpl
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        collection: scoreCollection,
 
-        initialize: function () {
-            $('#page').append(this.el);
+        initialize: function (scoreCollection) {
+
+            this.collection = scoreCollection;
 
             this.listenTo(this.collection, this.collection.changed, this.render);
 
@@ -48,5 +44,5 @@ define([
 
     });
 
-    return new View();
+    return View;
 });

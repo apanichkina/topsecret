@@ -12,18 +12,32 @@ define([
     'views/game',
     'views/manager',
     'views/lobbies',
-    'views/lobby'
+    'views/lobby',
+    'models/user',
+    'collections/scores',
+    'collections/lobbies',
+    'models/currentLobby',
+    'models/player',
+    'collections/players',
+    'models/game'
 ], function(
     Backbone,
-    webSocket,
-    loginScreen,
-    signupScreen,
-    mainScreen,
-    scoreboardScreen,
-    gameScreen,
-    viewManager,
-    lobbiesScreen,
-    lobbyScreen
+    WebSocket,
+    LoginScreen,
+    SignupScreen,
+    MainScreen,
+    ScoreboardScreen,
+    GameScreen,
+    ViewManager,
+    LobbiesScreen,
+    LobbyScreen,
+    UserModel,
+    ScoreCollection,
+    LobbiesCollection,
+    CurrentLobby,
+    PlayerModel,
+    PlayerCollection,
+    GameModel
 ){
 
     var Router = Backbone.Router.extend({
@@ -36,36 +50,75 @@ define([
             'lobby': 'lobbyAction',
             '*default': 'defaultActions'
         },
+
         initialize: function () {
-            viewManager.addView(scoreboardScreen);
-            viewManager.addView(loginScreen);
-            viewManager.addView(mainScreen);
-            viewManager.addView(gameScreen);
-            viewManager.addView(signupScreen);
-            viewManager.addView(lobbiesScreen);
-            viewManager.addView(lobbyScreen);
+
+            /**
+             * Setting ViewManager
+             * */
+            this.viewManager = new ViewManager();
+
+            /**
+             * Define models and collections
+             * */
+            var user = new UserModel();
+            var lobby = new CurrentLobby();
+            var scores = new ScoreCollection();
+            var lobbies = new LobbiesCollection();
+            var player = new PlayerModel();
+            var players = new PlayerCollection();
+            var game = new GameModel();
+
+            /**
+             * Define views
+             * */
+            this.main = new MainScreen(user);
+            this.login = new LoginScreen(user);
+            this.signup = new SignupScreen(user);
+            this.scoreboard = new ScoreboardScreen(scores);
+            this.lobbies = new LobbiesScreen(user, lobbies, lobby);
+            this.lobby = new LobbyScreen(user, lobby);
+            this.game = new GameScreen(user, player, players, game);
+
+            /**
+             * Passing views to manager
+             * */
+            this.viewManager.addView(this.main);
+            this.viewManager.addView(this.login);
+            this.viewManager.addView(this.signup);
+            this.viewManager.addView(this.scoreboard);
+            this.viewManager.addView(this.lobbies);
+            this.viewManager.addView(this.lobby);
+            this.viewManager.addView(this.game);
+
+
+            /**
+             * Setting WebSocket
+             * */
+            this.websocket = new WebSocket(user, lobbies, lobby, player, players, game);
+
+
         },
         defaultActions: function () {
-            mainScreen.show();
+            this.main.show();
         },
         scoreboardAction: function () {
-            scoreboardScreen.show();
+            this.scoreboard.show();
         },
         gameAction: function () {
-
-            gameScreen.show();
+            this.game.show();
         },
         loginAction: function () {
-            loginScreen.show();
+            this.login.show();
         },
         signupAction: function () {
-            signupScreen.show();
+            this.signup.show();
         },
         lobbiesAction: function() {
-            lobbiesScreen.show();
+            this.lobbies.show();
         },
         lobbyAction: function() {
-            lobbyScreen.show();
+            this.lobby.show();
         }
     });
 

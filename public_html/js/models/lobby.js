@@ -4,7 +4,7 @@ define([
     Backbone
 ) {
 
-    return Backbone.Model.extend({
+    var Model = Backbone.Model.extend({
 
         defaults: {
             name: 'Default Lobby',
@@ -13,5 +13,7 @@ define([
             count: 0
         }
     });
+
+    return Model;
 
 });

@@ -1,57 +1,55 @@
 define([
     'backbone',
-    'tmpl/main',
-    'models/user'
+    'tmpl/main'
 ], function(
     Backbone,
-    tmpl,
-    userModel
+    tmpl
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-
         events: {
             "click #js-logout": "logout"
         },
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.render();
+        initialize: function (userModel) {
 
+            /**
+             * Setting models
+             * */
+            this.user = userModel;
+
+            /**
+             *Setting Listeners
+             * */
             this.listenTo(this.user, this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function(){
                 this.render();
-                Backbone.history.navigate('#', {trigger: true});
+                Backbone.history.navigate('#', true);
             });
-
             this.listenTo(this.user, this.user.logoutEvent, this.render);
 
+            this.render();
         },
+
         render: function () {
             this.$el.html(this.template);
-
 
             if (this.user.get('logged_in')) {
                 this.$('#js-login').hide();
                 this.$('#js-signup').hide();
-                this.$('#js-play').show();
-                this.$('#js-logout').show();
             }
             else {
                 this.$('#js-logout').hide();
-                this.$('#js-login').show();
-                this.$('#js-signup').show();
                 this.$('#js-play').hide();
             }
-
-            return this;
         },
+
         show: function () {
             this.$el.show();
             this.trigger("show", this);
         },
+
         hide: function () {
             this.$el.hide();
         },
@@ -62,5 +60,5 @@ define([
 
     });
 
-    return new View();
+    return View;
 });

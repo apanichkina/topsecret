@@ -1,30 +1,26 @@
 define([
     'backbone',
-    'tmpl/game',
-    'models/user',
-    'models/player',
-    'collections/players',
-    'models/game'
-], function (Backbone,
-             tmpl,
-             userModel,
-             player,
-             players,
-             gameModel
+    'tmpl/game'
+], function (
+    Backbone,
+    tmpl
 )
 {
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-        player: new player(),
-        players: players,
-        game: gameModel,
 
-        initialize: function () {
+        initialize: function (userModel, playerModel, playersCollection, gameModel) {
 
-            $('#page').append(this.el);
+            /**
+             * Setting Models
+             * */
+            this.user = userModel;
+            this.player = playerModel;
+            this.players = playersCollection;
+            this.game = gameModel;
+
             this.game.fetch();
             console.log(this.game.attributes);
             this.listenTo(this.game, "changed", this.render);
@@ -322,5 +318,5 @@ define([
         }
     });
 
-    return new View();
+    return View;
 });

@@ -8,7 +8,12 @@ define(['backbone'], function(Backbone) {
 
     var Manager = Backbone.View.extend({
 
+        el: '#page',
+
         addView: function(currentView) {
+
+            this.$el.append(currentView.el);
+
             views.push(currentView);
             this.listenTo(currentView, "show", function() {
                 views.forEach( function(view) {
@@ -20,5 +25,5 @@ define(['backbone'], function(Backbone) {
 
     });
 
-    return new Manager();
+    return Manager;
 });
