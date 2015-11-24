@@ -43,16 +43,14 @@ define([
             });
 
             this.listenTo(this.user, this.user.click, function () {
-                if(!this.ws) return;
+                if(!this.ws) return;this.lobby.init();
                 var code = this.user.get('clickCode');
                 this.ws.send(JSON.stringify({code: code}));
             });
-
-            this.lobby.init();
         },
 
         render: function() {
-            this.ws = new WebSocket("ws://localhost:8083/game/");
+            this.ws = new WebSocket("ws://"+window.location.host+"/game/");
 
             var self = this;
             this.ws.onmessage = function (event) {

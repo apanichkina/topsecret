@@ -5,9 +5,9 @@ define([
 ) {
 
     var methodMap = {
-        create: 'POST',
-        read: 'POST',
-        delete: 'POST'
+        'create': 'POST',
+        'read': 'POST',
+        'delete': 'POST'
     };
 
     var urlMap  = {
