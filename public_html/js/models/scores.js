@@ -17,5 +17,6 @@ define([
             name:'',
             score:0
         }
+
     });
 });

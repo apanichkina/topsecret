@@ -36,7 +36,6 @@ define([
                 score = this.storage.getItem(name);
                 this.add({name: name, score: score});
             }
-            alert(this.storage.length);
             this.trigger(this.changed);
 
         },
