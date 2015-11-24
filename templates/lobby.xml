@@ -1,4 +1,13 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="lobbies">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="context">
     <div class="lobby-box">
+        <div class="lobby-box__header"><fest:value>context.name</fest:value></div>
+        <div>
+            <table class="current-lobby-table">
+                <tr>
+                    <td>TEAM RED</td>
+                    <td>TEAM BLUE</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </fest:template>

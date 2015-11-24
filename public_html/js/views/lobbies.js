@@ -2,12 +2,14 @@ define([
     'backbone',
     'tmpl/lobbies',
     'models/user',
-    'collections/lobbies'
+    'collections/lobbies',
+    'models/currentLobby'
 ], function (
     Backbone,
     tmpl,
     userModel,
-    lobbyCollection
+    lobbyCollection,
+    currentLobby
 ) {
 
     var View = Backbone.View.extend({
@@ -15,6 +17,7 @@ define([
         template: tmpl,
         user: userModel,
         lobbies: lobbyCollection,
+        lobby: currentLobby,
 
         events: {
             "submit": 'createLobby'
@@ -48,12 +51,11 @@ define([
                 self.$('.lobby-box').show();
             });
 
-
-
         },
 
         joinLobby: function(lobbyName){
             this.user.set('inLobby', lobbyName);
+            this.lobby.set('name', lobbyName);
             this.user.trigger(this.user.joinedLobby);
         },
         

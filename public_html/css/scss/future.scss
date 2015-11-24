@@ -220,6 +220,14 @@ html {
 
 }
 
+.current-lobby-table{
+  @extend .lobby-table;
+  table-layout: fixed;
+  & td{
+    width: 50%;
+  }
+}
+
 .scoreboard {
   width: 50%;
   min-width: 400px;

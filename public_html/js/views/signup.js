@@ -15,7 +15,6 @@ define([
 
         events: {
             "click .user-form__submit": "send",
-            "enter": "send"
         },
 
         initialize: function () {

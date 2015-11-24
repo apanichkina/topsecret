@@ -1,23 +1,28 @@
 define([
     'backbone',
     'tmpl/lobby',
-    'models/user'
+    'models/user',
+    'models/currentLobby'
 ], function(
     Backbone,
     tmpl,
-    userModel
+    userModel,
+    currentLobby
 ){
     var View = Backbone.View.extend({
 
         template: tmpl,
         user: userModel,
+        lobby: currentLobby,
 
         initialize: function () {
             $('#page').append(this.el);
-            this.render();
+            this.listenTo(this.lobby, this.lobby.changed, this.render);
         },
+
         render: function () {
-            this.$el.html(this.template);
+            console.log('CAUGHT');
+            this.$el.html(this.template(this.lobby.toJSON()));
         },
 
         show: function () {

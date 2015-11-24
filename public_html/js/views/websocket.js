@@ -3,19 +3,22 @@ define([
     'collections/lobbies',
     'models/user',
     'collections/players',
-    'models/player'
+    'models/player',
+    'models/currentLobby'
 
 ], function(
     Backbone,
     lobbyCollection,
     userModel,
     players,
-    player
+    player,
+    currentLobby
 ){
 
     var View = Backbone.View.extend({
 
         lobbies: lobbyCollection,
+        lobby: currentLobby,
         user: userModel,
         players: players,
         player:  player,
@@ -23,6 +26,8 @@ define([
         initialize: function() {
             $('#page').append(this.el);
             this.listenTo(this.user, this.user.loginCompleteEvent+" "+this.user.signupCompleteEvent, this.render);
+
+            this.lobby.init();
 
             //TODO ASK (3 TIMES RENDER - 3 TIMES LISTENER)
 
@@ -66,14 +71,22 @@ define([
                         self.lobbies.trigger(self.lobbies.changed);
                         break;
                     case 2:
-                        self.user.set('inLobby', self.user.get('createdLobby'));
+                        console.log(msg);
+                        self.user.set('inLobby', msg.name);
+                        self.lobby.set('name', msg.name);
+                        self.lobby.trigger(self.lobby.lobbyChanged);
+                        Backbone.history.navigate('#lobby', {trigger: true});
                         break;
                     case 3:
                         alert(JSON.stringify(msg));
                         break;
                     case 4: //joinLobby
-                        console.log(self.user);
+                        console.log(msg);
                         Backbone.history.navigate('#lobby', {trigger: true});
+                        break;
+                    case 7: //user joins lobby
+                        console.log(msg);
+                        self.lobby.addPlayer(msg.user, msg.team);
                         break;
                     case 8:
                         if (!self.isStarted) {
@@ -132,6 +145,8 @@ define([
 
             this.ws.onclose = function (event) {
                 console.log("closed");
+                alert('WEBSOCKET CLOSED :C');
+                Backbone.history.navigate('#', {trigger: true});
             };
             this.ws.onerror = function (event) {
                 console.log("OMGWTFERROR!!!");

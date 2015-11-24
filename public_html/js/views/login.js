@@ -13,7 +13,7 @@ define([
         user: userModel,
 
         events: {
-            submit: "send",
+            submit: "send"
         },
 
         initialize: function () {

@@ -135,7 +135,7 @@ html {
   .new-lobby-box__input {
     width: 100%; }
 
-.lobby-table {
+.lobby-table, .current-lobby-table {
   border: 0;
   width: 100%;
   text-align: center;
@@ -150,9 +150,14 @@ html {
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
   .lobby-table__name {
     word-break: break-all; }
-  .lobby-table thead th {
+  .lobby-table thead th, .current-lobby-table thead th {
     border-bottom: 2px white dashed;
     width: 10em; }
+
+.current-lobby-table {
+  table-layout: fixed; }
+  .current-lobby-table td {
+    width: 50%; }
 
 .scoreboard {
   width: 50%;

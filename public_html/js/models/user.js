@@ -17,8 +17,11 @@ define([
         logoutEvent: 'logoutEvent',
         loginFailedEvent: 'loginFailedEvent',
         joinedLobby: 'joinedLobby',
+        lobbyChanged: 'lobbyChanged',
         createdLobby: 'createdLobby',
         click: "clickCode",
+
+        idAttribute: 'name',
 
         loginSuccess: function (data) {
             this.clear();
@@ -42,8 +45,6 @@ define([
             this.set({
                 'email': data.response.email,
                 'name': data.response.name,
-                //TODO: GET FROM SERVER
-                'id': 1,
                 'logged_in': true
             });
             this.trigger(this.signupCompleteEvent);
