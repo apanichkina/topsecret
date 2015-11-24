@@ -14,6 +14,5 @@ define([
         model: Player,
         changed: 'playersChanged'
     });
-    //return new Collection([{x:300, y:300, radius: 10, type:"ball"}],false);
     return new Collection();
 });

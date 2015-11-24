@@ -3,12 +3,15 @@ define([
     'tmpl/game',
     'models/user',
     'models/player',
-    'collections/players'
+    'collections/players',
+    'models/game'
 ], function (Backbone,
              tmpl,
              userModel,
              player,
-             players)
+             players,
+             gameModel
+)
 {
 
     var View = Backbone.View.extend({
@@ -17,11 +20,16 @@ define([
         user: userModel,
         player: new player(),
         players: players,
+        game: gameModel,
 
         initialize: function () {
+
             $('#page').append(this.el);
-            this.render();
+            this.game.fetch();
+            console.log(this.game.attributes);
+            this.listenTo(this.game, "changed", this.render);
         },
+
         render: function () {
             this.$el.html(this.template);
 
@@ -35,10 +43,25 @@ define([
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
+
+            /*
+            this.timercanvas = document.getElementById('gameTimer');
+            this.timercontext = this.timercanvas.getContext('2d');
+            this.timercanvas.width = 200;
+            this.timercanvas.height = 50;
+            this.timercontext.font = '40pt Calibri';
+            this.timercontext.fillStyle = "red";
+            this.timercontext.fillText("hello", 0, 0);
+            */
+
+
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-            this.fieldW = 1397;
-            this.fieldH = 953;
+
+            this.fieldW = this.game.get("fieldWidth");
+            this.fieldH = this.game.get("fieldHeight");
+
+            this.gameTime = this.game.get("ballRadius");
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -52,9 +75,9 @@ define([
             this.imageObjHead2 = new Image();
             this.imageObjHead2.src = "../../img/head2.png";
 
-            this.maxBallSpeed = 3;
+            this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
-            this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:10,type:"ball"}]);
+            this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
            //хардкод из-за отсутсвия серверной части
             this.team = [0,1];
             this.teamColors = ["ball","yellow","yellow","blue","blue"];
@@ -63,9 +86,13 @@ define([
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
             this.resizeCanvas();
-            this.animate();
+            //this.animate();
+
+
         },
         show: function () {
+            console.log(this.game.attributes);
+            this.animate();
             this.$el.show();
             this.trigger("show", this);
         },
@@ -176,7 +203,7 @@ define([
                 if (this.players.at(j).get("Vx") == 0 && this.players.at(j).get("Vy") == 0) { //игрок изначально стоял
                     this.players.at(i).set({Vx: - this.players.at(i).get("Vx"),Vy: - this.players.at(i).get("Vy")});
                 }
-                else { //игрок бежали и тогда мячик принимает скорость игрока, а игрок останавливается
+                else {
                     var delta = -this.players.at(i).get("Vx") + this.players.at(j).get("Vx");
                     if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
                     else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;

@@ -4,7 +4,8 @@ define([
     'models/user',
     'collections/players',
     'models/player',
-    'models/currentLobby'
+    'models/currentLobby',
+    'models/game'
 
 ], function(
     Backbone,
@@ -12,7 +13,8 @@ define([
     userModel,
     players,
     player,
-    currentLobby
+    currentLobby,
+    gameModel
 ){
 
     var View = Backbone.View.extend({
@@ -21,15 +23,12 @@ define([
         lobby: currentLobby,
         user: userModel,
         players: players,
-        player:  player,
+        player: player,
+        game: gameModel,
 
-        initialize: function() {
+        initialize: function () {
             $('#page').append(this.el);
-            this.listenTo(this.user, this.user.loginCompleteEvent+" "+this.user.signupCompleteEvent, this.render);
-
-            this.lobby.init();
-
-            //TODO ASK (3 TIMES RENDER - 3 TIMES LISTENER)
+            this.listenTo(this.user, this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, this.render);
 
             this.listenTo(this.user, this.user.joinedLobby, function () {
                 if(!this.ws) return;
@@ -37,7 +36,6 @@ define([
                 this.ws.send(JSON.stringify({code: 2, lobby: lobbyName}));
                 alert("i joined " + lobbyName);
             });
-
             this.listenTo(this.user, this.user.createdLobby, function () {
                 if(!this.ws) return;
                 var lobbyName = this.user.get('createdLobby');
@@ -49,17 +47,20 @@ define([
                 var code = this.user.get('clickCode');
                 this.ws.send(JSON.stringify({code: code}));
             });
+
+            this.lobby.init();
         },
 
         render: function() {
-            this.ws = new WebSocket("ws://127.0.0.1:8083/game/");
-            var self = this;
+            this.ws = new WebSocket("ws://localhost:8083/game/");
 
+            var self = this;
             this.ws.onmessage = function (event) {
                 var msg = JSON.parse(event.data);
                 var code = msg.code;
                 switch (code) {
                     case 0:
+                        alert(JSON.stringify(msg));
                         self.lobbies.set(msg.lobbies);
                         self.lobbies.trigger(self.lobbies.changed);
                         break;
@@ -96,6 +97,7 @@ define([
                             for (var i = 1; i < playersCount; i++) {
                                 self.players.add([{
                                     id: i,
+                                    radius: self.game.get("playersRadius"),
                                     x: ballses[i].x.valueOf(),
                                     y: ballses[i].y.valueOf(),
                                     isMyPlayer: i - 1,
@@ -115,6 +117,7 @@ define([
                             for (var i = 1; i < playersCount; i++) {
                                 self.players.add([{
                                     id: i,
+                                    radius: self.game.get("playersRadius"),
                                     x: ballses[i].x.valueOf(),
                                     y: ballses[i].y.valueOf(),
                                     isMyPlayer: i - 1,
@@ -140,6 +143,15 @@ define([
             };
 
             this.ws.onopen = function () {
+                var msg = {
+                    code: 2,
+                    lobby: "test"
+                };
+                this.send(JSON.stringify(msg));
+                msg = {
+                    code: 3
+                };
+                this.send(JSON.stringify(msg));
                 console.log("open");
             };
 

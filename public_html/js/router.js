@@ -52,6 +52,7 @@ define([
             scoreboardScreen.show();
         },
         gameAction: function () {
+
             gameScreen.show();
         },
         loginAction: function () {

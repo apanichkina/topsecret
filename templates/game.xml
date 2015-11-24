@@ -3,6 +3,7 @@
         <header class="game__header">
             <span>
                 <a class="game__header_left game__header__text">TIME: 021</a>
+                <!-- <canvas id="gameTimer" class="game__header_left game__header__text"></canvas>-->
             </span>
             <span>
                 <a class="game__header_center game__header__text">Yellow 0 : 1 Blue</a>

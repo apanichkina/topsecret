@@ -9,9 +9,9 @@ define([
 
     var Model = Backbone.Model.extend({
         defaults: {
-            x: 0,
-            y: 0,
-            radius: 20,
+            x: 100,
+            y: 100,
+            radius: 5,
             Vx: 0,
             Vy: 0,
             type: "human",
