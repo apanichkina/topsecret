@@ -14,6 +14,7 @@ define([
         signupCompleteEvent: 'signupCompleteEvent',
         signupFailedEvent: 'signupFailedEvent',
         loginCompleteEvent: 'loginCompleteEvent',
+        logoutEvent: 'logoutEvent',
         loginFailedEvent: 'loginFailedEvent',
         joinedLobby: 'joinedLobby',
         createdLobby: 'createdLobby',
@@ -23,6 +24,7 @@ define([
             this.clear();
             this.set({
                 'email': data.response.email,
+                'id': 1,
                 'name': data.response.name,
                 'logged_in': true
             });
@@ -40,6 +42,8 @@ define([
             this.set({
                 'email': data.response.email,
                 'name': data.response.name,
+                //TODO: GET FROM SERVER
+                'id': 1,
                 'logged_in': true
             });
             this.trigger(this.signupCompleteEvent);
@@ -49,6 +53,11 @@ define([
             this.clear();
             this.set('error', data.response.description);
             this.trigger(this.signupFailedEvent);
+        },
+
+        logOut: function() {
+            this.clear();
+            this.trigger(this.logoutEvent);
         }
 
     });

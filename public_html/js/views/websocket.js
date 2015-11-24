@@ -23,26 +23,31 @@ define([
         initialize: function() {
             $('#page').append(this.el);
             this.listenTo(this.user, this.user.loginCompleteEvent+" "+this.user.signupCompleteEvent, this.render);
-        },
 
-        render: function() {
-            this.ws = new WebSocket("ws://localhost:8083/game/");
+            //TODO ASK (3 TIMES RENDER - 3 TIMES LISTENER)
 
             this.listenTo(this.user, this.user.joinedLobby, function () {
+                if(!this.ws) return;
                 var lobbyName = this.user.get('inLobby');
                 this.ws.send(JSON.stringify({code: 2, lobby: lobbyName}));
                 alert("i joined " + lobbyName);
             });
+
             this.listenTo(this.user, this.user.createdLobby, function () {
+                if(!this.ws) return;
                 var lobbyName = this.user.get('createdLobby');
                 this.ws.send(JSON.stringify({code: 1, name: lobbyName}));
             });
 
             this.listenTo(this.user, this.user.click, function () {
+                if(!this.ws) return;
                 var code = this.user.get('clickCode');
                 this.ws.send(JSON.stringify({code: code}));
             });
+        },
 
+        render: function() {
+            this.ws = new WebSocket("ws://127.0.0.1:8083/game/");
             var self = this;
 
             this.ws.onmessage = function (event) {
@@ -68,7 +73,7 @@ define([
                         break;
                     case 4: //joinLobby
                         console.log(self.user);
-                        alert(JSON.stringify(msg));
+                        Backbone.history.navigate('#lobby', {trigger: true});
                         break;
                     case 8:
                         if (!self.isStarted) {
@@ -122,15 +127,6 @@ define([
             };
 
             this.ws.onopen = function () {
-                var msg = {
-                    code: 2,
-                    lobby: "test"
-                };
-                this.send(JSON.stringify(msg));
-                msg = {
-                    code: 3
-                };
-                this.send(JSON.stringify(msg));
                 console.log("open");
             };
 

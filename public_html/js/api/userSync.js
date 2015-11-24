@@ -5,13 +5,15 @@ define([
 ) {
 
     var methodMap = {
-        'create': 'POST',
-        'read': 'POST'
+        create: 'POST',
+        read: 'POST',
+        delete: 'POST'
     };
 
     var urlMap  = {
         'login': '/api/v1/auth/signin/',
-        'signup': '/api/v1/auth/signup/'
+        'signup': '/api/v1/auth/signup/',
+        'logout': '/api/v1/auth/logout/'
     };
 
     return function(method, model, options) {
@@ -50,6 +52,17 @@ define([
             params.error = function (data) {
                 model.loginFailed(data);
             }
+        }
+
+        if(method === 'delete') {
+            params.url = urlMap['logout'];
+            params.success = function(data){
+                model.logOut();
+            };
+            params.error = function(data){
+                //TODO ??
+            }
+
         }
 
         return Backbone.ajax(params);

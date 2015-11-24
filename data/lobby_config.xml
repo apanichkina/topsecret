@@ -1,10 +1,10 @@
-<class type="resourceSystem.LobbyConfig">
+<class type="resourceSystem.resourceObjects.LobbyConfig">
     <teams>2</teams>
     <members>2</members>
     <fieldWidth>1397</fieldWidth>
     <fieldHeight>953</fieldHeight>
     <ballRadius>10</ballRadius>
     <playerRadius>20</playerRadius>
-    <maxSpeed>5</maxSpeed>
-    <gameTime>1000</gameTime>
+    <maxSpeed>3</maxSpeed>
+    <gameTime>10</gameTime>
 </class>

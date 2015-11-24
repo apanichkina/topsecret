@@ -20,10 +20,13 @@ define([
         initialize: function () {
             $('#page').append(this.el);
             this.render();
+
             this.listenTo(this.user, this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function(){
                 this.render();
-                Backbone.history.navigate('', {trigger: true});
+                Backbone.history.navigate('#', {trigger: true});
             });
+
+            this.listenTo(this.user, this.user.logoutEvent, this.render);
 
         },
         render: function () {
@@ -54,8 +57,7 @@ define([
         },
 
         logout: function () {
-            this.user.clear();
-            this.render();
+            this.user.destroy();
         }
 
     });

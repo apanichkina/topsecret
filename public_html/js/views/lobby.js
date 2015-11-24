@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'tmpl/lobbies',
+    'tmpl/lobby',
     'models/user'
 ], function(
     Backbone,
@@ -22,7 +22,7 @@ define([
 
         show: function () {
 
-            if(this.user.get('logged_in')){
+            if(!this.user.get('logged_in')){
                 Backbone.history.navigate('#', {trigger: true});
                 return;
             }
