@@ -18,12 +18,18 @@ define([
         model: Score,
 
         changed: 'changedEvent',
+        //TODO контроллер для работы с LS
+        //TODO сильно криво я сделала?
         storage: window.localStorage,
         setScores: function(data) {
-            this.set(data.users);
-            for (var i=0; i<data.users.length; ++i){
-                this.storage.setItem(data.users[i].name, data.users[i].score) ;
+            this.set(data.models[0].attributes.users);
+            console.log(data);
+            this.storage.clear();
+            var length = data.length;
+            for (var i = 0; i < length; ++i){
+                this.storage.setItem(data.models[i].attributes.name,data.models[i].attributes.score);
             }
+            console.log(this.storage);
             this.trigger(this.changed);
         },
 
@@ -31,13 +37,13 @@ define([
             var name;
             var score;
             this.reset();
-            for (var i=0; i < this.storage.length; ++i){
+            var length = this.storage.length;
+            for (var i = 0; i < length; ++i){
                 name = this.storage.key(i);
                 score = this.storage.getItem(name);
                 this.add({name: name, score: score});
             }
             this.trigger(this.changed);
-
         },
 
         comparator: function(atribute) {
@@ -48,6 +54,7 @@ define([
                 return model.toJSON();
             })
         }
+
     });
 
     return Collection;

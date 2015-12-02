@@ -197,7 +197,9 @@ html {
     border-radius: 10px;
     text-align: center; }
     .game__header_left {
-      float: left; }
+      float: left;
+      left: 10px;
+      padding: 0 14px; }
     .game__header_right {
       right: 10px;
       padding: 0 14px;

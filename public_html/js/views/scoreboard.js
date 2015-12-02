@@ -23,10 +23,19 @@ define([
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.collection.firstN(10)));
+            this.$el.html(this.template(this.collection.toJSON()));
         },
         show: function () {
-            this.collection.fetch();
+            var self = this;
+            this.collection.fetch({
+                success: function(data) {
+                    self.collection.setScores(data);
+                },
+                error: function() {
+                    console.log("errAnn");
+                    self.collection.setFromLocalStorage();
+                }
+            });
             this.$el.show();
             this.trigger("show", this);
         },

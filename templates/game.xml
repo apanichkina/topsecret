@@ -2,11 +2,12 @@
     <div class="game">
         <header class="game__header">
             <span>
-                <a class="game__header_left game__header__text">TIME: 021</a>
-                <!-- <canvas id="gameTimer" class="game__header_left game__header__text"></canvas>-->
+                <!--<a class="game__header_left game__header__text">TIME: 021</a>-->
+                 <canvas id="gameTimer" class="game__header_left"></canvas>
             </span>
             <span>
-                <a class="game__header_center game__header__text">Yellow 0 : 1 Blue</a>
+                <!--<a class="game__header_center game__header__text">Yellow 0 : 1 Blue</a>-->
+                <canvas id="gameScore" class="game__header_center"></canvas>
             </span>
             <span>
                 <div class="game__header_right">

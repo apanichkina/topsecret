@@ -22,10 +22,29 @@ define([
             this.game = gameModel;
 
             this.game.fetch();
-            console.log(this.game.attributes);
+            //console.log(this.game.attributes);
             this.listenTo(this.game, "changed", this.render);
+            /*
+            this.game.on('change', this.wait);
+            this.user.on('change', this.wait);
+            */
         },
+        /*
+        _waitModel: {
+          game: false,
+            user: false
+        },
+        wait: function (evt, model) {
+            if (model === this.game) {
+                _waitModel.game = true;
+            } else if (model === this.user) {
+                _waitModel.game = true;
+            }
 
+            if (_waitModel.game && _waitModel.user) {
+                this.render();
+            }
+        },*/
         render: function () {
             this.$el.html(this.template);
 
@@ -40,16 +59,17 @@ define([
                     };
             })();
 
-            /*
+
             this.timercanvas = document.getElementById('gameTimer');
             this.timercontext = this.timercanvas.getContext('2d');
-            this.timercanvas.width = 200;
-            this.timercanvas.height = 50;
-            this.timercontext.font = '40pt Calibri';
-            this.timercontext.fillStyle = "red";
-            this.timercontext.fillText("hello", 0, 0);
-            */
-
+            // TODO Заглушки
+            this.counter = 0;
+            this.time = 300;
+            this.score1 = 1;
+            this.score2 = 2;
+            ///////
+            this.scorecanvas = document.getElementById('gameScore');
+            this.scorecontext = this.scorecanvas.getContext('2d');
 
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
@@ -61,6 +81,9 @@ define([
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
+
+            this.imageObjTablo = new Image();
+            this.imageObjTablo.src = "../../img/tablo.png";
 
             this.imageObjBall = new Image();
             this.imageObjBall.src = "../../img/ball.jpg";
@@ -74,11 +97,11 @@ define([
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
             this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
-           //хардкод из-за отсутсвия серверной части
+           //TODO Заглушки
             this.team = [0,1];
             this.teamColors = ["ball","yellow","yellow","blue","blue"];
             this.whoIs = [0,1,0,0,0];
-
+            ////
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
             this.resizeCanvas();
@@ -107,6 +130,12 @@ define([
             this.canvas.width = width;
             this.canvas.height = height;
             this.container = {x: 0, y: 0, width: width, height: height};
+            this.timercanvas.width = 100;
+            this.timercanvas.height = 20;
+            this.timercontainer = {x: 0, y: 0, width: this.timercanvas.width / 10, height: this.timercanvas.height / 10};
+            this.scorecanvas.width = 300;
+            this.scorecanvas.height = 20;
+            this.scorecontainer = {x: 0, y: 0, width: this.scorecanvas.width / 10, height: this.scorecanvas.height / 10};
         },
         addPlayers: function (ballses) {
             var playersCount = ballses.length;
@@ -134,9 +163,28 @@ define([
             var imageObj = this.imageObj;
             this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
+
+        onloadTablo: function (container, context) {
+           // var container = this.timercontainer;
+            var imageObj = this.imageObjTablo;
+            context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+        },
+
+
         animate: function () {
             this.resizeCanvas();
             this.context.fillStyle = this.onload();
+            this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
+            this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
+            this.counter = this.counter + 1;
+            if ( this.counter == 60 ) {
+                this.time = this.time - 1;
+                this.counter = 0;
+                this.score1 = this.score1 + 2;
+                this.score2 = this.score2 + this.score1;
+            }
+
+
             var gameSpritesCount = this.players.length;
             for (var i = 0; i < gameSpritesCount; i++) {
                 var sprite = this.players.at(i);
@@ -151,7 +199,8 @@ define([
                     isMyPlayer: sprite.get("isMyPlayer"),
                     team: sprite.get("team")
                 };
-                this.drawArc(myArc, this.context);
+                this.drawArc(myArc, this.context, this.timercontext, this.scorecontext);
+
                 sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
 
                 //Временно не используется
@@ -254,7 +303,7 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        drawArc: function (myArc, context) {
+        drawArc: function (myArc, context, timercontext, scorecontext) {
             var img;
             context.save();
             context.beginPath();
@@ -294,6 +343,19 @@ define([
                 context.fill();
             }
             context.restore();
+            timercontext.beginPath();
+            timercontext.font = '20px led-digital-7';
+            timercontext.fillStyle = "white";
+            timercontext.fill();
+            timercontext.fillText("Time "+ this.time, 0,  15);
+
+            scorecontext.beginPath();
+            scorecontext.font = '20px led-digital-7';
+            scorecontext.fillStyle = "white";
+            scorecontext.fill();
+            scorecontext.fillText("Red "+ this.score1 + " : " + this.score2 + " Black", 0,  15);
+
+
 
         },
 

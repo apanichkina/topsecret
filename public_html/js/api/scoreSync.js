@@ -18,9 +18,14 @@ define([
         var params = {type: methodMap[method]};
         params.dataType = 'json';
         params.contentType = 'application/json';
-
         params.url = urlMap['status'];
-        params.success = function (data) {
+        /*
+        if (options.data == null ) {
+            params.contentType = 'application/json';
+            params.data = JSON.stringify(options.attrs || collection.toJSON(options));
+        }
+        */
+        /*params.success = function (data) {
             collection.setScores(data);
         };
 
@@ -29,8 +34,9 @@ define([
                 collection.setFromLocalStorage();
 
         };
+        */
 
-        return Backbone.ajax(params);
+        return Backbone.ajax(_.extend(params, options));
 
     }
 
