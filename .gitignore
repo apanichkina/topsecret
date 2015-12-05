@@ -1,4 +1,4 @@
-cfg
+cfg/server.properties
 node_modules
 .DS_Store
 ._.DS_Store
