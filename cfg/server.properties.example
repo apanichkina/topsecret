@@ -1,0 +1,10 @@
+Create file "server.properties" in this diectory and fill it with params:
+
+#################
+port = 8083
+DB_user = root
+DB_pass = 12345
+DB_ip = 127.0.0.1
+DB_port = 3306
+DB_name = Name
+#################

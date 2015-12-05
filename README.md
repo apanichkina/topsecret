@@ -15,3 +15,5 @@ $ npm install
 $ grunt
 ```
 
+Create "server.properties" in "cfg" directory
+
