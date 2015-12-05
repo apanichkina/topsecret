@@ -226,6 +226,15 @@ html {
   & td{
     width: 50%;
   }
+  &__td{
+    &_red{
+      color: red;
+    }
+    &_blue{
+      color: blue;
+    }
+  }
+
 }
 
 .scoreboard {

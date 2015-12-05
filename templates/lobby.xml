@@ -4,8 +4,8 @@
         <div>
             <table class="current-lobby-table">
                 <tr>
-                    <td>TEAM RED</td>
-                    <td>TEAM BLUE</td>
+                    <td class="current-lobby-table__td_red">TEAM RED</td>
+                    <td class="current-lobby-table__td_blue">TEAM BLUE</td>
                 </tr>
                 <tr>
                     <td><fest:value>context.team['0'][0]</fest:value></td>

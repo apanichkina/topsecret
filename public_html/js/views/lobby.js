@@ -19,7 +19,6 @@ define([
 
         render: function () {
             console.log('CAUGHT');
-            console.log(this.lobby.toJSON());
             this.$el.html(this.template(this.lobby.toJSON()));
         },
 

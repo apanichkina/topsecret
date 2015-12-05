@@ -6,8 +6,6 @@ define([
 
      var Model = Backbone.Model.extend({
 
-         lobbyChanged: 'lobbyChanged',
-
          initialize: function() {
              this.set({
                  team:{

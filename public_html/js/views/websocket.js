@@ -102,12 +102,10 @@ define([
                     alert(JSON.stringify(msg));
                     break;
                 case 4: //joinLobby
-                    console.log('USERS???');
-                    console.log(msg);
+                    self.lobby.set({ team: msg.users });
                     Backbone.history.navigate('#lobby', true);
                     break;
                 case 7: //user joins lobby
-                    console.log(msg);
                     self.lobby.addPlayer(msg.user, msg.team);
                     break;
                 case 8:
