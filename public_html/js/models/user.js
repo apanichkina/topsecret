@@ -11,17 +11,34 @@ define([
         url: "/",
         sync: userSync,
 
-        signupCompleteEvent: 'signupCompleteEvent',
+        /**
+         * User events
+         */
+        USER_SIGN_UP_SUCCESS: 'signupCompleteEvent',
         signupFailedEvent: 'signupFailedEvent',
-        loginCompleteEvent: 'loginCompleteEvent',
+        USER_LOGIN_SUCCESS: 'loginCompleteEvent',
         logoutEvent: 'logoutEvent',
         loginFailedEvent: 'loginFailedEvent',
-        joinedLobby: 'joinedLobby',
+
         lobbyChanged: 'lobbyChanged',
         createdLobby: 'createdLobby',
         click: "clickCode",
 
         //idAttribute: 'name',
+
+        initialize: function() {
+            var storage = window.localStorage;
+            var list = function listCookies() {
+                var theCookies = document.cookie.split(';');
+                var aString = '';
+                for (var i = 1 ; i <= theCookies.length; i++) {
+                    aString += i + ' ' + theCookies[i-1] + "\n";
+                }
+                return aString;
+            };
+            var cookies = list();
+            console.log(cookies);
+        },
 
         loginSuccess: function (data) {
             this.clear();
@@ -31,7 +48,7 @@ define([
                 'id': 1,
                 'logged_in': true
             });
-            this.trigger(this.loginCompleteEvent);
+            this.trigger(this.USER_LOGIN_SUCCESS);
         },
 
         loginFailed: function (data) {
@@ -46,9 +63,9 @@ define([
                 'email': data.response.email,
                 'name': data.response.name,
                 'logged_in': true,
-                'id': 1,
+                'id': 1
             });
-            this.trigger(this.signupCompleteEvent);
+            this.trigger(this.USER_SIGN_UP_SUCCESS);
         },
 
         signupFailed: function (data) {

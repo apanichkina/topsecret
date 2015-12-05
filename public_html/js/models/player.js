@@ -8,6 +8,14 @@ define([
 ){
 
     var Model = Backbone.Model.extend({
+
+        /**
+         * Player events
+         */
+        JOINED_LOBBY: 'joinedLobby',
+        CREATED_LOBBY: 'createdLobby',
+
+
         defaults: {
             x: 100,
             y: 100,

@@ -16,14 +16,8 @@ define([
             this.player = playerModel;
             this.game = gameModel;
 
-            this.listenTo(this.user, this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, this.render);
+            this.listenTo(this.user, this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, this.connect);
 
-            this.listenTo(this.user, this.user.joinedLobby, function () {
-                if(!this.ws) return;
-                var lobbyName = this.user.get('inLobby');
-                this.ws.send(JSON.stringify({code: 2, lobby: lobbyName}));
-                alert("i joined " + lobbyName);
-            });
             this.listenTo(this.user, this.user.createdLobby, function () {
                 if(!this.ws) return;
                 var lobbyName = this.user.get('createdLobby');
@@ -37,112 +31,137 @@ define([
             });
         },
 
-        render: function() {
-            this.ws = new WebSocket("ws://"+window.location.host+"/game/");
-
+        connect: function() {
             var self = this;
-            this.ws.onmessage = function (event) {
-                var msg = JSON.parse(event.data);
-                var code = msg.code;
-                switch (code) {
-                    case 0:
-                        alert(JSON.stringify(msg));
-                        self.lobbies.set(msg.lobbies);
-                        self.lobbies.trigger(self.lobbies.changed);
-                        break;
-                    case 1:
-                        alert(JSON.stringify(msg));
-                        //TODO OLEG!
-                        delete msg.code;
-                        self.lobbies.add(msg);
-                        self.lobbies.trigger(self.lobbies.changed);
-                        break;
-                    case 2:
-                        console.log(msg);
-                        self.user.set('inLobby', msg.name);
-                        self.lobby.set('name', msg.name);
-                        self.lobby.trigger(self.lobby.lobbyChanged);
-                        Backbone.history.navigate('#lobby', true);
-                        break;
-                    case 3:
-                        alert(JSON.stringify(msg));
-                        break;
-                    case 4: //joinLobby
-                        console.log(msg);
-                        Backbone.history.navigate('#lobby', true);
-                        break;
-                    case 7: //user joins lobby
-                        console.log(msg);
-                        self.lobby.addPlayer(msg.user, msg.team);
-                        break;
-                    case 8:
-                        if (!self.isStarted) {
-                            self.isStarted = true;
-                            var ballses = msg.balls;
-                            var playersCount = ballses.length;
-                            for (var i = 1; i < playersCount; i++) {
-                                self.players.add([{
-                                    id: i,
-                                    radius: self.game.get("playersRadius"),
-                                    x: ballses[i].x.valueOf(),
-                                    y: ballses[i].y.valueOf(),
-                                    isMyPlayer: i - 1,
-                                    team: i - 1
-                                }]);
-                            }
-                        }
-                        else {
-                            console.log("another start");
-                        }
-                        break;
-                    case 10:
+
+            /**
+             * Setting player model for lobby navigating
+             */
+            self.player.set({
+                name: self.user.get('name'),
+                inLobby: false
+            });
+
+            /**
+             * Setting WebSocket
+             * @type {WebSocket}
+             */
+
+            self.ws = new WebSocket("ws://"+window.location.host+"/game/");
+            self.ws.addEventListener('message', function(){ self.onSocketMessage(event, self) });
+
+            /**
+             * Setting model listeners for WebSocket messages
+             */
+
+            self.player.on(self.player.JOINED_LOBBY, function(){
+                console.log("JOINING");
+                var lobbyName = self.lobby.get('name');
+                self.ws.send(JSON.stringify({code: 2, lobby: lobbyName}));
+            });
+
+            self.player.on(self.player.CREATED_LOBBY, function(){
+                console.log("CREATING");
+                var lobbyName = self.lobby.get('name');
+                self.ws.send(JSON.stringify({code: 1, name: lobbyName}));
+            });
+
+        },
+
+        disconnect: function() {
+            this.player.destroy();
+            this.ws.close();
+            this.ws = null;
+        },
+
+        onSocketMessage: function(event, view) {
+            console.log(event);
+            console.log(view);
+            var self = view;
+
+            var msg = JSON.parse(event.data);
+            var code = msg.code;
+            switch (code) {
+                case 0:
+                    self.lobbies.set(msg.lobbies);
+                    break;
+                case 1:
+                    alert(JSON.stringify(msg));
+                    //TODO OLEG!
+                    delete msg.code;
+                    self.lobbies.add(msg);
+                    self.lobbies.trigger(self.lobbies.changed);
+                    break;
+                case 2: //Create lobby response
+                    console.log(msg);
+                    self.player.set({ inLobby: true });
+                    self.lobby.set({ name: msg.name });
+                    Backbone.history.navigate('#lobby', true);
+                    break;
+                case 3: //Lobby exists
+                    alert(JSON.stringify(msg));
+                    break;
+                case 4: //joinLobby
+                    console.log('USERS???');
+                    console.log(msg);
+                    Backbone.history.navigate('#lobby', true);
+                    break;
+                case 7: //user joins lobby
+                    console.log(msg);
+                    self.lobby.addPlayer(msg.user, msg.team);
+                    break;
+                case 8:
+                    if (!self.isStarted) {
+                        self.isStarted = true;
                         var ballses = msg.balls;
                         var playersCount = ballses.length;
-                        if (!self.isStarted) {
-                            self.isStarted = true;
-                            for (var i = 1; i < playersCount; i++) {
-                                self.players.add([{
-                                    id: i,
-                                    radius: self.game.get("playersRadius"),
-                                    x: ballses[i].x.valueOf(),
-                                    y: ballses[i].y.valueOf(),
-                                    isMyPlayer: i - 1,
-                                    team: i - 1
-                                }
-                                ]);
+                        for (var i = 1; i < playersCount; i++) {
+                            self.players.add([{
+                                id: i,
+                                radius: self.game.get("playersRadius"),
+                                x: ballses[i].x.valueOf(),
+                                y: ballses[i].y.valueOf(),
+                                isMyPlayer: i - 1,
+                                team: i - 1
+                            }]);
+                        }
+                    }
+                    else {
+                        console.log("another start");
+                    }
+                    break;
+                case 10:
+                    var ballses = msg.balls;
+                    var playersCount = ballses.length;
+                    if (!self.isStarted) {
+                        self.isStarted = true;
+                        for (var i = 1; i < playersCount; i++) {
+                            self.players.add([{
+                                id: i,
+                                radius: self.game.get("playersRadius"),
+                                x: ballses[i].x.valueOf(),
+                                y: ballses[i].y.valueOf(),
+                                isMyPlayer: i - 1,
+                                team: i - 1
                             }
+                            ]);
                         }
-                        for (var i = 0; i < playersCount; i++) {
-                            self.players.at(i).set({
-                                x: ballses[i].x,
-                                y: ballses[i].y,
-                                Vx: ballses[i].vx,
-                                Vy: ballses[i].vy
-                            });
-                        }
-                        break;
+                    }
+                    for (var i = 0; i < playersCount; i++) {
+                        self.players.at(i).set({
+                            x: ballses[i].x,
+                            y: ballses[i].y,
+                            Vx: ballses[i].vx,
+                            Vy: ballses[i].vy
+                        });
+                    }
+                    break;
 
-                    default:
-                        console.log(msg);
-                        break;
-                }
-            };
-
-            this.ws.onopen = function () {
-                console.log("open");
-            };
-
-            this.ws.onclose = function (event) {
-                console.log("closed");
-                alert('WEBSOCKET CLOSED :C');
-                Backbone.history.navigate('#', true);
-            };
-            this.ws.onerror = function (event) {
-                console.log("OMGWTFERROR!!!");
+                default:
+                    console.log(msg);
+                    break;
             }
-
         }
-
     });
 
     return View;

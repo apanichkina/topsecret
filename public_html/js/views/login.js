@@ -16,7 +16,7 @@ define([
         initialize: function (userModel) {
             this.user = userModel;
 
-            this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, function () {
+            this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, function () {
                 if(!this.user.get('logged_in')) {
                     this.$(".user-form__error").text(this.user.get('error')).show();
                 } else {

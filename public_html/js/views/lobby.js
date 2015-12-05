@@ -14,11 +14,12 @@ define([
             this.user = userModel;
             this.lobby = currentLobby;
 
-            this.listenTo(this.lobby, this.lobby.lobbyChanged, this.render);
+            this.listenTo(this.lobby, "change", this.render);
         },
 
         render: function () {
             console.log('CAUGHT');
+            console.log(this.lobby.toJSON());
             this.$el.html(this.template(this.lobby.toJSON()));
         },
 

@@ -14,13 +14,14 @@ define([
             "submit": 'createLobby'
         },
 
-        initialize: function (userModel, lobbyCollection, currentLobby) {
+        initialize: function (userModel, playerModel, lobbyCollection, currentLobby) {
 
             this.user = userModel;
+            this.player = playerModel;
             this.lobbies = lobbyCollection;
             this.lobby = currentLobby;
 
-            this.listenTo(this.lobbies, this.lobbies.changed, this.render);
+            this.listenTo(this.lobbies, "change add", this.render);
         },
 
         render: function () {
@@ -48,17 +49,16 @@ define([
         },
 
         joinLobby: function(lobbyName){
-            this.user.set('inLobby', lobbyName);
-            this.lobby.set('name', lobbyName);
-            this.user.trigger(this.user.joinedLobby);
+            this.player.set({ inLobby: true });
+            this.lobby.set({ name: lobbyName });
+            this.player.trigger(this.player.JOINED_LOBBY);
         },
         
         createLobby: function (event) {
             event.preventDefault();
             var lobbyName = this.$('.new-lobby-box__input').val();
-            alert('creating new lobby = '+lobbyName);
-            this.user.set('createdLobby', lobbyName);
-            this.user.trigger(this.user.createdLobby);
+            this.lobby.set({ name: lobbyName });
+            this.player.trigger(this.player.CREATED_LOBBY);
         },
 
         show: function(){

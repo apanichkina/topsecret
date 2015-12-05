@@ -76,7 +76,7 @@ define([
             this.login = new LoginScreen(user);
             this.signup = new SignupScreen(user);
             this.scoreboard = new ScoreboardScreen(scores);
-            this.lobbies = new LobbiesScreen(user, lobbies, lobby);
+            this.lobbies = new LobbiesScreen(user, player, lobbies, lobby);
             this.lobby = new LobbyScreen(user, lobby);
             this.game = new GameScreen(user, player, players, game);
 

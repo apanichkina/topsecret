@@ -23,10 +23,11 @@ define([
             /**
              *Setting Listeners
              * */
-            this.listenTo(this.user, this.user.signupCompleteEvent + " " + this.user.loginCompleteEvent, function(){
+            this.listenTo(this.user, this.user.USER_SIGN_UP_SUCCESS + " " + this.user.USER_LOGIN_SUCCESS, function(){
                 this.render();
                 Backbone.history.navigate('#', true);
             });
+
             this.listenTo(this.user, this.user.logoutEvent, this.render);
 
             this.render();

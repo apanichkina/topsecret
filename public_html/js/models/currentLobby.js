@@ -18,12 +18,8 @@ define([
          },
 
          addPlayer: function(user, team){
-             console.log(this.toJSON());
-
              this.attributes.team[team].push(user);
-             alert('GONNA TRIGGER');
-             console.log(this);
-             this.trigger(this.lobbyChanged);
+             this.trigger('change');
          }
     });
 

@@ -6,6 +6,7 @@
 * [Oleg Ermakov](https://github.com/iHelos/) (Backend)
 * [Anna Panichkina](https://github.com/apanichkina/) (Frontend)
 * [Alexander Rogovsky](https://github.com/alrogovsky/) (Frontend)
+* [Shamil Makhmutov](https://github.com/iShoma) (Designer)
 
 # Installation
 
