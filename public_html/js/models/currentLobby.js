@@ -6,6 +6,8 @@ define([
 
      var Model = Backbone.Model.extend({
 
+         ALREADY_EXIST: 'alreadyExist',
+
          initialize: function() {
              this.set({
                  team:{

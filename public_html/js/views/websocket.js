@@ -49,6 +49,7 @@ define([
 
             self.ws = new WebSocket("ws://"+window.location.host+"/game/");
             self.ws.addEventListener('message', function(){ self.onSocketMessage(event, self) });
+            self.ws.addEventListener('close', function(){ self.disconnect(event, self)});
 
             /**
              * Setting model listeners for WebSocket messages
@@ -68,15 +69,23 @@ define([
 
         },
 
-        disconnect: function() {
-            this.player.destroy();
-            this.ws.close();
-            this.ws = null;
+        disconnect: function(event, view) {
+            var self = view;
+
+            /**
+             * Removing listeners
+             */
+            self.player.off(self.player.CREATED_LOBBY + " " + self.player.JOINED_LOBBY);
+
+            /**
+             * Destroying instances
+             */
+            self.player.destroy();
+            self.ws.close();
+            self.ws = null;
         },
 
         onSocketMessage: function(event, view) {
-            console.log(event);
-            console.log(view);
             var self = view;
 
             var msg = JSON.parse(event.data);
@@ -95,15 +104,17 @@ define([
                 case 2: //Create lobby response
                     console.log(msg);
                     self.player.set({ inLobby: true });
-                    self.lobby.set({ name: msg.name });
                     Backbone.history.navigate('#lobby', true);
                     break;
                 case 3: //Lobby exists
-                    alert(JSON.stringify(msg));
+                    self.lobby.trigger(self.lobby.ALREADY_EXIST);
                     break;
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
                     Backbone.history.navigate('#lobby', true);
+                    break;
+                case 5:
+                    alert('code 5');
                     break;
                 case 7: //user joins lobby
                     self.lobby.addPlayer(msg.user, msg.team);

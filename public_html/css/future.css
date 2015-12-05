@@ -85,7 +85,7 @@ html {
     .user-form__submit:hover, .new-lobby-box__submit:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
-  .user-form__error {
+  .user-form__error, .new-lobby-box__error {
     color: #fff;
     font: 14px led-digital-7;
     padding: 15px;
@@ -128,7 +128,13 @@ html {
       width: 33.3%; }
 
 .new-lobby-box {
-  display: none; }
+  display: none;
+  text-align: center; }
+  .new-lobby-box__error {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    width: 50%; }
   .new-lobby-box__form {
     background: transparent;
     border: 0; }

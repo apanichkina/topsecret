@@ -171,6 +171,15 @@ html {
 .new-lobby-box{
   @extend .lobby-box;
   display: none;
+  text-align: center;
+
+  &__error{
+    @extend .user-form__error;
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    width: 50%;
+  }
 
   &__header{
     @extend .lobby-box__header;

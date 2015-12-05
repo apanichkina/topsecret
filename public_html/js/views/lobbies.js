@@ -10,6 +10,8 @@ define([
 
         template: tmpl,
 
+        showError: false,
+
         events: {
             "submit": 'createLobby'
         },
@@ -22,11 +24,19 @@ define([
             this.lobby = currentLobby;
 
             this.listenTo(this.lobbies, "change add", this.render);
+            this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
         },
 
         render: function () {
             var self = this;
+
             this.$el.html(this.template(this.lobbies.fetchAll()));
+
+            if(self.showError) {
+                self.$('.new-lobby-box').show();
+                self.$('.lobby-box').hide();
+                self.$('.new-lobby-box__error').show();
+            }
 
             this.$('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
@@ -61,13 +71,19 @@ define([
             this.player.trigger(this.player.CREATED_LOBBY);
         },
 
+        errorAlreadyExist: function() {
+            this.showError = true;
+            this.lobby.set({ name: '' });
+            this.render()
+        },
+
         show: function(){
             if(!this.user.get('logged_in')){
                 Backbone.history.navigate('#', true);
                 return;
             }
 
-            if(this.user.get('inLobby')){
+            if(this.player.get('inLobby')){
                 Backbone.history.navigate('#lobby', true);
                 return;
             }
