@@ -1,6 +1,5 @@
 $main-font-color: #fff;
 $main-font-style: led-digital-7;
-$background-url: "../img/football_field.jpg";
 $black-background: rgba(28, 28, 28, 0.7);
 $border-style: solid;
 $border-color: white;
@@ -16,13 +15,10 @@ $border-color: white;
 }
 
 body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100%;
-  background-image: url(#{$background-url});
+  background: rgb(252, 187, 79) fixed;
   overflow: hidden; }
 
-html {
+html, body{
   height: 100%;
 }
 

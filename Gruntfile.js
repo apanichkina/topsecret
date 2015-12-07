@@ -67,7 +67,8 @@ grunt.initConfig({
         server: { /* Цель */
             files: [
                 'public_html/js/**/*.js', /* следим за статикой */
-                'public_html/css/**/*.css'
+                'public_html/css/**/*.css',
+                'public_html/index.html'
             ],
             options: {
                 interrupt: true,

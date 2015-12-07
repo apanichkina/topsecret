@@ -7,13 +7,10 @@
   src: url(../fonts/led-counter-7.ttf); }
 
 body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100%;
-  background-image: url(../img/football_field.jpg);
+  background: #fcbb4f fixed;
   overflow: hidden; }
 
-html {
+html, body {
   height: 100%; }
 
 .main-menu {
