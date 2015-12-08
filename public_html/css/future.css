@@ -16,6 +16,55 @@ html, body {
   padding: 0;
   margin: 0; }
 
+.clock {
+  border-radius: 50%;
+  background: url(/img/clock.png) no-repeat center;
+  background-size: cover;
+  height: 5em;
+  position: absolute;
+  width: 5em; }
+  .clock__cminutes, .clock__chours, .clock__cseconds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+  .clock__hours {
+    background: red;
+    height: 30%;
+    left: 48%;
+    position: absolute;
+    top: 20%;
+    transform-origin: 50% 100%;
+    width: 4%; }
+  .clock__minutes {
+    background: red;
+    height: 40%;
+    left: 48.5%;
+    position: absolute;
+    top: 10%;
+    transform-origin: 50% 100%;
+    width: 3%; }
+  .clock__seconds {
+    background: #000;
+    height: 48%;
+    left: 49%;
+    position: absolute;
+    top: 11%;
+    transform-origin: 50% 80%;
+    width: 2%;
+    z-index: 8; }
+  .clock__chours {
+    animation: rotate 43200s infinite; }
+  .clock__cminutes {
+    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
+  .clock__cseconds {
+    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg); } }
+
 #desk {
   position: absolute;
   background: #fcbb4f;
@@ -42,8 +91,6 @@ html, body {
     #tv__right__hs {
       background-image: url(/img/hs.png);
       background-repeat: round;
-      width: 100px;
-      height: 100px;
       position: absolute;
       border: solid #e0e3d7; }
   #tv__top {

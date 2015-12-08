@@ -16,7 +16,7 @@ $border-color: white;
   src: url(../fonts/digital-7-mono.ttf);
 }
 
-@font-face{
+@font-face {
   font-family: led-digital-7;
   src: url(../fonts/led-counter-7.ttf);
 }
@@ -26,11 +26,75 @@ body {
   position: relative;
 }
 
-html, body{
+html, body {
   background: $background fixed;
   height: 100%;
   padding: 0;
   margin: 0;
+}
+
+.clock {
+  border-radius: 50%;
+  background: url(/img/clock.png) no-repeat center;
+  background-size: cover;
+  height: 5em;
+  position: absolute;
+  width: 5em;
+
+  &__cminutes, &__chours, &__cseconds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__hours {
+    background: red;
+    height: 30%;
+    left: 48%;
+    position: absolute;
+    top: 20%;
+    transform-origin: 50% 100%;
+    width: 4%;
+  }
+
+  &__minutes {
+    background: red;
+    height: 40%;
+    left: 48.5%;
+    position: absolute;
+    top: 10%;
+    transform-origin: 50% 100%;
+    width: 3%;
+  }
+
+  &__seconds {
+    background: #000;
+    height: 48%;
+    left: 49%;
+    position: absolute;
+    top: 11%;
+    transform-origin: 50% 80%;
+    width: 2%;
+    z-index: 8;
+  }
+
+  &__chours {
+     animation: rotate 43200s infinite;
+   }
+  &__cminutes {
+    transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+  }
+  &__cseconds {
+    transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg);
+  }
 }
 
 #desk {
@@ -66,8 +130,6 @@ html, body{
     &__hs {
       background-image: url(/img/hs.png);
       background-repeat: round;
-      width: 100px;
-      height: 100px;
       position: absolute;
       border: solid $tv__right_border;
     }
@@ -90,29 +152,29 @@ html, body{
   padding: 10px;
   min-width: 300px;
 
-    &__button {
-      font: bold 38px #{$main-font-style};
-      text-decoration: none;
-      text-align: center;
-      display: block;
-      width: 60%;
-      margin: 10px auto;
-      padding: 20px;
-      color: #{$main-font-color};
-      border-radius: 10px;
-      &:hover{
-        color: yellow;
-        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
-      }
+  &__button {
+    font: bold 38px #{$main-font-style};
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    width: 60%;
+    margin: 10px auto;
+    padding: 20px;
+    color: #{$main-font-color};
+    border-radius: 10px;
+    &:hover {
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
   }
 
-    &__header{
-      font: bold 56px #{$main-font-style};
-      color: #{$main-font-color};
-    }
+  &__header {
+    font: bold 56px #{$main-font-style};
+    color: #{$main-font-color};
+  }
 }
 
-.box{
+.box {
   margin: 50px auto;
 }
 
@@ -125,7 +187,7 @@ html, body{
   margin: 0 auto;
   padding: 10px 0 20px 0;
   background: transparent;
-  &:hover{
+  &:hover {
     color: yellow;
     text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
   }
@@ -140,7 +202,7 @@ html, body{
   border: 2px #{$border-style} #{$border-color};
   min-width: 300px;
 
-  &__input{
+  &__input {
     font: 28px #{$main-font-style};
     color: #{$main-font-color};
     width: 50%;
@@ -150,7 +212,7 @@ html, body{
     border: 2px #{$border-style} #{$border-color};
   }
 
-  &__submit{
+  &__submit {
     cursor: pointer;
     font: bold 28px #{$main-font-style};
     margin: 0 auto;
@@ -159,13 +221,13 @@ html, body{
     background: transparent;
     display: block;
     border: 0;
-    &:hover{
+    &:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
-  &__error{
+  &__error {
     color: #fff;
     font: 14px #{$main-font-style};
     padding: 15px;
@@ -177,7 +239,6 @@ html, body{
   }
 }
 
-
 .lobby-box {
   margin: 50px auto;
   background: #{$black-background};
@@ -186,23 +247,23 @@ html, body{
   max-height: 650px;
   min-width: 400px;
 
-  &__header{
+  &__header {
     text-align: center;
     font: bold 48px #{$main-font-style};
     color: #{$main-font-color};
     margin-top: 10px;
   }
 
-  &__create{
+  &__create {
     text-decoration: none;
     color: #{$main-font-color};
-    &:hover{
+    &:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
-  &__outer-table{
+  &__outer-table {
     position: relative;
     padding: 50px 0 5px 0;
 
@@ -213,7 +274,7 @@ html, body{
     }
   }
 
-  &__inside-table{
+  &__inside-table {
     overflow: auto;
     max-height: 500px;
     & td {
@@ -223,12 +284,12 @@ html, body{
   }
 }
 
-.new-lobby-box{
+.new-lobby-box {
   @extend .lobby-box;
   display: none;
   text-align: center;
 
-  &__error{
+  &__error {
     @extend .user-form__error;
     display: none;
     margin-top: 20px;
@@ -236,27 +297,27 @@ html, body{
     width: 50%;
   }
 
-  &__header{
+  &__header {
     @extend .lobby-box__header;
   }
 
-  &__form{
+  &__form {
     @extend .user-form;
     background: transparent;
     border: 0;
   }
 
-  &__input{
+  &__input {
     @extend .user-form__input;
     width: 100%;
   }
 
-  &__submit{
+  &__submit {
     @extend .user-form__submit;
   }
 }
 
-.lobby-table{
+.lobby-table {
   border: 0;
   width: 100%;
   text-align: center;
@@ -264,16 +325,16 @@ html, body{
   padding: 10px 0 10px 0;
   font: 28px #{$main-font-style};
 
-  &__join{
+  &__join {
     text-decoration: none;
     color: #{$main-font-color};
-    &:hover{
+    &:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
-  &__name{
+  &__name {
     word-break: break-all;
   }
 
@@ -284,17 +345,17 @@ html, body{
 
 }
 
-.current-lobby-table{
+.current-lobby-table {
   @extend .lobby-table;
   table-layout: fixed;
-  & td{
+  & td {
     width: 50%;
   }
-  &__td{
-    &_red{
+  &__td {
+    &_red {
       color: red;
     }
-    &_blue{
+    &_blue {
       color: blue;
     }
   }
@@ -309,13 +370,13 @@ html, body{
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
 
-  &__header{
+  &__header {
     margin-top: 20px;
     font: bold 28px #{$main-font-style};
     color: #fff;
   }
 
-  &__table{
+  &__table {
     font: 28px #{$main-font-style};
     text-decoration: none;
     text-align: center;
@@ -325,7 +386,7 @@ html, body{
     color: #{$main-font-color};
     background: transparent;
     border-radius: 10px;
-    & th{
+    & th {
       padding-bottom: 5px;
     }
 
@@ -338,7 +399,7 @@ html, body{
   padding: 10px;
   background-image: url("../img/background_color.jpg");
 
-  &__header{
+  &__header {
     margin: 0;
     background-image: url("../img/tablo.png");
     padding: 10px 0 10px 10px;
@@ -347,18 +408,18 @@ html, body{
     background-repeat: no-repeat;
     border-radius: 10px;
     text-align: center;
-    &_left{
+    &_left {
       float: left;
       left: 10px;
       padding: 0 14px;
     }
-    &_right{
+    &_right {
       right: 10px;
       padding: 0 14px;
       float: right;
     }
 
-    &__button{
+    &__button {
       background-color: transparent;
       height: 30px;
       padding: 0 14px;
@@ -367,20 +428,20 @@ html, body{
       color: white;
       text-align: center;
       text-decoration: none;
-      &:hover{
+      &:hover {
         color: yellow;
         text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
       }
     }
 
-    &__text{
+    &__text {
       font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
       color: #ffffff;
       text-align: center;
     }
   }
 
-  &__field{
+  &__field {
     margin: 0;
     padding: 0;
   }
