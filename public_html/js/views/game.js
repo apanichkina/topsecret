@@ -110,6 +110,10 @@ define([
 
         },
         show: function () {
+            if(!this.user.get('logged_in') || !this.player.get('inLobby')){
+                Backbone.history.navigate('#', true);
+                return;
+            }
             console.log(this.game.attributes);
             this.animate();
             this.$el.show();

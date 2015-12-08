@@ -20,9 +20,9 @@ define([
         USER_LOGOUT: 'logoutEvent',
         USER_LOGIN_FAILED: 'loginFailedEvent',
 
-        click: "clickCode"
+        click: "clickCode",
 
-        //idAttribute: 'name',
+        idAttribute: 'name'
 
 
     });

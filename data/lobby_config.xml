@@ -6,5 +6,5 @@
     <ballRadius>10</ballRadius>
     <playerRadius>20</playerRadius>
     <maxSpeed>3</maxSpeed>
-    <gameTime>10</gameTime>
+    <gameTime>50</gameTime>
 </class>

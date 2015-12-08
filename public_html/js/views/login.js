@@ -69,12 +69,12 @@ define([
             var name = self.$("input[name=name]").val();
             var pass = self.$("input[name=password]").val();
 
-            self.user.set({
-                name: name,
-                password: pass
-            });
-
             self.user.fetch({
+                data: JSON.stringify({
+                    name: name,
+                    password: pass
+                }),
+
                 success: function(model, data) {
                     self.user.clear();
                     if(data.code == 1) {
@@ -83,10 +83,7 @@ define([
                         return;
                     }
 
-                    self.user.set(_.extend(data.response, {
-                        logged_in: true,
-                        id: 1
-                    }));
+                    self.user.set(_.extend(data.response, { logged_in: true }));
 
                     self.user.trigger(self.user.USER_LOGIN_SUCCESS);
                     console.log(self.user);

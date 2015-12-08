@@ -18,7 +18,6 @@ define([
 
     return function(method, model, options) {
         var params = {type: methodMap[method]};
-        var modelData = model.toJSON();
 
         params.dataType = 'json';
         params.contentType = 'application/json';
@@ -26,12 +25,12 @@ define([
 
         if (method === 'create') {
             params.url = urlMap['signup'];
-            params.data = JSON.stringify(modelData);
+            params.data = options.data;
         }
 
         if(method === 'read') {
             params.url = urlMap['login'];
-            params.data = JSON.stringify(modelData);
+            params.data = options.data;
         }
 
         if(method === 'delete') {

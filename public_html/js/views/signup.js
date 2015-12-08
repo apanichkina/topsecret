@@ -100,11 +100,13 @@ define([
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
 
-                this.user.save({
-                    name: name,
-                    password: pass,
-                    email: email
-                }, {
+                this.user.save(null, {
+                    data: JSON.stringify({
+                        name: name,
+                        password: pass,
+                        email: email
+                    }),
+
                     success: function(model, data) {
                         self.user.clear();
                         if(data.code == 2) {

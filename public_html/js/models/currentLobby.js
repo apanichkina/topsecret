@@ -6,6 +6,8 @@ define([
 
      var Model = Backbone.Model.extend({
 
+         MAX_PLAYERS: 2,
+
          ALREADY_EXIST: 'alreadyExist',
          PLAYER_EXIT: 'playerExit',
          UPDATE: 'lobbyUpdate',
@@ -33,7 +35,12 @@ define([
              this.attributes.team[0] = _.without(this.attributes.team[0], user);
              this.attributes.team[1] = _.without(this.attributes.team[1], user);
              this.trigger(this.UPDATE);
+         },
+
+         isFull: function() {
+             return this.attributes.team[0].length + this.attributes.team[1].length == this.MAX_PLAYERS;
          }
+
     });
 
     return Model;

@@ -66,6 +66,7 @@ define([
                 self.lobby.unsetTeams();
                 self.player.set({ inLobby: false });
                 self.ws.send(JSON.stringify({code: 8}));
+                self.ws.send(JSON.stringify({code: 9}));
                 Backbone.history.navigate('#lobbies', true);
             });
 
@@ -114,7 +115,7 @@ define([
                     delete msg.code;
                     self.player.set({ inLobby: true });
                     self.lobby.addPlayer(self.player.get('name'), 0);
-                    self.lobbies.add(msg);
+                    //self.lobbies.add(msg);
                     Backbone.history.navigate('#lobby', true);
                     break;
                 case 3: //Lobby exists
@@ -123,13 +124,20 @@ define([
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
                     self.lobby.trigger(self.lobby.UPDATE);
-                    Backbone.history.navigate('#lobby', true);
+                    if(self.lobby.isFull()){
+                        Backbone.history.navigate('#game', true);
+                    } else {
+                        Backbone.history.navigate('#lobby', true);
+                    }
                     break;
                 case 5:// cant join
                     alert('code 5');
                     break;
                 case 7: //user joins lobby
                     self.lobby.addPlayer(msg.user, msg.team);
+                    if(self.lobby.isFull()){
+                        Backbone.history.navigate('#game', true);
+                    }
                     break;
                 case 8:
                     if (!self.isStarted) {
