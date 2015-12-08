@@ -10,7 +10,9 @@ define([
 
         template: tmpl,
 
+        //TODO ubrat' eto govno
         showError: false,
+        REQUEST_LOBBIES: 'requestLobbies',
 
         events: {
             "submit": 'createLobby'

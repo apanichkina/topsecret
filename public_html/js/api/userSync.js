@@ -42,30 +42,13 @@ define([
         if(method === 'read') {
             params.url = urlMap['login'];
             params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.loginSuccess(data);
-                } else {
-                    model.loginFailed(data);
-                }
-            };
-            params.error = function (data) {
-                model.loginFailed(data);
-            }
         }
 
         if(method === 'delete') {
             params.url = urlMap['logout'];
-            params.success = function(data){
-                model.logOut();
-            };
-            params.error = function(data){
-                //TODO ??
-            }
-
         }
 
-        return Backbone.ajax(params);
+        return Backbone.ajax(_.extend(params, options));
     }
 
 

@@ -28,7 +28,7 @@ define([
                 Backbone.history.navigate('#', true);
             });
 
-            this.listenTo(this.user, this.user.logoutEvent, this.render);
+            this.listenTo(this.user, this.user.USER_LOGOUT, this.render);
 
             this.render();
         },
@@ -56,7 +56,12 @@ define([
         },
 
         logout: function () {
-            this.user.destroy();
+            var self = this;
+            this.user.destroy({
+                success: function(){
+                    self.user.trigger(self.user.USER_LOGOUT);
+                }
+            });
         }
 
     });

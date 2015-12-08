@@ -18,12 +18,6 @@ define([
 
             this.listenTo(this.user, this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, this.connect);
 
-            this.listenTo(this.user, this.user.createdLobby, function () {
-                if(!this.ws) return;
-                var lobbyName = this.user.get('createdLobby');
-                this.ws.send(JSON.stringify({code: 1, name: lobbyName}));
-            });
-
             this.listenTo(this.user, this.user.click, function () {
                 if(!this.ws) return;
                 var code = this.user.get('clickCode');
@@ -67,6 +61,18 @@ define([
                 self.ws.send(JSON.stringify({code: 1, name: lobbyName}));
             });
 
+            self.lobby.on(self.lobby.PLAYER_EXIT, function(){
+                console.log('LEAVING');
+                self.player.set({ inLobby: false });
+                self.ws.send(JSON.stringify({code: 8}));
+                Backbone.history.navigate('#lobbies', true);
+            });
+
+            self.lobbies.on(self.lobbies.REQUEST_LOBBIES, function(){
+                console.log('REQUESTING');
+                self.ws.send(JSON.stringify({code: 9}));
+            });
+
         },
 
         disconnect: function(event, view) {
@@ -76,11 +82,14 @@ define([
              * Removing listeners
              */
             self.player.off(self.player.CREATED_LOBBY + " " + self.player.JOINED_LOBBY);
+            self.lobby.off(self.lobby.PLAYER_EXIT);
 
             /**
-             * Destroying instances
+             * Clearing instances
              */
-            self.player.destroy();
+            self.user.clear();
+            self.player.clear();
+            self.lobby.clear();
             self.ws.close();
             self.ws = null;
         },
@@ -95,15 +104,16 @@ define([
                     self.lobbies.set(msg.lobbies);
                     break;
                 case 1:
-                    alert(JSON.stringify(msg));
                     //TODO OLEG!
                     delete msg.code;
                     self.lobbies.add(msg);
-                    self.lobbies.trigger(self.lobbies.changed);
                     break;
                 case 2: //Create lobby response
                     console.log(msg);
+                    delete msg.code;
                     self.player.set({ inLobby: true });
+                    self.lobby.addPlayer(self.player.get('name'), 0);
+                    self.lobbies.add(msg);
                     Backbone.history.navigate('#lobby', true);
                     break;
                 case 3: //Lobby exists
@@ -111,9 +121,10 @@ define([
                     break;
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
+                    self.lobby.trigger(self.lobby.UPDATE);
                     Backbone.history.navigate('#lobby', true);
                     break;
-                case 5:
+                case 5:// cant join
                     alert('code 5');
                     break;
                 case 7: //user joins lobby
@@ -164,6 +175,13 @@ define([
                             Vy: ballses[i].vy
                         });
                     }
+                    break;
+                case 13:
+                    var user = msg.name;
+                    this.lobby.removePlayer(user);
+                    break;
+                case 14: // Lobby list
+                    alert(14);
                     break;
 
                 default:

@@ -16,10 +16,8 @@ define([
         initialize: function (userModel) {
             this.user = userModel;
 
-            this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, function () {
-                if(!this.user.get('logged_in')) {
-                    this.$(".user-form__error").text(this.user.get('error')).show();
-                } else {
+            this.listenTo(this.user, this.user.USER_LOGIN_FAILED + " " + this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, function () {
+                if(this.user.get('logged_in')) {
                     this.render();
                 }
             });
@@ -55,23 +53,50 @@ define([
             return isValid;
         },
 
+        showError: function(message){
+            this.$(".user-form__error").text(message).show();
+        },
+
         send: function(event) {
             event.preventDefault();
+            var self = this;
 
-            if(!this.allFilled()){
-                this.$(".user-form__error").text("All fields must be filled!").show();
+            if(!self.allFilled()){
+                self.showError('All fields must be filled!');
                 return;
             }
 
-            var name = this.$("input[name=name]").val();
-            var pass = this.$("input[name=password]").val();
+            var name = self.$("input[name=name]").val();
+            var pass = self.$("input[name=password]").val();
 
-            this.user.set("name", name);
-            this.user.set("password", pass);
+            self.user.set("name", name);
+            self.user.set("password", pass);
 
-            this.user.fetch({
+            self.user.fetch({
                 name: name,
-                password: pass
+                password: pass,
+
+                success: function(model, data) {
+                    self.user.clear();
+                    if(data.code == 1) {
+                        self.showError(data.response.description);
+                        self.user.trigger(self.user.USER_LOGIN_FAILED);
+                        return;
+                    }
+
+                    self.user.set(_.extend(data.response, {
+                        logged_in: true,
+                        id: 1
+                    }));
+
+                    self.user.trigger(self.user.USER_LOGIN_SUCCESS);
+                    console.log(self.user);
+                },
+
+                error: function(model, data) {
+                    self.user.clear();
+                    self.showError(data.response.description);
+                }
             });
         }
 
