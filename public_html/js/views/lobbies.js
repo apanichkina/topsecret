@@ -59,6 +59,11 @@ define([
                 self.$('.lobby-box').show();
             });
 
+            this.$('.js-back-main').on('click', function(event){
+                event.preventDefault();
+                Backbone.history.navigate('#', true);
+            });
+
         },
 
         joinLobby: function(lobbyName){

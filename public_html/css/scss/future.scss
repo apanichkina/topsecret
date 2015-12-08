@@ -62,7 +62,7 @@ html {
 }
 
 .button-back {
-  font: bold 28px #{$main-font-style};
+  font: bold 32px #{$main-font-style};
   color: #{$main-font-color};
   text-decoration: none;
   text-align: center;
@@ -97,7 +97,7 @@ html {
 
   &__submit{
     cursor: pointer;
-    font: bold 28px #{$main-font-style};
+    font: bold 32px #{$main-font-style};
     margin: 0 auto;
     padding: 10px;
     color: #{$main-font-color};
@@ -124,27 +124,36 @@ html {
 
 
 .lobby-box {
-  margin: 50px auto;
+  margin: 50px auto 0;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
   width: 50%;
   max-height: 650px;
+  max-width: 710px;
   min-width: 400px;
 
-  &__header{
-    text-align: center;
-    font: bold 48px #{$main-font-style};
-    color: #{$main-font-color};
-    margin-top: 10px;
-  }
-
-  &__create{
-    text-decoration: none;
-    color: #{$main-font-color};
-    &:hover{
-      color: yellow;
-      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    &__header{
+      text-align: center;
+      font: bold 48px #{$main-font-style};
+      color: #{$main-font-color};
+      margin-top: 10px;
     }
+
+    &__create{
+      border-top: 2px dashed #{$border-color};
+      margin-top: 10px;
+      text-align: center;
+      padding: 15px 0 10px 0;
+      &_link{
+        text-decoration: none;
+        color: #{$main-font-color};
+        font: bold 32px #{$main-font-style};
+        &:hover{
+          color: yellow;
+          text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+        }
+    }
+
   }
 
   &__outer-table{
@@ -160,10 +169,11 @@ html {
 
   &__inside-table{
     overflow: auto;
-    max-height: 500px;
+    border-top: 2px dashed white;
+    max-height: 350px;
     & td {
-      padding: 10px;
-      width: 33.3%;
+      padding: 30px 10px 0 10px;
+      width: 30.3%;
     }
   }
 }
@@ -208,6 +218,8 @@ html {
   color: #{$main-font-color};
   padding: 10px 0 10px 0;
   font: 28px #{$main-font-style};
+  border-collapse: collapse;
+  max-height: 300px;
 
   &__join{
     text-decoration: none;
@@ -223,8 +235,8 @@ html {
   }
 
   & thead th {
-    border-bottom: 2px #{$border-color} dashed;
-    width: 10em;
+    //border-bottom: 2px #{$border-color} dashed;
+    width: 8.4em;
   }
 
 }
