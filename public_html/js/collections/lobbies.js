@@ -8,7 +8,6 @@ define([
 
     var Collection = Backbone.Collection.extend({
         model: lobbyModel,
-        //changed: 'lobbiesChanged',
 
         fetchAll: function(){
             return this.toJSON();

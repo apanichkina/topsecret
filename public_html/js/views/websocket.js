@@ -63,6 +63,7 @@ define([
 
             self.lobby.on(self.lobby.PLAYER_EXIT, function(){
                 console.log('LEAVING');
+                self.lobby.unsetTeams();
                 self.player.set({ inLobby: false });
                 self.ws.send(JSON.stringify({code: 8}));
                 Backbone.history.navigate('#lobbies', true);
@@ -89,7 +90,7 @@ define([
              */
             self.user.clear();
             self.player.clear();
-            self.lobby.clear();
+            self.lobby.unsetTeams();
             self.ws.close();
             self.ws = null;
         },

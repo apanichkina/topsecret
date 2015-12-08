@@ -27,6 +27,7 @@ define([
 
             this.listenTo(this.lobbies, "change add", this.render);
             this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
+            this.listenTo(this.player, this.player.PLAYER_EXIT, this.render);
         },
 
         render: function () {

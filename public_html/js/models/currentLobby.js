@@ -11,6 +11,10 @@ define([
          UPDATE: 'lobbyUpdate',
 
          initialize: function() {
+             this.unsetTeams();
+         },
+
+         unsetTeams: function(){
              this.set({
                  team:{
                      0:[],
