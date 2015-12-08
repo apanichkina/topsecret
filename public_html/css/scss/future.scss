@@ -16,14 +16,21 @@ $border-color: white;
 
 body {
   background: rgb(252, 187, 79) fixed;
-  overflow: hidden; }
+  overflow: hidden;
+  position: relative;
+}
 
 html, body{
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 #tv {
   background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .main-menu {
