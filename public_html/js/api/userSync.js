@@ -27,16 +27,6 @@ define([
         if (method === 'create') {
             params.url = urlMap['signup'];
             params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.signupSuccess(data);
-                } else {
-                    model.signupFailed(data);
-                }
-            };
-            params.error = function (data) {
-                model.signupFailed(data);
-            };
         }
 
         if(method === 'read') {

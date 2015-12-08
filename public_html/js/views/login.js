@@ -69,13 +69,12 @@ define([
             var name = self.$("input[name=name]").val();
             var pass = self.$("input[name=password]").val();
 
-            self.user.set("name", name);
-            self.user.set("password", pass);
+            self.user.set({
+                name: name,
+                password: pass
+            });
 
             self.user.fetch({
-                name: name,
-                password: pass,
-
                 success: function(model, data) {
                     self.user.clear();
                     if(data.code == 1) {
