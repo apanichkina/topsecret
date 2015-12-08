@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="utf-8" />
+<html>
+<head>
+    <meta charset="utf-8"/>
     <title>topsecret game</title>
-    <link rel="stylesheet" type="text/css" href="css/future.css" />
+    <link rel="stylesheet" type="text/css" href="css/future.css"/>
 </head>
 <body>
-    <div id="tv"></div>
-    <div id="page1"></div>
-    <script data-main="js/main" src="js/lib/require.js"></script>
-    <script src="//localhost:35729/livereload.js"></script>
-</body></html>
+<div class="clock">
+    <div class="clock__hours">
+        <div class="hours"></div>
+    </div>
+    <div class="clock__minutes">
+        <div class="minutes"></div>
+    </div>
+    <div class="clock__seconds">
+        <div class="seconds"></div>
+    </div>
+</div>
+<div id="desk"></div>
+<div id="tv">
+    <div id="tv__top"></div>
+    <div id="tv__right">
+        <div id="tv__right__btn"></div>
+        <div id="tv__right__hs"></div>
+    </div>
+    <div id="tv__main">
+    </div>
+
+</div>
+<div id="page1"></div>
+<script data-main="js/main" src="js/lib/require.js"></script>
+<script src="//localhost:35729/livereload.js"></script>
+</body>
+</html>

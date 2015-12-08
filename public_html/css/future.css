@@ -7,20 +7,49 @@
   src: url(../fonts/led-counter-7.ttf); }
 
 body {
-  background: #fcbb4f fixed;
   overflow: hidden;
   position: relative; }
 
 html, body {
+  background: #9cb2cb fixed;
   height: 100%;
   padding: 0;
   margin: 0; }
 
-#tv {
-  background: black;
+#desk {
   position: absolute;
-  top: 0;
-  left: 0; }
+  background: #fcbb4f;
+  bottom: 0;
+  width: 100%; }
+
+#tv {
+  background: #e5d0a3;
+  position: absolute;
+  border: solid #8e4c26; }
+  #tv__main {
+    position: absolute;
+    background: #97a19f;
+    border: solid black; }
+  #tv__right {
+    position: absolute;
+    background: #394048;
+    right: 0; }
+    #tv__right__btn {
+      position: absolute;
+      background-image: url(/img/btn.png);
+      background-size: cover;
+      border-radius: 50%; }
+    #tv__right__hs {
+      background-image: url(/img/hs.png);
+      background-repeat: round;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      border: solid #e0e3d7; }
+  #tv__top {
+    background-image: url(/img/top.png);
+    background-size: cover;
+    position: absolute; }
 
 .main-menu {
   width: 50%;
