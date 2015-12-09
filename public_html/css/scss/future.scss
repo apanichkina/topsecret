@@ -81,13 +81,13 @@ html, body {
   }
 
   &__chours {
-     animation: rotate 43200s infinite;
-   }
+    animation: rotate 43200s infinite;
+  }
   &__cminutes {
-    transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
   }
   &__cseconds {
-    transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
   }
 }
 
@@ -95,6 +95,20 @@ html, body {
   100% {
     transform: rotateZ(360deg);
   }
+}
+
+#dp10 {
+  background: lightgrey;
+  background-image: url(/img/dp10.png);
+  background-size: cover;
+  border: 20px solid $tv_backgound;
+  position: absolute;
+}
+
+#nintendo {
+  position: absolute;
+  background-image: url(/img/nintendo2.png);
+  background-size: cover;
 }
 
 #desk {

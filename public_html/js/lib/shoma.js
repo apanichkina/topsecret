@@ -15,6 +15,8 @@
     var tvRightHs = $('#tv__right__hs');
     var desk = $('#desk');
     var clock = $('.clock');
+    var dp10 = $('#dp10');
+    var nintendo = $('#nintendo');
 
     var tvWidth;
     var tvHeight;
@@ -39,16 +41,20 @@
 
     var clockD;
 
+    var dp10Width;
+    var nintendoWidth;
+    var nintendoHeight;
+
     var TVR = 16 / 9;
     var TVR_OLD = 3 / 2;
 
     // Задание текущего размера телека
     function tvSize() {
         if (windowIsPortr()) {
-            tvWidth = windowWidth * 0.95;
+            tvWidth = windowWidth * 0.98;
             tvHeight = tvWidth / TVR;
         } else {
-            tvHeight = windowHeight * 0.95;
+            tvHeight = windowHeight * 0.98;
             tvWidth = tvHeight * TVR;
         }
         tv.width(tvWidth);
@@ -160,7 +166,7 @@
                 return (tvRightWidth - tvRightHsWidth - tvRightHsBorder) / 2;
             },
             'border-radius': tvRightHsBorder,
-            'background-size': tvRightHsBorder / 2
+            'background-size': tvRightHsBorder
         })
     }
 
@@ -206,7 +212,11 @@
         tvMainPosition();
         deskPosition();
         clockSize();
-        clockPosition()
+        clockPosition();
+        dp10Size();
+        dp10Position();
+        nintendoSize();
+        nintendoPosition();
     }
 
     // Возвращает 1, если размер окна браузера ближе к портретной ориентации
@@ -305,7 +315,43 @@
                 return (windowHeight - 2.2 * tvHeight - clockD) / 2;
             },
             'left': function () {
-                return (windowWidth - clockD) /  2;
+                return (windowWidth - clockD) / 2;
+            }
+        })
+    }
+
+    function dp10Size() {
+        dp10Width = tvHeight / 3;
+        dp10.width(dp10Width);
+        dp10.height(dp10Width);
+    }
+
+    function dp10Position() {
+        dp10.css({
+            'top': function () {
+                return (windowHeight - tvHeight) / 3;
+            },
+            'left': function () {
+                return (windowWidth - tvWidth * 1.5) / 3;
+            },
+            'border-size': dp10Width / 20
+        });
+    }
+
+    function nintendoSize() {
+        nintendoWidth = tvWidth / 2;
+        nintendoHeight = nintendoWidth / 3;
+        nintendo.width(nintendoWidth);
+        nintendo.height(nintendoHeight);
+    }
+
+    function nintendoPosition() {
+        nintendo.css({
+            'bottom': function () {
+                return (windowHeight - tvHeight * 2) / 3;
+            },
+            'left': function () {
+                return (windowWidth - clockD - nintendoWidth) / 2;
             }
         })
     }

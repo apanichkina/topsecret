@@ -65,6 +65,18 @@ html, body {
   100% {
     transform: rotateZ(360deg); } }
 
+#dp10 {
+  background: lightgrey;
+  background-image: url(/img/dp10.png);
+  background-size: cover;
+  border: 20px solid #e5d0a3;
+  position: absolute; }
+
+#nintendo {
+  position: absolute;
+  background-image: url(/img/nintendo2.png);
+  background-size: cover; }
+
 #desk {
   position: absolute;
   background: #fcbb4f;
