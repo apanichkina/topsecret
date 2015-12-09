@@ -64,9 +64,7 @@ define([
             this.timercontext = this.timercanvas.getContext('2d');
             // TODO Заглушки
             this.counter = 0;
-            this.time = 300;
-            this.score1 = 1;
-            this.score2 = 2;
+
             ///////
             this.scorecanvas = document.getElementById('gameScore');
             this.scorecontext = this.scorecanvas.getContext('2d');
@@ -74,10 +72,14 @@ define([
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
 
+            this.endcanvas = document.getElementById('gameEndTablo');
+            this.endcontext = this.canvas.getContext('2d');
+            this.isGameEnd = false;
+
             this.fieldW = this.game.get("fieldWidth");
             this.fieldH = this.game.get("fieldHeight");
 
-            this.gameTime = this.game.get("ballRadius");
+            this.gametime = this.game.get("gameTime");
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -96,6 +98,7 @@ define([
 
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
+            //TODO брать из сообщения
             this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
            //TODO Заглушки
             this.team = [0,1];
@@ -140,6 +143,11 @@ define([
             this.scorecanvas.width = 300;
             this.scorecanvas.height = 20;
             this.scorecontainer = {x: 0, y: 0, width: this.scorecanvas.width / 10, height: this.scorecanvas.height / 10};
+            this.endcanvas.width = width;
+            this.endcanvas.height = height;
+            this.endcontainer = {x: 13, y: 0, width: width , height: height};
+
+
         },
         addPlayers: function (ballses) {
             var playersCount = ballses.length;
@@ -181,11 +189,11 @@ define([
             this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
             this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
             this.counter = this.counter + 1;
-            if ( this.counter == 60 ) {
-                this.time = this.time - 1;
+            if (this.counter == 60 && this.gametime > 0) {
+                this.gametime = this.gametime - 1;
                 this.counter = 0;
-                this.score1 = this.score1 + 2;
-                this.score2 = this.score2 + this.score1;
+            }else {
+                if (this.gametime == 0) this.isGameEnd = true;
             }
 
 
@@ -203,7 +211,7 @@ define([
                     isMyPlayer: sprite.get("isMyPlayer"),
                     team: sprite.get("team")
                 };
-                this.drawArc(myArc, this.context, this.timercontext, this.scorecontext);
+                this.drawArc(myArc, this.context, this.timercontext, this.scorecontext, this.endcontext);
 
                 sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
 
@@ -307,7 +315,7 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        drawArc: function (myArc, context, timercontext, scorecontext) {
+        drawArc: function (myArc, context, timercontext, scorecontext, endcontext) {
             var img;
             context.save();
             context.beginPath();
@@ -317,7 +325,7 @@ define([
                 var imgW = myArc.radius * this.coordinateStepY * 2;
                 var imgH = myArc.radius * this.coordinateStepY * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-
+                
                 if (myArc.isMyPlayer) {
                     context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
                     context.strokeStyle = "white";
@@ -351,15 +359,32 @@ define([
             timercontext.font = '20px led-digital-7';
             timercontext.fillStyle = "white";
             timercontext.fill();
-            timercontext.fillText("Time "+ this.time, 0,  15);
+            timercontext.fillText("Time "+ this.gametime, 0,  15);
 
             scorecontext.beginPath();
             scorecontext.font = '20px led-digital-7';
             scorecontext.fillStyle = "white";
             scorecontext.fill();
-            scorecontext.fillText("Red "+ this.score1 + " : " + this.score2 + " Black", 0,  15);
+            scorecontext.fillText("Choco "+ this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0,  15);
+
+            if (this.isGameEnd) {
+                endcontext.beginPath();
+
+                endcontext.font = '120px Calibri';
+                //endcontext.fillStyle = "black";
+                //endcontext.fill();
+                //endcontext.fillText("Winner team 1 ", this.endcontainer.width/2,  this.endcontainer.height/2);
 
 
+                endcontext.lineWidth = 3;
+                endcontext.strokeStyle = 'black';
+                var winnerName = "";
+                if (this.game.get('winner') === 1) winnerName = "Ginger";
+                else winnerName = "Choco"
+                endcontext.strokeText("Winner "+ winnerName, this.endcontainer.width/2 - (120/2)*6,  this.endcontainer.height/2);
+                endcontext.fill();
+                //console.log("Coordinate:"+ this.endcontainer.width/2 - 60*7/2+"x"+this.endcontainer.height/2);
+            }
 
         },
 

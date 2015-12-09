@@ -16,6 +16,7 @@
             </span>
         </header>
         <canvas id="myCanvas" class="game__field"></canvas>
+        <canvas id="gameEndTablo"></canvas>
     </div>
 </fest:template>
 

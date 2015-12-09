@@ -21,7 +21,9 @@ define([
             gameTime: 10,
             maxSpeed: 3,
             ballRadius: 10,
-            playersRadius: 20
+            playersRadius: 20,
+            team0: 0,
+            team1: 0
         },
         setProperties: function(data){
             this.set(data);

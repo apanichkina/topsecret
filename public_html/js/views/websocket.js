@@ -140,6 +140,7 @@ define([
                     }
                     break;
                 case 8:
+                    console.log(msg);
                     if (!self.isStarted) {
                         self.isStarted = true;
                         var ballses = msg.balls;
@@ -150,7 +151,7 @@ define([
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
-                                isMyPlayer: i - 1,
+                                isMyPlayer: ballses[i].self.valueOf(),
                                 team: i - 1
                             }]);
                         }
@@ -160,6 +161,7 @@ define([
                     }
                     break;
                 case 10:
+
                     var ballses = msg.balls;
                     var playersCount = ballses.length;
                     if (!self.isStarted) {
@@ -170,7 +172,7 @@ define([
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
-                                isMyPlayer: i - 1,
+                                isMyPlayer: ballses[i].self.valueOf(),
                                 team: i - 1
                             }
                             ]);
@@ -184,6 +186,13 @@ define([
                             Vy: ballses[i].vy
                         });
                     }
+                    break;
+                case 11:
+                    this.game.set({winner: msg.team});
+                    console.log(msg);
+                    break;
+                case 12:
+                    this.game.set({team0: msg.team0, team1: msg.team1});
                     break;
                 case 13:
                     var user = msg.name;
