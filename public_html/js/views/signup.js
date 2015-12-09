@@ -16,10 +16,8 @@ define([
         initialize: function (userModel) {
             this.user = userModel;
 
-            this.listenTo(this.user, this.user.signupFailedEvent + " " + this.user.USER_SIGN_UP_SUCCESS + " " + this.user.USER_LOGIN_SUCCESS, function () {
-                if(!this.user.get('logged_in')) {
-                    this.$(".user-form__error").text(this.user.get('error')).show();
-                } else {
+            this.listenTo(this.user, this.user.USER_SIGNUP_FAILED + " " + this.user.USER_SIGN_UP_SUCCESS + " " + this.user.USER_LOGIN_SUCCESS, function () {
+                if(this.user.get('logged_in')) {
                     this.render();
                 }
             });
@@ -46,6 +44,10 @@ define([
         },
 
         // Helpers
+
+        showError: function(message){
+            this.$(".user-form__error").text(message).show();
+        },
 
         passwordMatch: function () {
             var pw1 = this.$("input[name=password]").val();
@@ -78,18 +80,19 @@ define([
 
         send: function (event) {
             event.preventDefault();
+            var self = this;
 
             if(!this.allFilled()){
-                this.$(".user-form__error").text("All fields must be filled!").show();
+                self.showError("All fields must be filled!");
             }
             else if (!this.validLogin()) {
-                this.$(".user-form__error").text("Wrong login!").show();
+                self.showError("Wrong login!");
             }
             else if (!this.validEmail()) {
-                this.$(".user-form__error").text("Wrong email!").show();
+                self.showError("Wrong email!");
             }
             else if (!this.passwordMatch()) {
-                this.$(".user-form__error").text("Passwords don't match!").show();
+                self.showError("Passwords don't match!");
             }
             else {
                 this.$(".user-form__error").hide();
@@ -97,10 +100,33 @@ define([
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
 
-                this.user.save({
-                    name: name,
-                    password: pass,
-                    email: email
+                this.user.save(null, {
+                    data: JSON.stringify({
+                        name: name,
+                        password: pass,
+                        email: email
+                    }),
+
+                    success: function(model, data) {
+                        self.user.clear();
+                        if(data.code == 2) {
+                            self.showError(data.response.description);
+                            self.user.trigger(self.user.USER_SIGNUP_FAILED);
+                            return;
+                        }
+
+                        self.user.set(_.extend(data.response, {
+                            logged_in: true,
+                            id: 1
+                        }));
+
+                        self.user.trigger(self.user.USER_SIGN_UP_SUCCESS);
+                    },
+
+                    error: function(model, data) {
+                        self.user.clear();
+                        self.showError(data.response.description);
+                    }
                 });
             }
         }

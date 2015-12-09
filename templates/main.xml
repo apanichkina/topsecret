@@ -1,20 +1,20 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
     <div class="main-menu">
-        <div class="main-menu__header">Da football<sub style="font-size: 15px">alpha v.0.1.0</sub></div>
+        <div class="main-menu__header">DA FOOTBALL<sub style="font-size: 15px">v.0.2.0</sub></div>
         <a href="/#lobbies" id="js-play" class="main-menu__button">
-            Play
+            PLAY
         </a>
         <a href="/#scoreboard" class="main-menu__button">
-            Scoreboard
+            SCOREBOARD
         </a>
         <a href="/#login" id="js-login" class="main-menu__button">
-            Login
+            LOGIN
         </a>
         <a href="/#signup" id="js-signup" class="main-menu__button">
-            Sign Up
+            SIGN UP
         </a>
         <a href="/#" id="js-logout" class="main-menu__button">
-            Logout
+            LOGOUT
         </a>
     </div>
 

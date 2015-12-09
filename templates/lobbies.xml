@@ -3,11 +3,11 @@
         <div class="new-lobby-box__error"> Lobby already exists! </div>
         <div class="new-lobby-box__header">NEW LOBBY</div>
         <form class="new-lobby-box__form">
-            <input class="new-lobby-box__input" placeholder="Lobby name" />
-            <input class="new-lobby-box__submit" type="submit" value="Create"/>
+            <input class="new-lobby-box__input" placeholder="Lobby name" required="required" />
+            <input class="new-lobby-box__submit" type="submit" value="CREATE"/>
         </form>
         <a href="/#lobbies" class="button-back">
-            Back
+            BACK
         </a>
     </div>
 
@@ -20,18 +20,20 @@
                         <tr>
                             <th>NAME</th>
                             <th>PLAYERS</th>
-                            <th><a href="#" class="lobby-box__create">CREATE</a></th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <fest:each iterate="lobbies" index="i" value="top">
                         <tr>
                             <td class="lobby-table__name"><fest:value>lobbies[i].name</fest:value></td>
                             <td><fest:value>lobbies[i].count</fest:value>/<fest:value>lobbies[i].maxCount</fest:value></td>
-                            <td><a href="#" class="lobby-table__join">Join</a></td>
+                            <td><a href="#" class="lobby-table__join">JOIN</a></td>
                         </tr>
                     </fest:each>
                 </table>
             </div>
         </div>
+        <div class="lobby-box__create"><a href="#" class="lobby-box__create_link">CREATE LOBBY</a></div>
+        <a href="#" class="button-back js-back-main">BACK</a>
     </div>
 </fest:template>

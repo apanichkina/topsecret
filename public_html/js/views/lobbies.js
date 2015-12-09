@@ -10,7 +10,9 @@ define([
 
         template: tmpl,
 
+        //TODO ubrat' eto govno
         showError: false,
+        REQUEST_LOBBIES: 'requestLobbies',
 
         events: {
             "submit": 'createLobby'
@@ -25,6 +27,7 @@ define([
 
             this.listenTo(this.lobbies, "change add", this.render);
             this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
+            this.listenTo(this.player, this.player.PLAYER_EXIT, this.render);
         },
 
         render: function () {
@@ -54,6 +57,11 @@ define([
                 event.preventDefault();
                 self.$('.new-lobby-box').hide();
                 self.$('.lobby-box').show();
+            });
+
+            this.$('.js-back-main').on('click', function(event){
+                event.preventDefault();
+                Backbone.history.navigate('#', true);
             });
 
         },

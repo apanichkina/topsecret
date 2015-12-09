@@ -9,16 +9,19 @@ define([
 
         template: tmpl,
 
+        events: {
+            "click .button-back": 'exitLobby'
+        },
+
         initialize: function (userModel, currentLobby) {
 
             this.user = userModel;
             this.lobby = currentLobby;
 
-            this.listenTo(this.lobby, "change", this.render);
+            this.listenTo(this.lobby, this.lobby.UPDATE, this.render);
         },
 
         render: function () {
-            console.log('CAUGHT');
             this.$el.html(this.template(this.lobby.toJSON()));
         },
 
@@ -35,6 +38,10 @@ define([
 
         hide: function () {
             this.$el.hide();
+        },
+
+        exitLobby: function() {
+            this.lobby.trigger(this.lobby.PLAYER_EXIT);
         }
 
     });

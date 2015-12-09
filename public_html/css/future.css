@@ -139,7 +139,7 @@ html, body {
   margin: 50px auto; }
 
 .button-back {
-  font: bold 28px led-digital-7;
+  font: bold 32px led-digital-7;
   color: #fff;
   text-decoration: none;
   text-align: center;
@@ -169,7 +169,7 @@ html, body {
     border: 2px solid white; }
   .user-form__submit, .new-lobby-box__submit {
     cursor: pointer;
-    font: bold 28px led-digital-7;
+    font: bold 32px led-digital-7;
     margin: 0 auto;
     padding: 10px;
     color: #fff;
@@ -190,11 +190,12 @@ html, body {
     margin-top: 0; }
 
 .lobby-box, .new-lobby-box {
-  margin: 50px auto;
+  margin: 50px auto 0;
   background: rgba(28, 28, 28, 0.7);
   border: 2px white solid;
   width: 50%;
   max-height: 650px;
+  max-width: 710px;
   min-width: 400px; }
   .lobby-box__header, .new-lobby-box__header {
     text-align: center;
@@ -202,11 +203,17 @@ html, body {
     color: #fff;
     margin-top: 10px; }
   .lobby-box__create {
-    text-decoration: none;
-    color: #fff; }
-    .lobby-box__create:hover {
-      color: yellow;
-      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
+    border-top: 2px dashed white;
+    margin-top: 10px;
+    text-align: center;
+    padding: 15px 0 10px 0; }
+    .lobby-box__create_link {
+      text-decoration: none;
+      color: #fff;
+      font: bold 32px led-digital-7; }
+      .lobby-box__create_link:hover {
+        color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
   .lobby-box__outer-table {
     position: relative;
     padding: 50px 0 5px 0; }
@@ -216,10 +223,11 @@ html, body {
       top: 20px; }
   .lobby-box__inside-table {
     overflow: auto;
-    max-height: 500px; }
+    border-top: 2px dashed white;
+    max-height: 350px; }
     .lobby-box__inside-table td {
-      padding: 10px;
-      width: 33.3%; }
+      padding: 30px 10px 0 10px;
+      width: 30.3%; }
 
 .new-lobby-box {
   display: none;
@@ -241,7 +249,9 @@ html, body {
   text-align: center;
   color: #fff;
   padding: 10px 0 10px 0;
-  font: 28px led-digital-7; }
+  font: 28px led-digital-7;
+  border-collapse: collapse;
+  max-height: 300px; }
   .lobby-table__join {
     text-decoration: none;
     color: #fff; }
@@ -251,8 +261,7 @@ html, body {
   .lobby-table__name {
     word-break: break-all; }
   .lobby-table thead th, .current-lobby-table thead th {
-    border-bottom: 2px white dashed;
-    width: 10em; }
+    width: 8.4em; }
 
 .current-lobby-table {
   table-layout: fixed; }

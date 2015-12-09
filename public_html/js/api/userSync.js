@@ -18,7 +18,6 @@ define([
 
     return function(method, model, options) {
         var params = {type: methodMap[method]};
-        var modelData = model.toJSON();
 
         params.dataType = 'json';
         params.contentType = 'application/json';
@@ -26,46 +25,19 @@ define([
 
         if (method === 'create') {
             params.url = urlMap['signup'];
-            params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.signupSuccess(data);
-                } else {
-                    model.signupFailed(data);
-                }
-            };
-            params.error = function (data) {
-                model.signupFailed(data);
-            };
+            params.data = options.data;
         }
 
         if(method === 'read') {
             params.url = urlMap['login'];
-            params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.loginSuccess(data);
-                } else {
-                    model.loginFailed(data);
-                }
-            };
-            params.error = function (data) {
-                model.loginFailed(data);
-            }
+            params.data = options.data;
         }
 
         if(method === 'delete') {
             params.url = urlMap['logout'];
-            params.success = function(data){
-                model.logOut();
-            };
-            params.error = function(data){
-                //TODO ??
-            }
-
         }
 
-        return Backbone.ajax(params);
+        return Backbone.ajax(_.extend(params, options));
     }
 
 
