@@ -107,7 +107,7 @@ html, body {
 
 #nintendo {
   position: absolute;
-  background-image: url(/img/nintendo2.png);
+  background-image: url(/img/nintendo.png);
   background-size: cover;
 }
 
@@ -262,21 +262,6 @@ html, body {
   max-width: 710px;
   min-width: 400px;
 
-<<<<<<< HEAD
-  &__header {
-    text-align: center;
-    font: bold 48px #{$main-font-style};
-    color: #{$main-font-color};
-    margin-top: 10px;
-  }
-
-  &__create {
-    text-decoration: none;
-    color: #{$main-font-color};
-    &:hover {
-      color: yellow;
-      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
-=======
     &__header{
       text-align: center;
       font: bold 48px #{$main-font-style};
@@ -297,7 +282,6 @@ html, body {
           color: yellow;
           text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
         }
->>>>>>> e8d72755d0df5bf0982b31611934f2441c5ca87d
     }
 
   }
