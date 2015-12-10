@@ -9,7 +9,7 @@ grunt.initConfig({
             stderr: true
         },
         server: {
-            command: 'java -jar 4pg-3.jar'
+            command: 'java -jar 4pg.jar'
         }
     },
 

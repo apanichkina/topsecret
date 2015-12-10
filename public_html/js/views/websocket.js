@@ -85,6 +85,7 @@ define([
              */
             self.player.off(self.player.CREATED_LOBBY + " " + self.player.JOINED_LOBBY);
             self.lobby.off(self.lobby.PLAYER_EXIT);
+            self.lobbies.off(self.lobbies.REQUEST_LOBBIES);
 
             /**
              * Clearing instances
