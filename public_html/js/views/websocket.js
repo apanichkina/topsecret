@@ -98,7 +98,6 @@ define([
 
         onSocketMessage: function(event, view) {
             var self = view;
-
             var msg = JSON.parse(event.data);
             var code = msg.code;
             switch (code) {
@@ -106,7 +105,6 @@ define([
                     self.lobbies.set(msg.lobbies);
                     break;
                 case 1:
-                    //TODO OLEG!
                     delete msg.code;
                     self.lobbies.add(msg);
                     break;
@@ -115,7 +113,6 @@ define([
                     delete msg.code;
                     self.player.set({ inLobby: true });
                     self.lobby.addPlayer(self.player.get('name'), 0);
-                    //self.lobbies.add(msg);
                     Backbone.history.navigate('#lobby', true);
                     break;
                 case 3: //Lobby exists
@@ -161,7 +158,6 @@ define([
                     }
                     break;
                 case 10:
-
                     var ballses = msg.balls;
                     var playersCount = ballses.length;
                     if (!self.isStarted) {
@@ -198,10 +194,6 @@ define([
                     var user = msg.name;
                     this.lobby.removePlayer(user);
                     break;
-                case 14: // Lobby list
-                    alert(14);
-                    break;
-
                 default:
                     console.log(msg);
                     break;

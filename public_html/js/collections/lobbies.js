@@ -9,6 +9,8 @@ define([
     var Collection = Backbone.Collection.extend({
         model: lobbyModel,
 
+        REQUEST_LOBBIES: 'requestLobbies',
+
         fetchAll: function(){
             return this.toJSON();
         }

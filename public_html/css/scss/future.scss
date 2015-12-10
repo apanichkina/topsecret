@@ -139,21 +139,31 @@ html {
       margin-top: 10px;
     }
 
-    &__create{
+    &__create {
       border-top: 2px dashed #{$border-color};
       margin-top: 10px;
       text-align: center;
-      padding: 15px 0 10px 0;
-      &_link{
+      padding: 20px 0 10px 0;
+      &_link {
         text-decoration: none;
         color: #{$main-font-color};
         font: bold 32px #{$main-font-style};
-        &:hover{
+        &:hover {
           color: yellow;
           text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
         }
+      }
     }
 
+  &__refresh{
+    @extend .lobby-box__create;
+    &_link{
+      @extend .lobby-box__create_link;
+      &:hover{
+        color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+      }
+    }
   }
 
   &__outer-table{
@@ -235,7 +245,6 @@ html {
   }
 
   & thead th {
-    //border-bottom: 2px #{$border-color} dashed;
     width: 8.4em;
   }
 

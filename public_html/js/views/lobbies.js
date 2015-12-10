@@ -10,10 +10,6 @@ define([
 
         template: tmpl,
 
-        //TODO ubrat' eto govno
-        showError: false,
-        REQUEST_LOBBIES: 'requestLobbies',
-
         events: {
             "submit": 'createLobby'
         },
@@ -28,18 +24,14 @@ define([
             this.listenTo(this.lobbies, "change add", this.render);
             this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
             this.listenTo(this.player, this.player.PLAYER_EXIT, this.render);
+
+            this.render();
         },
 
         render: function () {
             var self = this;
 
             this.$el.html(this.template(this.lobbies.fetchAll()));
-
-            if(self.showError) {
-                self.$('.new-lobby-box').show();
-                self.$('.lobby-box').hide();
-                self.$('.new-lobby-box__error').show();
-            }
 
             this.$('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
@@ -64,6 +56,11 @@ define([
                 Backbone.history.navigate('#', true);
             });
 
+            this.$el.find('.js-refresh').on('click', function(event){
+                event.preventDefault();
+                self.lobbies.trigger(self.lobbies.REQUEST_LOBBIES);
+            });
+
         },
 
         joinLobby: function(lobbyName){
@@ -80,9 +77,7 @@ define([
         },
 
         errorAlreadyExist: function() {
-            this.showError = true;
-            this.lobby.set({ name: '' });
-            this.render()
+            this.$el.find('.js-create-error').show();
         },
 
         show: function(){
