@@ -126,6 +126,7 @@ define([
                     } else {
                         Backbone.history.navigate('#lobby', true);
                     }
+                    console.log(self.lobby.toJSON());
                     break;
                 case 5:// cant join
                     alert('code 5');
@@ -138,10 +139,18 @@ define([
                     break;
                 case 8:
                     console.log(msg);
+                    //TODO Олег сообщение с
                     if (!self.isStarted) {
                         self.isStarted = true;
                         var ballses = msg.balls;
                         var playersCount = ballses.length;
+                        self.players.add({
+                            id: 0,
+                            x: ballses[0].x.valueOf(),
+                            y: ballses[0].y.valueOf(),
+                            radius: self.game.get("ballRadius"),
+                            type: "ball"
+                        });
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
@@ -149,7 +158,8 @@ define([
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
                                 isMyPlayer: ballses[i].self.valueOf(),
-                                team: i - 1
+                                team: ballses[i].team.valueOf()
+                                //team: i-1
                             }]);
                         }
                     }
@@ -168,8 +178,7 @@ define([
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
-                                isMyPlayer: ballses[i].self.valueOf(),
-                                team: i - 1
+                                isMyPlayer: ballses[i].self.valueOf()
                             }
                             ]);
                         }

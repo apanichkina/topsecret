@@ -41,6 +41,8 @@ define([
              return this.attributes.team[0].length + this.attributes.team[1].length == this.MAX_PLAYERS;
          }
 
+
+
     });
 
     return Model;
