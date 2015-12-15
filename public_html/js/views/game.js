@@ -383,7 +383,8 @@ define([
                 endcontext.strokeStyle = 'black';
                 var winnerName = "";
                 if (this.game.get('winner') === 1) winnerName = "Ginger";
-                else winnerName = "Choco"
+                else winnerName = "Choco";
+                if(this.game.get('winner') === 10) winnerName = "Friendship";
                 endcontext.strokeText("Winner "+ winnerName, this.endcontainer.width/2 - (120/2)*6,  this.endcontainer.height/2);
                 endcontext.fill();
                 //console.log("Coordinate:"+ this.endcontainer.width/2 - 60*7/2+"x"+this.endcontainer.height/2);
