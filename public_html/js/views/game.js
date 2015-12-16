@@ -79,7 +79,8 @@ define([
             this.fieldW = this.game.get("fieldWidth");
             this.fieldH = this.game.get("fieldHeight");
 
-            this.gametime = this.game.get("gameTime");
+            this.gametimeConf = this.game.get("gameTime");
+            this.gametime = this.gametimeConf;
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -99,7 +100,7 @@ define([
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
             //TODO брать из сообщения
-            this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
+           // this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
            //TODO Заглушки
             this.team = [0,1];
             this.teamColors = ["ball","yellow","yellow","blue","blue"];
@@ -123,7 +124,10 @@ define([
             this.trigger("show", this);
         },
         hide: function () {
+
             this.$el.hide();
+            this.isGameEnd = false;
+            this.gametime = this.gametimeConf;
         },
 
         //helpers
@@ -182,7 +186,7 @@ define([
             context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
-
+        //TODO isGameEnd;
         animate: function () {
             this.resizeCanvas();
             this.context.fillStyle = this.onload();
@@ -192,11 +196,10 @@ define([
             if (this.counter == 60 && this.gametime > 0) {
                 this.gametime = this.gametime - 1;
                 this.counter = 0;
+               // this.isGameEnd = false;
             }else {
                 if (this.gametime == 0) this.isGameEnd = true;
             }
-
-
             var gameSpritesCount = this.players.length;
             for (var i = 0; i < gameSpritesCount; i++) {
                 var sprite = this.players.at(i);
@@ -325,7 +328,7 @@ define([
                 var imgW = myArc.radius * this.coordinateStepY * 2;
                 var imgH = myArc.radius * this.coordinateStepY * 2;
                 context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-                
+
                 if (myArc.isMyPlayer) {
                     context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
                     context.strokeStyle = "white";
@@ -334,7 +337,7 @@ define([
                     context.fill();
                 }
                 context.beginPath();
-                if (myArc.team == 0 || myArc.team == 2 ) {
+                if (myArc.team == 0) {
                     img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
                 } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
@@ -365,7 +368,7 @@ define([
             scorecontext.font = '20px led-digital-7';
             scorecontext.fillStyle = "white";
             scorecontext.fill();
-            scorecontext.fillText("Choco "+ this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0,  15);
+            scorecontext.fillText("Choco "+ this.game.get("team0") + " : " + this.game.get("team1") + " Ginger", 0,  15);
 
             if (this.isGameEnd) {
                 endcontext.beginPath();
@@ -379,8 +382,12 @@ define([
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
                 var winnerName = "";
-                if (this.game.get('winner') === 1) winnerName = "Ginger";
-                else winnerName = "Choco"
+                var winner = this.game.get('winner');
+                if (winner === 1) winnerName = "Ginger";
+                else if (winner === 0)
+                    winnerName = "Choco";
+                else
+                    winnerName = "Friendship";
                 endcontext.strokeText("Winner "+ winnerName, this.endcontainer.width/2 - (120/2)*6,  this.endcontainer.height/2);
                 endcontext.fill();
                 //console.log("Coordinate:"+ this.endcontainer.width/2 - 60*7/2+"x"+this.endcontainer.height/2);

@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html><head>
-    <meta charset="utf-8" />
+<html>
+<head>
+    <meta charset="utf-8"/>
     <title>topsecret game</title>
-    <link rel="stylesheet" type="text/css" href="css/future.css" />
+    <link rel="stylesheet" type="text/css" href="css/future.css"/>
 </head>
 <body>
-    <div id="page"></div>
-    <script data-main="js/main" src="js/lib/require.js"></script>
-    <!--<script src="js/lib/snowfall.js"></script>-->
-</body></html>
+<style>
+    .preloader {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #203f16;
+        z-index: 100500;
+    }
+
+    .preloader__spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: -150px;
+        background: url('/img/preloader.GIF') no-repeat 50% 50%;
+    }
+    .preloader__text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 316px;
+        height: 300px;
+        margin-left: -150px;
+        margin-top: 50px;
+        text-align: center;
+        color: white;
+        font: 28px led-digital-7;
+    }
+</style>
+<script type="text/javascript">
+    window.onload = function () {
+        $('.preloader__spinner').fadeOut();
+        $('.preloader__text').fadeOut();
+        $('.preloader').delay(350).fadeOut('slow');
+    }
+
+</script>
+<div class="preloader">
+    <span class="preloader__spinner"></span>
+    <p class="preloader__text">LOADING...</p>
+
+</div>
+<div id="page"></div>
+<script data-main="js/main" src="js/lib/require.js"></script>
+//TODO убрать после склеивания всех скриптов
+<script src="js/lib/jquery.js"></script>
+<!--<script src="js/lib/snowfall.js"></script>-->
+</body>
+</html>
