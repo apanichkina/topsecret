@@ -67,7 +67,6 @@ define([
                 self.player.set({ inLobby: false });
                 self.ws.send(JSON.stringify({code: 8}));
                 self.ws.send(JSON.stringify({code: 9}));
-                Backbone.history.navigate('#lobbies', true);
             });
 
             self.lobbies.on(self.lobbies.REQUEST_LOBBIES, function(){
@@ -104,6 +103,9 @@ define([
             switch (code) {
                 case 0:
                     self.lobbies.set(msg.lobbies);
+                    if(!msg.lobbies.length){
+                        self.lobbies.trigger('change');
+                    }
                     break;
                 case 1:
                     delete msg.code;
@@ -195,6 +197,7 @@ define([
                     break;
                 case 11:
                     this.game.set({winner: msg.team});
+                    self.lobby.trigger(self.lobby.PLAYER_EXIT);
                     console.log(msg);
                     break;
                 case 12:

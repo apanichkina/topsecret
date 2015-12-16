@@ -115,10 +115,7 @@ define([
                             return;
                         }
 
-                        self.user.set(_.extend(data.response, {
-                            logged_in: true,
-                            id: 1
-                        }));
+                        self.user.set(_.extend(data.response, { logged_in: true }));
 
                         self.user.trigger(self.user.USER_SIGN_UP_SUCCESS);
                     },

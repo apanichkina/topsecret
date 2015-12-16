@@ -42,6 +42,7 @@ define([
 
         exitLobby: function() {
             this.lobby.trigger(this.lobby.PLAYER_EXIT);
+            Backbone.history.navigate('#lobbies', true);
         }
 
     });
