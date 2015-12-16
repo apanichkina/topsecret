@@ -27,7 +27,6 @@ define([
         },
         setProperties: function(data){
             this.set(data);
-            console.log(this.attributes);
             this.trigger("changed", this);
         },
         error: function() {

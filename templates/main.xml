@@ -1,4 +1,4 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
     <div class="main-menu">
         <div class="main-menu__header">DA FOOTBALL<sub style="font-size: 15px">v.0.2.0</sub></div>
         <a href="/#lobbies" id="js-play" class="main-menu__button">
@@ -16,6 +16,11 @@
         <a href="/#" id="js-logout" class="main-menu__button">
             LOGOUT
         </a>
+        <fest:if test="data.user">
+            <div class="button-back">
+                Logged in as<fest:space/><fest:value>data.user</fest:value>
+            </div>
+        </fest:if>
     </div>
 
 

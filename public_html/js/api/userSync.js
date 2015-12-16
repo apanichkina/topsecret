@@ -13,7 +13,8 @@ define([
     var urlMap  = {
         'login': '/api/v1/auth/signin/',
         'signup': '/api/v1/auth/signup/',
-        'logout': '/api/v1/auth/logout/'
+        'logout': '/api/v1/auth/logout/',
+        'profile': '/api/v1/auth/profile/'
     };
 
     return function(method, model, options) {
@@ -29,8 +30,14 @@ define([
         }
 
         if(method === 'read') {
-            params.url = urlMap['login'];
-            params.data = options.data;
+            if(options.data){
+                params.url = urlMap['login'];
+                params.data = options.data;
+            } else {
+                params.url = urlMap['profile'];
+                params.type = 'GET';
+            }
+
         }
 
         if(method === 'delete') {

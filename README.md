@@ -12,6 +12,7 @@
 
 ```sh
 $ npm install
+$ grunt build
 $ grunt
 ```
 

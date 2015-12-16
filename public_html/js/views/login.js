@@ -84,9 +84,7 @@ define([
                     }
 
                     self.user.set(_.extend(data.response, { logged_in: true }));
-
                     self.user.trigger(self.user.USER_LOGIN_SUCCESS);
-                    console.log(self.user);
                 },
 
                 error: function(model, data) {

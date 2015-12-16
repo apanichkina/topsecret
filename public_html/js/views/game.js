@@ -118,7 +118,7 @@ define([
                 Backbone.history.navigate('#', true);
                 return;
             }
-            console.log(this.game.attributes);
+            //console.log(this.game.attributes);
             this.animate();
             this.$el.show();
             this.trigger("show", this);

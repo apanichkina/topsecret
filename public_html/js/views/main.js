@@ -14,6 +14,7 @@ define([
         },
 
         initialize: function (userModel) {
+            var self = this;
 
             /**
              * Setting models
@@ -30,19 +31,31 @@ define([
 
             this.listenTo(this.user, this.user.USER_LOGOUT, this.render);
 
+            self.user.fetch({
+                success: function(model, data) {
+                    if(data.code == 0){
+                        self.user.set(_.extend(data.response, { logged_in: true }));
+                        self.user.trigger(self.user.USER_LOGIN_SUCCESS);
+                    }
+                }
+            });
             this.render();
         },
 
         render: function () {
-            this.$el.html(this.template);
+            var self = this;
 
-            if (this.user.get('logged_in')) {
-                this.$('#js-login').hide();
-                this.$('#js-signup').hide();
+            this.$el.html(self.template({
+                user: self.user.get('name')
+            }));
+
+            if (self.user.get('logged_in')) {
+                self.$('#js-login').hide();
+                self.$('#js-signup').hide();
             }
             else {
-                this.$('#js-logout').hide();
-                this.$('#js-play').hide();
+                self.$('#js-logout').hide();
+                self.$('#js-play').hide();
             }
         },
 
@@ -57,6 +70,7 @@ define([
 
         logout: function () {
             var self = this;
+            self.user.set({logged_in: false});
             this.user.destroy({
                 success: function(){
                     self.user.trigger(self.user.USER_LOGOUT);

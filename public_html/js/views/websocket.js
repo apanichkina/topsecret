@@ -78,6 +78,10 @@ define([
 
         disconnect: function(event, view) {
             var self = view;
+            /* unexpected close */
+            if(self.user.get('logged_in')){
+                self.error('Unknown error occurred. Please refresh the page.', 5000);
+            }
 
             /**
              * Removing listeners
@@ -211,8 +215,18 @@ define([
                     console.log(msg);
                     break;
             }
+        },
+
+        error: function (message, duration) {
+            /*animate the bar*/
+            $('.notification-bar').slideDown(function() {
+                setTimeout(function() {
+                    $('.notification-bar').slideUp(function() {});
+                }, duration);
+            });
         }
-    });
+
+});
 
     return View;
 

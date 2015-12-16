@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="css/future.css"/>
 </head>
 <body>
+<div class="notification-bar">
+    <div class="notification-bar__message">Unknown error occurred. Please refresh the page.</div>
+</div>
+
 <style>
     .preloader {
         position: fixed;
@@ -54,9 +58,9 @@
 
 </div>
 <div id="page"></div>
-<script data-main="js/main" src="js/lib/require.js"></script>
-//TODO убрать после склеивания всех скриптов
-<script src="js/lib/jquery.js"></script>
-<!--<script src="js/lib/snowfall.js"></script>-->
+<script src="js/build.min.js"></script>
+<script>
+    require(['main'], function(){});
+</script>
 </body>
 </html>
