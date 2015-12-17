@@ -79,13 +79,12 @@ define([
 
             this.endcanvas = document.getElementById('gameEndTablo');
             this.endcontext = this.canvas.getContext('2d');
-            this.isGameEnd = false;
+
 
             this.fieldW = this.game.get("fieldWidth");
             this.fieldH = this.game.get("fieldHeight");
 
-            this.gametimeConf = this.game.get("gameTime");
-            this.gametime = this.gametimeConf;
+            this.gametime = this.game.get("gameTime");
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -109,7 +108,6 @@ define([
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
             this.resizeCanvas();
             this.firstVisit = true;
-
 
         },
         show: function () {
@@ -211,7 +209,7 @@ define([
                 this.players.at(i).set({x: x + Vx, y: y + Vy});
             }
             //Временно не используется
-            for (var j = 1; j < this.players.length; ++j) {
+            for (var j = 1; j < gameSpritesCount; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
                     if (this.isCollisionPlayers(i, j)) {
@@ -221,7 +219,7 @@ define([
                     }
                 }
             }
-            window.requestAnimFrame(this.animate.bind(this));
+            requestAnimFrame(this.animate.bind(this));
 
 
         },
@@ -289,19 +287,18 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        drawArc: function (game, myArc, context, timercontext, scorecontext, endcontext) {
+        drawArc: function (myArc, context, timercontext, scorecontext, endcontext) {
             var img;
-            var x = myArc.get("x");
-            var y = myArc.get("y");
-            var radius = myArc.get("radius");
             context.save();
             context.beginPath();
-            if (myArc.get("type") == "human") {
-                context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
-                var imgW = radius * this.coordinateStepY * 2;
-                var imgH = radius * this.coordinateStepY * 2;
-                context.rotate(Math.atan2(myArc.get("Vy"), myArc.get("Vx")) - Math.PI / 2);
-                if (myArc.get("isMyPlayer")) {
+            if (myArc.type == "human") {
+
+                context.translate(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY);
+                var imgW = myArc.radius * this.coordinateStepY * 2;
+                var imgH = myArc.radius * this.coordinateStepY * 2;
+                context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+
+                if (myArc.isMyPlayer) {
                     context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
                     context.strokeStyle = "white";
                     context.lineWidth = this.borderWidth;
@@ -309,7 +306,7 @@ define([
                     context.fill();
                 }
                 context.beginPath();
-                if (myArc.get("team") == 0) {
+                if (myArc.team == 0 || myArc.team == 2 ) {
                     img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
                 } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
@@ -324,7 +321,7 @@ define([
                 }
                 */
             } else {
-                context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
+                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
                 context.fillStyle = img;
                 context.fill();
