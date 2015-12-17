@@ -144,13 +144,14 @@ define([
                         Backbone.history.navigate('#game', true);
                     }
                     break;
-                case 8:
+                case 8://game start
                     console.log(msg);
-                    //TODO Олег сообщение с
-                    if (!self.isStarted) {
+                    self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
+                    //if (!self.isStarted) {
                         self.isStarted = true;
                         var ballses = msg.balls;
                         var playersCount = ballses.length;
+                        self.players.reset();
                         self.players.add({
                             id: 0,
                             x: ballses[0].x.valueOf(),
@@ -166,19 +167,20 @@ define([
                                 y: ballses[i].y.valueOf(),
                                 isMyPlayer: ballses[i].self.valueOf(),
                                 team: ballses[i].team.valueOf()
-                                //team: i-1
                             }]);
                         }
-                    }
-                    else {
-                        console.log("another start");
-                    }
+                    //}
+                    //else {
+                    //    console.log("another start");
+                    //}
                     break;
-                case 10:
+                case 10://current coordinate
+                    self.game.set({isStarted: true, isEnded: false});
                     var ballses = msg.balls;
                     var playersCount = ballses.length;
                     if (!self.isStarted) {
                         self.isStarted = true;
+                        collection.reset();
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
@@ -200,11 +202,12 @@ define([
                     }
                     break;
                 case 11:
-                    this.game.set({winner: msg.team});
+                    this.game.set({winner: msg.team, isEnded: true});
                     self.lobby.trigger(self.lobby.PLAYER_EXIT);
                     console.log(msg);
                     break;
-                case 12:
+                case 12://current score
+                    console.log(msg);
                     this.game.set({team0: msg.team0, team1: msg.team1});
                     break;
                 case 13:

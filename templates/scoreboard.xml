@@ -19,5 +19,4 @@
         </table>
         <a href="/#" class="button-back">Back</a>
     </div>
-    <img src="/img/preloader.GIF"></img>
 </fest:template>

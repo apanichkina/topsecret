@@ -11,7 +11,7 @@
             </span>
             <span>
                 <div class="game__header_right">
-                    <a href="/#" class="game__header__button">Back</a>
+                    <a href="/#main" class="game__header__button">Back</a>
                 </div>
             </span>
         </header>

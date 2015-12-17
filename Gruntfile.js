@@ -1,7 +1,7 @@
 
 module.exports = function(grunt) {
   
-grunt.initConfig({
+grunt.initConfig({  
 
     shell: {
         options: {
@@ -34,7 +34,6 @@ grunt.initConfig({
     },
 
     sass: {
-        style: "compressed",
         dist: {
             files: [{
                 expand: true,
@@ -81,39 +80,7 @@ grunt.initConfig({
         options: {
             logConcurrentOutput: true /* Вывод процесса логов*/
         }
-    },
-
-    requirejs: {
-        build: { /* Подзадача */
-            options: {
-                almond: true,
-                baseUrl: "public_html/js",
-                mainConfigFile: "public_html/js/main.js",
-                name: "main",
-                optimize: "none",
-                out: "public_html/js/build/main.js"
-            }
-        }
-    },
-    concat: {
-        build: { /* Подзадача */
-            separator: ';\n',
-            src: [
-                'public_html/js/lib/almond.js',
-                'public_html/js/build/main.js'
-            ],
-            dest: 'public_html/js/build.js'
-        }
-    },
-
-    uglify: {
-        build: { /* Подзадача */
-            files: {
-                'public_html/js/build.min.js':
-                    ['public_html/js/build.js']
-            }
-        }
-    },
+    }
 
 });
 
@@ -123,11 +90,7 @@ grunt.initConfig({
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-fest');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
 
     grunt.registerTask('default', ['concurrent']);
-    grunt.registerTask('build', ['fest', 'requirejs', 'concat', 'uglify']);
 
 };

@@ -22,7 +22,6 @@ define([
             this.game = gameModel;
 
             this.game.fetch();
-            //console.log(this.game.attributes);
             this.listenTo(this.game, "changed", this.render);
             /*
             this.game.on('change', this.wait);
@@ -58,14 +57,20 @@ define([
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
-
+            window.clearAnimation = (function() {
+                return window.cancelRequestAnimationFrame ||
+                    window.webkitCancelRequestAnimationFrame||
+                    window.mozCancelRequestAnimationFrame ||
+                    window.oCancelRequestAnimationFrame ||
+                    window.msCancelRequestAnimationFrame ||
+                function(id){
+                    clearTimeout(id)
+                };
+            })();
 
             this.timercanvas = document.getElementById('gameTimer');
             this.timercontext = this.timercanvas.getContext('2d');
-            // TODO Заглушки
-            this.counter = 0;
 
-            ///////
             this.scorecanvas = document.getElementById('gameScore');
             this.scorecontext = this.scorecanvas.getContext('2d');
 
@@ -99,17 +104,11 @@ define([
 
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
-            //TODO брать из сообщения
-           // this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
-           //TODO Заглушки
-            this.team = [0,1];
-            this.teamColors = ["ball","yellow","yellow","blue","blue"];
-            this.whoIs = [0,1,0,0,0];
-            ////
+
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
             this.resizeCanvas();
-            //this.animate();
+            this.firstVisit = true;
 
 
         },
@@ -118,16 +117,22 @@ define([
                 Backbone.history.navigate('#', true);
                 return;
             }
-            //console.log(this.game.attributes);
-            this.animate();
+
+            if (this.game.get('isStarted') == true) {
+                this.gametime = this.gametimeConf;
+                this.game.set({isStarted: false});
+                this.counter = 0;
+            }
+            //window.clearAnimation(this.animate.bind(this));
+            if (this.firstVisit) {
+                this.animate();
+                this.firstVisit = false;
+            }
             this.$el.show();
             this.trigger("show", this);
         },
         hide: function () {
-
             this.$el.hide();
-            this.isGameEnd = false;
-            this.gametime = this.gametimeConf;
         },
 
         //helpers
@@ -153,12 +158,7 @@ define([
 
 
         },
-        addPlayers: function (ballses) {
-            var playersCount = ballses.length;
-            for (var i = 1; i < playersCount; i++) {
-                this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf(),borderColor:this.teamColors[i],isMyPlayer: this.whoIs[i],team:i-1}]);
-            }
-        },
+
         isCollisionPlayers: function (i, j) {
             var a = parseFloat(this.players.at(j).get("x")) - parseFloat(this.players.at(i).get("x"));
             var b = parseFloat(this.players.at(j).get("y")) - parseFloat(this.players.at(i).get("y"));
@@ -186,61 +186,32 @@ define([
             context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
-        //TODO isGameEnd;
+        //TODO closePath;
         animate: function () {
             this.resizeCanvas();
             this.context.fillStyle = this.onload();
             this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
             this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
-            this.counter = this.counter + 1;
-            if (this.counter == 60 && this.gametime > 0) {
-                this.gametime = this.gametime - 1;
-                this.counter = 0;
-               // this.isGameEnd = false;
-            }else {
-                if (this.gametime == 0) this.isGameEnd = true;
+            if (this.game.get('isEnded') == false)
+            {
+                this.counter = this.counter + 1;
+                if (this.counter == 60 && this.gametime > 0) {
+                    this.gametime = this.gametime - 1;
+                    this.counter = 0;
+                }
             }
-            var gameSpritesCount = this.players.length;
-            for (var i = 0; i < gameSpritesCount; i++) {
-                var sprite = this.players.at(i);
-                var myArc = {
-                    radius: sprite.get("radius"),
-                    type: sprite.get("type"),
-                    Vx: sprite.get("Vx"),
-                    Vy: sprite.get("Vy"),
-                    y: sprite.get("y"),
-                    x: sprite.get("x"),
-                    borderColor: sprite.get("borderColor"),
-                    isMyPlayer: sprite.get("isMyPlayer"),
-                    team: sprite.get("team")
-                };
-                this.drawArc(myArc, this.context, this.timercontext, this.scorecontext, this.endcontext);
+            else {this.gametime = 0;}
 
-                sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
-
-                //Временно не используется
-
-                var goal_right = false;
-                var goal_left = false;
-                if (myArc.type == "ball") {
-                    if (myArc.y - myArc.radius > this.fieldH * 0.44 && myArc.y + myArc.radius < this.fieldH * 0.565) {
-                        if (myArc.x - myArc.radius <= 20) goal_left = true;
-                        else if (myArc.x + myArc.radius >= this.fieldW - 20) goal_right = true;
-                    }
-                }
-
-                if (((myArc.x + myArc.Vx + myArc.radius) * this.coordinateStepX > this.container.x + this.container.width) || ((myArc.x - myArc.radius + myArc.Vx) * this.coordinateStepX < this.container.x)) {
-                    myArc.Vx = -myArc.Vx;
-                }
-                if (((myArc.y + myArc.Vy + myArc.radius) * this.coordinateStepY > this.container.y + this.container.height) || ((myArc.y - myArc.radius + myArc.Vy) * this.coordinateStepY < this.container.y)) {
-                    myArc.Vy = -myArc.Vy;
-                }
-
-                myArc.x += myArc.Vx;
-                myArc.y += myArc.Vy;
+            for (var i = 0; i < this.players.length; i++) {
+                this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
+                Vx = this.players.at(i).get("Vx");
+                Vy = this.players.at(i).get("Vy");
+                y =  this.players.at(i).get("y");
+                x =  this.players.at(i).get("x");
+                this.players.at(i).set({x: x + Vx, y: y + Vy});
             }
             //Временно не используется
-            for (var j = 1; j < gameSpritesCount; ++j) {
+            for (var j = 1; j < this.players.length; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
                     if (this.isCollisionPlayers(i, j)) {
@@ -250,7 +221,7 @@ define([
                     }
                 }
             }
-            requestAnimFrame(this.animate.bind(this));
+            window.requestAnimFrame(this.animate.bind(this));
 
 
         },
@@ -318,18 +289,19 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        drawArc: function (myArc, context, timercontext, scorecontext, endcontext) {
+        drawArc: function (game, myArc, context, timercontext, scorecontext, endcontext) {
             var img;
+            var x = myArc.get("x");
+            var y = myArc.get("y");
+            var radius = myArc.get("radius");
             context.save();
             context.beginPath();
-            if (myArc.type == "human") {
-
-                context.translate(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY);
-                var imgW = myArc.radius * this.coordinateStepY * 2;
-                var imgH = myArc.radius * this.coordinateStepY * 2;
-                context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
-
-                if (myArc.isMyPlayer) {
+            if (myArc.get("type") == "human") {
+                context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
+                var imgW = radius * this.coordinateStepY * 2;
+                var imgH = radius * this.coordinateStepY * 2;
+                context.rotate(Math.atan2(myArc.get("Vy"), myArc.get("Vx")) - Math.PI / 2);
+                if (myArc.get("isMyPlayer")) {
                     context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
                     context.strokeStyle = "white";
                     context.lineWidth = this.borderWidth;
@@ -337,7 +309,7 @@ define([
                     context.fill();
                 }
                 context.beginPath();
-                if (myArc.team == 0) {
+                if (myArc.get("team") == 0) {
                     img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
                 } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
@@ -352,7 +324,7 @@ define([
                 }
                 */
             } else {
-                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
+                context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
                 context.fillStyle = img;
                 context.fill();
@@ -368,29 +340,25 @@ define([
             scorecontext.font = '20px led-digital-7';
             scorecontext.fillStyle = "white";
             scorecontext.fill();
-            scorecontext.fillText("Choco "+ this.game.get("team0") + " : " + this.game.get("team1") + " Ginger", 0,  15);
+            scorecontext.fillText("Choco "+ this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0,  15);
 
-            if (this.isGameEnd) {
+            if (game.get('isEnded') == true) {
                 endcontext.beginPath();
-
                 endcontext.font = '120px Calibri';
-                //endcontext.fillStyle = "black";
-                //endcontext.fill();
-                //endcontext.fillText("Winner team 1 ", this.endcontainer.width/2,  this.endcontainer.height/2);
-
-
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
+                var wordLength = 6;
                 var winnerName = "";
                 var winner = this.game.get('winner');
-                if (winner === 1) winnerName = "Ginger";
-                else if (winner === 0)
-                    winnerName = "Choco";
-                else
-                    winnerName = "Friendship";
-                endcontext.strokeText("Winner "+ winnerName, this.endcontainer.width/2 - (120/2)*6,  this.endcontainer.height/2);
+                if (winner === 0) winnerName = "Winner Ginger";
+                else if (winner === 1)
+                    winnerName = "Winner Choco";
+                else {
+                    winnerName = "Friendship ";
+                    wordLength = 4;
+                }
+                endcontext.strokeText(winnerName, this.endcontainer.width/2 - (120/2)*wordLength,  this.endcontainer.height/2 );
                 endcontext.fill();
-                //console.log("Coordinate:"+ this.endcontainer.width/2 - 60*7/2+"x"+this.endcontainer.height/2);
             }
 
         },
