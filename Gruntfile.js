@@ -106,10 +106,12 @@ module.exports = function(grunt) {
         },
 
         uglify: {
+            options:{
+                mangle: true
+            },
             build: { /* Подзадача */
                 files: {
-                    'public_html/js/build.min.js':
-                        ['public_html/js/build.js']
+                    'public_html/js/build.min.js': ['public_html/js/build.js']
                 }
             }
         },
