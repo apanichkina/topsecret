@@ -10,53 +10,19 @@
     <div class="notification-bar__message">Unknown error occurred. Please refresh the page.</div>
 </div>
 
-<style>
-    .preloader {
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background: #203f16;
-        z-index: 100500;
-    }
-
-    .preloader__spinner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 300px;
-        height: 300px;
-        margin-left: -150px;
-        margin-top: -150px;
-        background: url('/img/preloader.GIF') no-repeat 50% 50%;
-    }
-    .preloader__text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 316px;
-        height: 300px;
-        margin-left: -150px;
-        margin-top: 50px;
-        text-align: center;
-        color: white;
-        font: 28px led-digital-7;
-    }
-</style>
 <script type="text/javascript">
     window.onload = function () {
         $('.preloader__spinner').fadeOut();
         $('.preloader__text').fadeOut();
         $('.preloader').delay(350).fadeOut('slow');
     }
-
 </script>
+
 <div class="preloader">
     <span class="preloader__spinner"></span>
     <p class="preloader__text">LOADING...</p>
-
 </div>
+
 <div id="page"></div>
 <script src="js/build.min.js"></script>
 <script>
