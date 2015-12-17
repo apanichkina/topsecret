@@ -4023,13 +4023,14 @@ define('views/websocket',[
                         Backbone.history.navigate('#game', true);
                     }
                     break;
-                case 8:
+                case 8://game start
                     console.log(msg);
-                    //TODO Олег сообщение с
-                    if (!self.isStarted) {
+                    self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
+                    //if (!self.isStarted) {
                         self.isStarted = true;
                         var ballses = msg.balls;
                         var playersCount = ballses.length;
+                        self.players.reset();
                         self.players.add({
                             id: 0,
                             x: ballses[0].x.valueOf(),
@@ -4045,19 +4046,20 @@ define('views/websocket',[
                                 y: ballses[i].y.valueOf(),
                                 isMyPlayer: ballses[i].self.valueOf(),
                                 team: ballses[i].team.valueOf()
-                                //team: i-1
                             }]);
                         }
-                    }
-                    else {
-                        console.log("another start");
-                    }
+                    //}
+                    //else {
+                    //    console.log("another start");
+                    //}
                     break;
-                case 10:
+                case 10://current coordinate
+                    self.game.set({isStarted: true, isEnded: false});
                     var ballses = msg.balls;
                     var playersCount = ballses.length;
                     if (!self.isStarted) {
                         self.isStarted = true;
+                        collection.reset();
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
@@ -4078,12 +4080,13 @@ define('views/websocket',[
                         });
                     }
                     break;
-                case 11:
-                    this.game.set({winner: msg.team});
+                case 11://game result
+                    this.game.set({winner: msg.team, isEnded: true});
                     self.lobby.trigger(self.lobby.PLAYER_EXIT);
                     console.log(msg);
                     break;
-                case 12:
+                case 12://current score
+                    console.log(msg);
                     this.game.set({team0: msg.team0, team1: msg.team1});
                     break;
                 case 13:
@@ -4430,7 +4433,7 @@ define('views/main',[
 
     return View;
 });
-define('tmpl/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var collection=__fest_context;__fest_buf+=("<div class=\"scoreboard\"><div class=\"scoreboard__header\">Scoreboard</div><table class=\"scoreboard__table\"><tr class=\"scoreboard__table_header-color\"><th>Username</th><th>Score</th></tr>");var i,top,__fest_iterator0;try{__fest_iterator0=collection || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr><td>");try{__fest_buf+=(__fest_escapeHTML(collection[i].name))}catch(e){__fest_log_error(e.message + "11");}__fest_buf+=("</td><td>");try{__fest_buf+=(__fest_escapeHTML(collection[i].score))}catch(e){__fest_log_error(e.message + "14");}__fest_buf+=("</td></tr>");}__fest_buf+=("</table><a href=\"\/#\" class=\"button-back\">Back</a></div><img src=\"\/img\/preloader.GIF\"/>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/scoreboard',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var collection=__fest_context;__fest_buf+=("<div class=\"scoreboard\"><div class=\"scoreboard__header\">Scoreboard</div><table class=\"scoreboard__table\"><tr class=\"scoreboard__table_header-color\"><th>Username</th><th>Score</th></tr>");var i,top,__fest_iterator0;try{__fest_iterator0=collection || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr><td>");try{__fest_buf+=(__fest_escapeHTML(collection[i].name))}catch(e){__fest_log_error(e.message + "11");}__fest_buf+=("</td><td>");try{__fest_buf+=(__fest_escapeHTML(collection[i].score))}catch(e){__fest_log_error(e.message + "14");}__fest_buf+=("</td></tr>");}__fest_buf+=("</table><a href=\"\/#\" class=\"button-back\">Back</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 /**
  * Created by Ann on 21.09.15.
  */
@@ -4488,7 +4491,7 @@ define('views/scoreboard',[
 
     return View;
 });
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}__fest_buf+=("<div class=\"game\"><header class=\"game__header\"><span><canvas id=\"gameTimer\" class=\"game__header_left\"></canvas></span><span><canvas id=\"gameScore\" class=\"game__header_center\"></canvas></span><span><div class=\"game__header_right\"><a href=\"\/#\" class=\"game__header__button\">Back</a></div></span></header><canvas id=\"myCanvas\" class=\"game__field\"></canvas><canvas id=\"gameEndTablo\"></canvas></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}__fest_buf+=("<div class=\"game\"><header class=\"game__header\"><span><canvas id=\"gameTimer\" class=\"game__header_left\"></canvas></span><span><canvas id=\"gameScore\" class=\"game__header_center\"></canvas></span><span><div class=\"game__header_right\"><a href=\"\/#main\" class=\"game__header__button\">Back</a></div></span></header><canvas id=\"myCanvas\" class=\"game__field\"></canvas><canvas id=\"gameEndTablo\"></canvas></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('views/game',[
     'backbone',
     'tmpl/game'
@@ -4513,7 +4516,6 @@ define('views/game',[
             this.game = gameModel;
 
             this.game.fetch();
-            //console.log(this.game.attributes);
             this.listenTo(this.game, "changed", this.render);
             /*
             this.game.on('change', this.wait);
@@ -4549,14 +4551,20 @@ define('views/game',[
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
-
+            window.clearAnimation = (function() {
+                return window.cancelRequestAnimationFrame ||
+                    window.webkitCancelRequestAnimationFrame||
+                    window.mozCancelRequestAnimationFrame ||
+                    window.oCancelRequestAnimationFrame ||
+                    window.msCancelRequestAnimationFrame ||
+                function(id){
+                    clearTimeout(id)
+                };
+            })();
 
             this.timercanvas = document.getElementById('gameTimer');
             this.timercontext = this.timercanvas.getContext('2d');
-            // TODO Заглушки
-            this.counter = 0;
 
-            ///////
             this.scorecanvas = document.getElementById('gameScore');
             this.scorecontext = this.scorecanvas.getContext('2d');
 
@@ -4565,13 +4573,12 @@ define('views/game',[
 
             this.endcanvas = document.getElementById('gameEndTablo');
             this.endcontext = this.canvas.getContext('2d');
-            this.isGameEnd = false;
+
 
             this.fieldW = this.game.get("fieldWidth");
             this.fieldH = this.game.get("fieldHeight");
 
             this.gametimeConf = this.game.get("gameTime");
-            this.gametime = this.gametimeConf;
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
@@ -4590,18 +4597,11 @@ define('views/game',[
 
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
-            //TODO брать из сообщения
-           // this.players.add([{id:0,x:this.fieldW/2,y:this.fieldH/2,radius:this.game.get("ballRadius"),type:"ball"}]);
-           //TODO Заглушки
-            this.team = [0,1];
-            this.teamColors = ["ball","yellow","yellow","blue","blue"];
-            this.whoIs = [0,1,0,0,0];
-            ////
+
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
             this.resizeCanvas();
-            //this.animate();
-
+            this.firstVisit = true;
 
         },
         show: function () {
@@ -4609,16 +4609,22 @@ define('views/game',[
                 Backbone.history.navigate('#', true);
                 return;
             }
-            //console.log(this.game.attributes);
-            this.animate();
+
+            if (this.game.get('isStarted') == true) {
+                this.gametime = this.gametimeConf;
+                this.game.set({isStarted: false});
+                this.counter = 0;
+            }
+            //window.clearAnimation(this.animate.bind(this));
+            if (this.firstVisit) {
+                this.animate();
+                this.firstVisit = false;
+            }
             this.$el.show();
             this.trigger("show", this);
         },
         hide: function () {
-
             this.$el.hide();
-            this.isGameEnd = false;
-            this.gametime = this.gametimeConf;
         },
 
         //helpers
@@ -4644,12 +4650,7 @@ define('views/game',[
 
 
         },
-        addPlayers: function (ballses) {
-            var playersCount = ballses.length;
-            for (var i = 1; i < playersCount; i++) {
-                this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf(),borderColor:this.teamColors[i],isMyPlayer: this.whoIs[i],team:i-1}]);
-            }
-        },
+
         isCollisionPlayers: function (i, j) {
             var a = parseFloat(this.players.at(j).get("x")) - parseFloat(this.players.at(i).get("x"));
             var b = parseFloat(this.players.at(j).get("y")) - parseFloat(this.players.at(i).get("y"));
@@ -4677,61 +4678,32 @@ define('views/game',[
             context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
-        //TODO isGameEnd;
+        //TODO closePath;
         animate: function () {
             this.resizeCanvas();
             this.context.fillStyle = this.onload();
             this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
             this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
-            this.counter = this.counter + 1;
-            if (this.counter == 60 && this.gametime > 0) {
-                this.gametime = this.gametime - 1;
-                this.counter = 0;
-               // this.isGameEnd = false;
-            }else {
-                if (this.gametime == 0) this.isGameEnd = true;
+            if (this.game.get('isEnded') == false)
+            {
+                this.counter = this.counter + 1;
+                if (this.counter == 60 && this.gametime > 0) {
+                    this.gametime = this.gametime - 1;
+                    this.counter = 0;
+                }
             }
-            var gameSpritesCount = this.players.length;
-            for (var i = 0; i < gameSpritesCount; i++) {
-                var sprite = this.players.at(i);
-                var myArc = {
-                    radius: sprite.get("radius"),
-                    type: sprite.get("type"),
-                    Vx: sprite.get("Vx"),
-                    Vy: sprite.get("Vy"),
-                    y: sprite.get("y"),
-                    x: sprite.get("x"),
-                    borderColor: sprite.get("borderColor"),
-                    isMyPlayer: sprite.get("isMyPlayer"),
-                    team: sprite.get("team")
-                };
-                this.drawArc(myArc, this.context, this.timercontext, this.scorecontext, this.endcontext);
+            else {this.gametime = 0;}
 
-                sprite.set({x: myArc.x + myArc.Vx, y: myArc.y + myArc.Vy});
-
-                //Временно не используется
-
-                var goal_right = false;
-                var goal_left = false;
-                if (myArc.type == "ball") {
-                    if (myArc.y - myArc.radius > this.fieldH * 0.44 && myArc.y + myArc.radius < this.fieldH * 0.565) {
-                        if (myArc.x - myArc.radius <= 20) goal_left = true;
-                        else if (myArc.x + myArc.radius >= this.fieldW - 20) goal_right = true;
-                    }
-                }
-
-                if (((myArc.x + myArc.Vx + myArc.radius) * this.coordinateStepX > this.container.x + this.container.width) || ((myArc.x - myArc.radius + myArc.Vx) * this.coordinateStepX < this.container.x)) {
-                    myArc.Vx = -myArc.Vx;
-                }
-                if (((myArc.y + myArc.Vy + myArc.radius) * this.coordinateStepY > this.container.y + this.container.height) || ((myArc.y - myArc.radius + myArc.Vy) * this.coordinateStepY < this.container.y)) {
-                    myArc.Vy = -myArc.Vy;
-                }
-
-                myArc.x += myArc.Vx;
-                myArc.y += myArc.Vy;
+            for (var i = 0; i < this.players.length; i++) {
+                this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
+                Vx = this.players.at(i).get("Vx");
+                Vy = this.players.at(i).get("Vy");
+                y =  this.players.at(i).get("y");
+                x =  this.players.at(i).get("x");
+                this.players.at(i).set({x: x + Vx, y: y + Vy});
             }
             //Временно не используется
-            for (var j = 1; j < gameSpritesCount; ++j) {
+            for (var j = 1; j < this.players.length; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
                     if (this.isCollisionPlayers(i, j)) {
@@ -4809,18 +4781,21 @@ define('views/game',[
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-        drawArc: function (myArc, context, timercontext, scorecontext, endcontext) {
+        drawArc: function (game, myArc, context, timercontext, scorecontext, endcontext) {
             var img;
+            var x = myArc.get("x");
+            var y = myArc.get("y");
+            var radius = myArc.get("radius");
             context.save();
             context.beginPath();
-            if (myArc.type == "human") {
+            if (myArc.get("type") == "human") {
 
-                context.translate(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY);
-                var imgW = myArc.radius * this.coordinateStepY * 2;
-                var imgH = myArc.radius * this.coordinateStepY * 2;
-                context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+                context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
+                var imgW = radius * this.coordinateStepY * 2;
+                var imgH = radius * this.coordinateStepY * 2;
+                context.rotate(Math.atan2(myArc.get("Vy"), myArc.get("Vx")) - Math.PI / 2);
 
-                if (myArc.isMyPlayer) {
+                if (myArc.get("isMyPlayer")) {
                     context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
                     context.strokeStyle = "white";
                     context.lineWidth = this.borderWidth;
@@ -4828,7 +4803,7 @@ define('views/game',[
                     context.fill();
                 }
                 context.beginPath();
-                if (myArc.team == 0) {
+                if (myArc.get("team") == 0) {
                     img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
                 } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
@@ -4843,7 +4818,7 @@ define('views/game',[
                 }
                 */
             } else {
-                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
+                context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
                 context.fillStyle = img;
                 context.fill();
@@ -4859,9 +4834,9 @@ define('views/game',[
             scorecontext.font = '20px led-digital-7';
             scorecontext.fillStyle = "white";
             scorecontext.fill();
-            scorecontext.fillText("Choco "+ this.game.get("team0") + " : " + this.game.get("team1") + " Ginger", 0,  15);
+            scorecontext.fillText("Choco "+ this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0,  15);
 
-            if (this.isGameEnd) {
+            if (game.get('isEnded') == true) {
                 endcontext.beginPath();
 
                 endcontext.font = '120px Calibri';
@@ -4872,16 +4847,18 @@ define('views/game',[
 
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
+                var wordLength = 6;
                 var winnerName = "";
                 var winner = this.game.get('winner');
-                if (winner === 1) winnerName = "Ginger";
-                else if (winner === 0)
-                    winnerName = "Choco";
-                else
-                    winnerName = "Friendship";
-                endcontext.strokeText("Winner "+ winnerName, this.endcontainer.width/2 - (120/2)*6,  this.endcontainer.height/2);
+                if (winner === 0) winnerName = "Winner Ginger";
+                else if (winner === 1)
+                    winnerName = "Winner Choco";
+                else {
+                    winnerName = "Friendship ";
+                    wordLength = 4;
+                }
+                endcontext.strokeText(winnerName, this.endcontainer.width/2 - (120/2)*wordLength,  this.endcontainer.height/2 );
                 endcontext.fill();
-                //console.log("Coordinate:"+ this.endcontainer.width/2 - 60*7/2+"x"+this.endcontainer.height/2);
             }
 
         },

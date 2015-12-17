@@ -203,6 +203,7 @@ define([
                     break;
                 case 11://game result
                     this.game.set({winner: msg.team, isEnded: true});
+                    self.lobby.trigger(self.lobby.PLAYER_EXIT);
                     console.log(msg);
                     break;
                 case 12://current score
