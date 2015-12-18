@@ -25,37 +25,7 @@ html {
   height: 100%;
 }
 
-.preloader {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: #203f16;
-  z-index: 100500;
-  font: 28px led-digital-7;
-  &__text{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 316px;
-    height: 300px;
-    margin-left: -150px;
-    margin-top: 50px;
-    text-align: center;
-    color: white;
-  }
-  &__spinner{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
-    margin-left: -150px;
-    margin-top: -150px;
-    background: url('/img/preloader.GIF') no-repeat 50% 50%;
-  }
-}
+
 
 .notification-bar{
   display: none;
