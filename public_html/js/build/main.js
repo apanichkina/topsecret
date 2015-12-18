@@ -3966,15 +3966,12 @@ define('views/main',[
         render: function () {
             var self = this;
 
-            this.$el.html(self.template({
-                user: self.user.get('name')
-            }));
-
-            if (self.user.get('logged_in')) {
+            if (self.user.get('logged_in')){
+                this.$el.html(self.template({ user: self.user.get('name') }));
                 self.$('#js-login').hide();
                 self.$('#js-signup').hide();
-            }
-            else {
+            } else {
+                this.$el.html(self.template);
                 self.$('#js-logout').hide();
                 self.$('#js-play').hide();
             }
