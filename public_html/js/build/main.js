@@ -4058,7 +4058,7 @@ define('views/scoreboard',[
 
     return View;
 });
-define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}__fest_buf+=("<div class=\"game\"><header class=\"game__header\"><span><canvas id=\"gameTimer\" class=\"game__header_left\"></canvas></span><span><canvas id=\"gameScore\" class=\"game__header_center\"></canvas></span><span><div class=\"game__header_right\"><a href=\"\/#main\" class=\"game__header__button\">Back</a></div></span></header><canvas id=\"myCanvas\" class=\"game__field\"></canvas><canvas id=\"gameEndTablo\"></canvas></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/game',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}__fest_buf+=("<div class=\"game\"><header class=\"game__header\"><span><canvas id=\"gameTimer\" class=\"game__header_left\"></canvas></span><span><canvas id=\"gameScore\" class=\"game__header_center\"></canvas></span><span><div class=\"game__header_right\"><a href=\"\/#main\" class=\"game__header__button\">Back</a></div></span></header><div class=\"game__area\"><canvas id=\"gameBackground\" class=\"game__field\"></canvas><canvas id=\"myCanvas\" class=\"game__sprite\"></canvas><canvas id=\"gameEndTablo\" class=\"game__endtablo\"></canvas></div></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('views/game',[
     'backbone',
     'tmpl/game'
@@ -4128,6 +4128,14 @@ define('views/game',[
                     clearTimeout(id)
                 };
             })();
+            this.canvas = document.getElementById('myCanvas');
+            this.context = this.canvas.getContext('2d');
+
+            this.endcanvas = document.getElementById('gameEndTablo');
+            this.endcontext = this.canvas.getContext('2d');
+
+            this.backgroundcanvas = document.getElementById('gameBackground');
+            this.backgroundcontext = this.backgroundcanvas.getContext('2d');
 
             this.timercanvas = document.getElementById('gameTimer');
             this.timercontext = this.timercanvas.getContext('2d');
@@ -4135,11 +4143,7 @@ define('views/game',[
             this.scorecanvas = document.getElementById('gameScore');
             this.scorecontext = this.scorecanvas.getContext('2d');
 
-            this.canvas = document.getElementById('myCanvas');
-            this.context = this.canvas.getContext('2d');
 
-            this.endcanvas = document.getElementById('gameEndTablo');
-            this.endcontext = this.canvas.getContext('2d');
 
 
             this.fieldW = this.game.get("fieldWidth");
@@ -4165,22 +4169,27 @@ define('views/game',[
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
 
+
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
-            this.resizeCanvas();
+
             this.firstVisit = true;
 
         },
         show: function () {
+            //TODO вернуть обратно
             if(!this.user.get('logged_in') || !this.player.get('inLobby')){
                 Backbone.history.navigate('#', true);
                 return;
             }
-
+            this.resizeCanvas();
             if (this.game.get('isStarted') == true) {
-                this.gametime = this.gametimeConf;
+                //this.gametime = this.gametimeConf;
                 this.game.set({isStarted: false});
-                this.counter = 0;
+                var date = new Date();
+                var secconds = date.getSeconds();
+                this.timeToEnd = (secconds + this.gametimeConf);
+                console.log("end="+secconds);
             }
             //window.clearAnimation(this.animate.bind(this));
             if (this.firstVisit) {
@@ -4201,10 +4210,17 @@ define('views/game',[
             this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight - 40;
             if (height < 550) height = 550;
+
             this.coordinateStepY = height / this.fieldH;
+
+            this.backgroundcanvas.width = width;
+            this.backgroundcanvas.height = height;
+            this.backgroundcontainer = {x: 0, y: 0, width: width, height: height};
+            this.backgroundcontext.fillStyle = this.onload();
             this.canvas.width = width;
             this.canvas.height = height;
             this.container = {x: 0, y: 0, width: width, height: height};
+
             this.timercanvas.width = 100;
             this.timercanvas.height = 20;
             this.timercontainer = {x: 0, y: 0, width: this.timercanvas.width / 10, height: this.timercanvas.height / 10};
@@ -4214,6 +4230,9 @@ define('views/game',[
             this.endcanvas.width = width;
             this.endcanvas.height = height;
             this.endcontainer = {x: 13, y: 0, width: width , height: height};
+
+            //this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
+            //this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
 
 
         },
@@ -4234,9 +4253,9 @@ define('views/game',[
         },
 
         onload: function () {
-            var container = this.container;
+            var container = this.backgroundcontainer;
             var imageObj = this.imageObj;
-            this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+            this.backgroundcontext.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
         onloadTablo: function (container, context) {
@@ -4247,17 +4266,13 @@ define('views/game',[
 
         //TODO closePath;
         animate: function () {
-            this.resizeCanvas();
-            this.context.fillStyle = this.onload();
-            this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
-            this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
+            this.context.clearRect(this.container.x, this.container.y, this.container.width, this.container.height);
+            this.timercontext.clearRect(0, 0, this.timercanvas.width, this.timercanvas.height);
+            this.scorecontext.clearRect(0, 0, this.scorecanvas.width, this.scorecanvas.height);
             if (this.game.get('isEnded') == false)
             {
-                this.counter = this.counter + 1;
-                if (this.counter == 60 && this.gametime > 0) {
-                    this.gametime = this.gametime - 1;
-                    this.counter = 0;
-                }
+                var date = new Date();
+                this.gametime = (this.timeToEnd - date.getSeconds())%60;
             }
             else {this.gametime = 0;}
 
@@ -4396,6 +4411,7 @@ define('views/game',[
             timercontext.fillStyle = "white";
             timercontext.fill();
             timercontext.fillText("Time "+ this.gametime, 0,  15);
+            timercontext.closePath();
 
             scorecontext.beginPath();
             scorecontext.font = '20px led-digital-7';
@@ -4407,11 +4423,6 @@ define('views/game',[
                 endcontext.beginPath();
 
                 endcontext.font = '120px Calibri';
-                //endcontext.fillStyle = "black";
-                //endcontext.fill();
-                //endcontext.fillText("Winner team 1 ", this.endcontainer.width/2,  this.endcontainer.height/2);
-
-
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
                 var wordLength = 6;

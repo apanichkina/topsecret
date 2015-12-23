@@ -67,6 +67,14 @@ define([
                     clearTimeout(id)
                 };
             })();
+            this.canvas = document.getElementById('myCanvas');
+            this.context = this.canvas.getContext('2d');
+
+            this.endcanvas = document.getElementById('gameEndTablo');
+            this.endcontext = this.canvas.getContext('2d');
+
+            this.backgroundcanvas = document.getElementById('gameBackground');
+            this.backgroundcontext = this.backgroundcanvas.getContext('2d');
 
             this.timercanvas = document.getElementById('gameTimer');
             this.timercontext = this.timercanvas.getContext('2d');
@@ -74,11 +82,7 @@ define([
             this.scorecanvas = document.getElementById('gameScore');
             this.scorecontext = this.scorecanvas.getContext('2d');
 
-            this.canvas = document.getElementById('myCanvas');
-            this.context = this.canvas.getContext('2d');
 
-            this.endcanvas = document.getElementById('gameEndTablo');
-            this.endcontext = this.canvas.getContext('2d');
 
 
             this.fieldW = this.game.get("fieldWidth");
@@ -104,22 +108,27 @@ define([
             this.maxBallSpeed = this.game.get("maxSpeed");
             this.borderWidth = 3;
 
+
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
-            this.resizeCanvas();
+
             this.firstVisit = true;
 
         },
         show: function () {
+            //TODO вернуть обратно
             if(!this.user.get('logged_in') || !this.player.get('inLobby')){
                 Backbone.history.navigate('#', true);
                 return;
             }
-
+            this.resizeCanvas();
             if (this.game.get('isStarted') == true) {
-                this.gametime = this.gametimeConf;
+                //this.gametime = this.gametimeConf;
                 this.game.set({isStarted: false});
-                this.counter = 0;
+                var date = new Date();
+                var secconds = date.getSeconds();
+                this.timeToEnd = (secconds + this.gametimeConf);
+                console.log("end="+secconds);
             }
             //window.clearAnimation(this.animate.bind(this));
             if (this.firstVisit) {
@@ -140,10 +149,17 @@ define([
             this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight - 40;
             if (height < 550) height = 550;
+
             this.coordinateStepY = height / this.fieldH;
+
+            this.backgroundcanvas.width = width;
+            this.backgroundcanvas.height = height;
+            this.backgroundcontainer = {x: 0, y: 0, width: width, height: height};
+            this.backgroundcontext.fillStyle = this.onload();
             this.canvas.width = width;
             this.canvas.height = height;
             this.container = {x: 0, y: 0, width: width, height: height};
+
             this.timercanvas.width = 100;
             this.timercanvas.height = 20;
             this.timercontainer = {x: 0, y: 0, width: this.timercanvas.width / 10, height: this.timercanvas.height / 10};
@@ -153,6 +169,9 @@ define([
             this.endcanvas.width = width;
             this.endcanvas.height = height;
             this.endcontainer = {x: 13, y: 0, width: width , height: height};
+
+            //this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
+            //this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
 
 
         },
@@ -173,9 +192,9 @@ define([
         },
 
         onload: function () {
-            var container = this.container;
+            var container = this.backgroundcontainer;
             var imageObj = this.imageObj;
-            this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+            this.backgroundcontext.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
         onloadTablo: function (container, context) {
@@ -186,17 +205,13 @@ define([
 
         //TODO closePath;
         animate: function () {
-            this.resizeCanvas();
-            this.context.fillStyle = this.onload();
-            this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
-            this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
+            this.context.clearRect(this.container.x, this.container.y, this.container.width, this.container.height);
+            this.timercontext.clearRect(0, 0, this.timercanvas.width, this.timercanvas.height);
+            this.scorecontext.clearRect(0, 0, this.scorecanvas.width, this.scorecanvas.height);
             if (this.game.get('isEnded') == false)
             {
-                this.counter = this.counter + 1;
-                if (this.counter == 60 && this.gametime > 0) {
-                    this.gametime = this.gametime - 1;
-                    this.counter = 0;
-                }
+                var date = new Date();
+                this.gametime = (this.timeToEnd - date.getSeconds())%60;
             }
             else {this.gametime = 0;}
 
@@ -335,6 +350,7 @@ define([
             timercontext.fillStyle = "white";
             timercontext.fill();
             timercontext.fillText("Time "+ this.gametime, 0,  15);
+            timercontext.closePath();
 
             scorecontext.beginPath();
             scorecontext.font = '20px led-digital-7';
@@ -346,11 +362,6 @@ define([
                 endcontext.beginPath();
 
                 endcontext.font = '120px Calibri';
-                //endcontext.fillStyle = "black";
-                //endcontext.fill();
-                //endcontext.fillText("Winner team 1 ", this.endcontainer.width/2,  this.endcontainer.height/2);
-
-
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
                 var wordLength = 6;
