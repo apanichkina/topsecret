@@ -3957,9 +3957,10 @@ define('views/websocket',[
 
         disconnect: function(event, view) {
             var self = view;
+
             /* unexpected close */
             if(self.user.get('logged_in')){
-                self.error('Unknown error occurred. Please refresh the page.', 5000);
+                self.error('Unknown error occurred. Please refresh the page.');
             }
 
             /**
@@ -3977,6 +3978,9 @@ define('views/websocket',[
             self.lobby.unsetTeams();
             self.ws.close();
             self.ws = null;
+
+            /* move user to main screen in case of unexpected ws crash */
+            Backbone.history.navigate('#', true)
         },
 
         onSocketMessage: function(event, view) {
@@ -4099,12 +4103,12 @@ define('views/websocket',[
             }
         },
 
-        error: function (message, duration) {
+        error: function (message) {
             /*animate the bar*/
-            $('.notification-bar').slideDown(function() {
-                setTimeout(function() {
-                    $('.notification-bar').slideUp(function() {});
-                }, duration);
+            var bar = $('.js-bar');
+            bar.slideDown();
+            $('.js-error-close').on('click', function () {
+                bar.slideUp()
             });
         }
 
