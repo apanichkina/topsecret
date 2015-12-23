@@ -3530,7 +3530,7 @@ define('views/websocket',[
 
             /* unexpected close */
             if(self.user.get('logged_in')){
-                self.error('Unknown error occurred. Please refresh the page.');
+                self.socketError();
             }
 
             /**
@@ -3621,6 +3621,9 @@ define('views/websocket',[
                                 isMyPlayer: ballses[i].self.valueOf(),
                                 team: ballses[i].team.valueOf()
                             }]);
+                            if (ballses[i].self.valueOf() == true) {
+                                self.game.set({myNumber: i});
+                            }
                         }
                     //}
                     //else {
@@ -3643,6 +3646,9 @@ define('views/websocket',[
                                 isMyPlayer: ballses[i].self.valueOf()
                             }
                             ]);
+                            if (ballses[i].self.valueOf() == true) {
+                                self.game.set({myNumber: i});
+                            }
                         }
                     }
                     for (var i = 0; i < playersCount; i++) {
@@ -3673,7 +3679,7 @@ define('views/websocket',[
             }
         },
 
-        error: function (message) {
+        socketError: function () {
             /*animate the bar*/
             var bar = $('.js-bar');
             bar.slideDown();
@@ -4066,11 +4072,8 @@ define('tmpl/game',[],function () { return function (__fest_context){"use strict
 define('views/game',[
     'backbone',
     'tmpl/game'
-], function (
-    Backbone,
-    tmpl
-)
-{
+], function (Backbone,
+             tmpl) {
 
     var View = Backbone.View.extend({
 
@@ -4089,26 +4092,26 @@ define('views/game',[
             this.game.fetch();
             this.listenTo(this.game, "changed", this.render);
             /*
-            this.game.on('change', this.wait);
-            this.user.on('change', this.wait);
-            */
+             this.game.on('change', this.wait);
+             this.user.on('change', this.wait);
+             */
         },
         /*
-        _waitModel: {
-          game: false,
-            user: false
-        },
-        wait: function (evt, model) {
-            if (model === this.game) {
-                _waitModel.game = true;
-            } else if (model === this.user) {
-                _waitModel.game = true;
-            }
+         _waitModel: {
+         game: false,
+         user: false
+         },
+         wait: function (evt, model) {
+         if (model === this.game) {
+         _waitModel.game = true;
+         } else if (model === this.user) {
+         _waitModel.game = true;
+         }
 
-            if (_waitModel.game && _waitModel.user) {
-                this.render();
-            }
-        },*/
+         if (_waitModel.game && _waitModel.user) {
+         this.render();
+         }
+         },*/
         render: function () {
             this.$el.html(this.template);
 
@@ -4122,15 +4125,15 @@ define('views/game',[
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
-            window.clearAnimation = (function() {
+            window.clearAnimation = (function () {
                 return window.cancelRequestAnimationFrame ||
-                    window.webkitCancelRequestAnimationFrame||
+                    window.webkitCancelRequestAnimationFrame ||
                     window.mozCancelRequestAnimationFrame ||
                     window.oCancelRequestAnimationFrame ||
                     window.msCancelRequestAnimationFrame ||
-                function(id){
-                    clearTimeout(id)
-                };
+                    function (id) {
+                        clearTimeout(id)
+                    };
             })();
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
@@ -4148,10 +4151,9 @@ define('views/game',[
             this.scorecontext = this.scorecanvas.getContext('2d');
 
 
-
-
             this.fieldW = this.game.get("fieldWidth");
             this.fieldH = this.game.get("fieldHeight");
+
 
             this.gametimeConf = this.game.get("gameTime");
 
@@ -4179,21 +4181,21 @@ define('views/game',[
 
             this.firstVisit = true;
 
+
         },
         show: function () {
             //TODO вернуть обратно
-            if(!this.user.get('logged_in') || !this.player.get('inLobby')){
+            if (!this.user.get('logged_in') || !this.player.get('inLobby')) {
                 Backbone.history.navigate('#', true);
                 return;
             }
             this.resizeCanvas();
+            this.number = this.game.get("myNumber");
             if (this.game.get('isStarted') == true) {
-                //this.gametime = this.gametimeConf;
                 this.game.set({isStarted: false});
                 var date = new Date();
                 var secconds = date.getSeconds();
                 this.timeToEnd = (secconds + this.gametimeConf);
-                console.log("end="+secconds);
             }
             //window.clearAnimation(this.animate.bind(this));
             if (this.firstVisit) {
@@ -4227,18 +4229,13 @@ define('views/game',[
 
             this.timercanvas.width = 100;
             this.timercanvas.height = 20;
-            this.timercontainer = {x: 0, y: 0, width: this.timercanvas.width / 10, height: this.timercanvas.height / 10};
+
             this.scorecanvas.width = 300;
             this.scorecanvas.height = 20;
-            this.scorecontainer = {x: 0, y: 0, width: this.scorecanvas.width / 10, height: this.scorecanvas.height / 10};
+
             this.endcanvas.width = width;
             this.endcanvas.height = height;
-            this.endcontainer = {x: 13, y: 0, width: width , height: height};
-
-            //this.timercontext.fillStyle = this.onloadTablo(this.timercontainer, this.timercontext);
-            //this.scorecontext.fillStyle = this.onloadTablo(this.scorecontainer, this.scorecontext);
-
-
+            this.endcontainer = {x: 13, y: 0, width: width, height: height};
         },
 
         isCollisionPlayers: function (i, j) {
@@ -4263,7 +4260,6 @@ define('views/game',[
         },
 
         onloadTablo: function (container, context) {
-           // var container = this.timercontainer;
             var imageObj = this.imageObjTablo;
             context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
@@ -4273,19 +4269,20 @@ define('views/game',[
             this.context.clearRect(this.container.x, this.container.y, this.container.width, this.container.height);
             this.timercontext.clearRect(0, 0, this.timercanvas.width, this.timercanvas.height);
             this.scorecontext.clearRect(0, 0, this.scorecanvas.width, this.scorecanvas.height);
-            if (this.game.get('isEnded') == false)
-            {
+            if (this.game.get('isEnded') == false) {
                 var date = new Date();
-                this.gametime = (this.timeToEnd - date.getSeconds())%60;
+                this.gametime = (this.timeToEnd - date.getSeconds()) % 60;
             }
-            else {this.gametime = 0;}
+            else {
+                this.gametime = 0;
+            }
 
             for (var i = 0; i < this.players.length; i++) {
                 this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
                 Vx = this.players.at(i).get("Vx");
                 Vy = this.players.at(i).get("Vy");
-                y =  this.players.at(i).get("y");
-                x =  this.players.at(i).get("x");
+                y = this.players.at(i).get("y");
+                x = this.players.at(i).get("x");
                 this.players.at(i).set({x: x + Vx, y: y + Vy});
             }
             //Временно не используется
@@ -4305,12 +4302,12 @@ define('views/game',[
         },
         collisionPlayers: function (i, j) {
             if (this.players.at(i).get("type") != "ball") {
-                this.players.at(i).set({Vx: - this.players.at(i).get("Vx"),Vy: - this.players.at(i).get("Vy")});
-                this.players.at(j).set({Vx: - this.players.at(j).get("Vx"),Vy: - this.players.at(j).get("Vy")})
+                this.players.at(i).set({Vx: -this.players.at(i).get("Vx"), Vy: -this.players.at(i).get("Vy")});
+                this.players.at(j).set({Vx: -this.players.at(j).get("Vx"), Vy: -this.players.at(j).get("Vy")})
             }
             else { //столкновение с мячиком
                 if (this.players.at(j).get("Vx") == 0 && this.players.at(j).get("Vy") == 0) { //игрок изначально стоял
-                    this.players.at(i).set({Vx: - this.players.at(i).get("Vx"),Vy: - this.players.at(i).get("Vy")});
+                    this.players.at(i).set({Vx: -this.players.at(i).get("Vx"), Vy: -this.players.at(i).get("Vy")});
                 }
                 else {
                     var delta = -this.players.at(i).get("Vx") + this.players.at(j).get("Vx");
@@ -4320,10 +4317,10 @@ define('views/game',[
                     if (delta != 0)
                         this.players.at(j).set({Vx: -delta / Math.abs(delta)});
 
-                    delta =  -this.players.at(i).get("Vy") + this.players.at(j).get("Vy");
+                    delta = -this.players.at(i).get("Vy") + this.players.at(j).get("Vy");
                     if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
                     else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;
-                    this.players.at(i).set({Vy :delta});
+                    this.players.at(i).set({Vy: delta});
                     //this.balls[i].Vy = - this.balls[i].Vy + this.balls[j].Vy;
                     if (delta != 0)
                         this.players.at(j).set({Vy: -delta / Math.abs(delta)});
@@ -4397,12 +4394,12 @@ define('views/game',[
                 context.fill();
 
                 /* Тут можно подписать своего игрока
-                if (myArc.isMyPlayer) {
-                    context.beginPath();
-                    context.font = 'bold 10pt Calibri';
-                    context.fillText('YOU', -13, 0);
-                }
-                */
+                 if (myArc.isMyPlayer) {
+                 context.beginPath();
+                 context.font = 'bold 10pt Calibri';
+                 context.fillText('YOU', -13, 0);
+                 }
+                 */
             } else {
                 context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
@@ -4414,14 +4411,14 @@ define('views/game',[
             timercontext.font = '20px led-digital-7';
             timercontext.fillStyle = "white";
             timercontext.fill();
-            timercontext.fillText("Time "+ this.gametime, 0,  15);
+            timercontext.fillText("Time " + this.gametime, 0, 15);
             timercontext.closePath();
 
             scorecontext.beginPath();
             scorecontext.font = '20px led-digital-7';
             scorecontext.fillStyle = "white";
             scorecontext.fill();
-            scorecontext.fillText("Choco "+ this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0,  15);
+            scorecontext.fillText("Choco " + this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0, 15);
 
             if (game.get('isEnded') == true) {
                 endcontext.beginPath();
@@ -4439,7 +4436,7 @@ define('views/game',[
                     winnerName = "Friendship ";
                     wordLength = 4;
                 }
-                endcontext.strokeText(winnerName, this.endcontainer.width/2 - (120/2)*wordLength,  this.endcontainer.height/2 );
+                endcontext.strokeText(winnerName, this.endcontainer.width / 2 - (120 / 2) * wordLength, this.endcontainer.height / 2);
                 endcontext.fill();
             }
 
@@ -4447,21 +4444,33 @@ define('views/game',[
 
         processKey: function (e) {
             var msg;
-            if (e.keyCode == 37) {
-                this.user.set({clickCode: 5});
-                this.user.trigger(this.user.click);
+            if (e.keyCode == 37) {//влево
+                if (this.players.at(this.number).get("Vx") > -this.maxBallSpeed) {
+                    this.user.set({clickCode: 5});
+                    this.user.trigger(this.user.click);
+                }
+               // else console.log("sooo much speed left");
             }
-            if (e.keyCode == 39) {
-                this.user.set({clickCode: 4});
-                this.user.trigger(this.user.click);
+            if (e.keyCode == 39) {//вправо
+                if (this.players.at(this.number).get("Vx") < this.maxBallSpeed) {
+                    this.user.set({clickCode: 4});
+                    this.user.trigger(this.user.click);
+                }
+                //else console.log("sooo much speed right");
             }
-            if (e.keyCode == 38) {
-                this.user.set({clickCode: 7});
-                this.user.trigger(this.user.click);
+            if (e.keyCode == 38) {//вверх
+                if (this.players.at(this.number).get("Vy") > -this.maxBallSpeed) {
+                    this.user.set({clickCode: 7});
+                    this.user.trigger(this.user.click);
+                }
+                //else console.log("sooo much speed top");
             }
-            if (e.keyCode == 40) {
-                this.user.set({clickCode: 6});
-                this.user.trigger(this.user.click);
+            if (e.keyCode == 40) {//вниз
+                if (this.players.at(this.number).get("Vy") < this.maxBallSpeed) {
+                    this.user.set({clickCode: 6});
+                    this.user.trigger(this.user.click);
+                }
+                //else console.log("sooo much speed down");
             }
         }
     });
@@ -5089,7 +5098,8 @@ define('models/game',[
             ballRadius: 10,
             playersRadius: 20,
             team0: 0,
-            team1: 0
+            team1: 0,
+            myNumber: 0
         },
         setProperties: function(data){
             this.set(data);

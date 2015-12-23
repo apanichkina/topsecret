@@ -172,6 +172,9 @@ define([
                                 isMyPlayer: ballses[i].self.valueOf(),
                                 team: ballses[i].team.valueOf()
                             }]);
+                            if (ballses[i].self.valueOf() == true) {
+                                self.game.set({myNumber: i});
+                            }
                         }
                     //}
                     //else {
@@ -194,6 +197,9 @@ define([
                                 isMyPlayer: ballses[i].self.valueOf()
                             }
                             ]);
+                            if (ballses[i].self.valueOf() == true) {
+                                self.game.set({myNumber: i});
+                            }
                         }
                     }
                     for (var i = 0; i < playersCount; i++) {
