@@ -113,7 +113,6 @@ define([
 
         },
         show: function () {
-            //TODO вернуть обратно
             if (!this.user.get('logged_in') || !this.player.get('inLobby')) {
                 Backbone.history.navigate('#', true);
                 return;
