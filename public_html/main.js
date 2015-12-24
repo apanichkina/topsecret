@@ -49,9 +49,9 @@ $(window).on("orientationchange", function (event) {
     }
 });
 
-function Transport () {
+function Transport (auth_code) {
 
-    this.ws = new WebSocket("ws://" + window.location.host + "/game/");
+    this.ws = new WebSocket("ws://" + window.location.host + "/game/?auth_code="+auth_code);
 
     this.ws.onmessage = function (data) {
         console.log(data);
@@ -66,7 +66,11 @@ Transport.prototype.send = function (data) {
 $(window).trigger("orientationchange");
 
 $(document).ready(function () {
-    var ws = new Transport();
+
+    var queryDict = {};
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]});
+
+    var ws = new Transport(queryDict['auth_code']);
     $('.js-up').on('tap', function () {
         ws.send({code: 7});
     });
