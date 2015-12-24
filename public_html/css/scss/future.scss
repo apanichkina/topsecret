@@ -157,6 +157,13 @@ html {
   max-width: 710px;
   min-width: 400px;
 
+    &__no-lobbies{
+      text-align: center;
+      margin: 20px 20px 10px 20px;
+      font: bold 36px #{$main-font-style};
+      color: #{$main-font-color};
+    }
+
     &__header{
       text-align: center;
       font: bold 48px #{$main-font-style};

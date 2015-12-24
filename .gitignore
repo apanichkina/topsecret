@@ -4,4 +4,4 @@ node_modules
 ._.DS_Store
 .Trash
 .idea
-
+public_html/js/build*
