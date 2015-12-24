@@ -23,7 +23,8 @@ define([
             ballRadius: 10,
             playersRadius: 20,
             team0: 0,
-            team1: 0
+            team1: 0,
+            myNumber: 0
         },
         setProperties: function(data){
             this.set(data);

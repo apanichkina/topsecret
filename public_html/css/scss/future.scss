@@ -6,6 +6,8 @@ $border-style: solid;
 $border-color: white;
 $error-font-color: #FFEEEE;
 $error-background: #f80000;
+$game-background-url:  "../img/background_color.jpg";
+
 
 @font-face{
   font-family: led-digital-7;
@@ -24,8 +26,6 @@ body {
 html {
   height: 100%;
 }
-
-
 
 .notification-bar{
   display: none;
@@ -86,7 +86,6 @@ html {
 .box{
   margin: 50px auto;
 }
-
 .button-back {
   font: bold 32px #{$main-font-style};
   color: #{$main-font-color};
@@ -316,7 +315,8 @@ html {
 .game {
   margin: -8px;
   padding: 10px;
-  background-image: url("../img/background_color.jpg");
+  background-size: cover;
+  background-image: url(#{$game-background-url});
 
   &__header{
     margin: 0;
@@ -359,10 +359,25 @@ html {
       text-align: center;
     }
   }
-
+  &__area{
+    position: relative;
+    background-size: cover;
+    background-image: url(#{$game-background-url});
+  }
   &__field{
     margin: 0;
+    padding: 0 0 10px 10px;
+    position: absolute;
+    z-index: 1;
+  }
+  &__sprite{
+    margin: 0;
     padding: 0;
+    position: absolute;
+    z-index: 100;
+  }
+  &__endtablo{
+    position: absolute;
   }
 }
 

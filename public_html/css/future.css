@@ -224,7 +224,8 @@ html {
 .game {
   margin: -8px;
   padding: 10px;
-  background-image: url("../img/background_color.jpg"); }
+  background-size: cover;
+  background-image: url(../img/background_color.jpg); }
   .game__header {
     margin: 0;
     background-image: url("../img/tablo.png");
@@ -258,9 +259,22 @@ html {
       font: normal normal bold 20px/1 "advent-pro", led-digital-7, sans-serif;
       color: #ffffff;
       text-align: center; }
+  .game__area {
+    position: relative;
+    background-size: cover;
+    background-image: url(../img/background_color.jpg); }
   .game__field {
     margin: 0;
-    padding: 0; }
+    padding: 0 0 10px 10px;
+    position: absolute;
+    z-index: 1; }
+  .game__sprite {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 100; }
+  .game__endtablo {
+    position: absolute; }
 
 #page {
   height: 100%;

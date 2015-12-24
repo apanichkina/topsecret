@@ -15,8 +15,12 @@
                 </div>
             </span>
         </header>
-        <canvas id="myCanvas" class="game__field"></canvas>
-        <canvas id="gameEndTablo"></canvas>
+        <div class="game__area">
+            <canvas id="gameBackground" class="game__field"></canvas>
+            <canvas id="myCanvas" class="game__sprite"></canvas>
+            <canvas id="gameEndTablo" class="game__endtablo"></canvas>
+        </div>
+
     </div>
 </fest:template>
 
