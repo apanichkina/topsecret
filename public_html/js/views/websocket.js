@@ -58,7 +58,8 @@ define([
             self.player.on(self.player.CREATED_LOBBY, function(){
                 console.log("CREATING");
                 var lobbyName = self.lobby.get('name');
-                self.ws.send(JSON.stringify({code: 1, name: lobbyName}));
+                var maxPlayers = self.lobby.get('maxPlayers');
+                self.ws.send(JSON.stringify({code: 1, name: lobbyName, maxPlayers: maxPlayers}));
             });
 
             self.lobby.on(self.lobby.PLAYER_EXIT, function(){
