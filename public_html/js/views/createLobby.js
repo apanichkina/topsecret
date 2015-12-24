@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'tmpl/lobbies'
+    'tmpl/create'
 ], function (
     Backbone,
     tmpl
@@ -10,6 +10,10 @@ define([
 
         template: tmpl,
 
+        events: {
+            "submit": 'createLobby'
+        },
+
         initialize: function (userModel, playerModel, lobbyCollection, currentLobby) {
 
             this.user = userModel;
@@ -17,41 +21,31 @@ define([
             this.lobbies = lobbyCollection;
             this.lobby = currentLobby;
 
-            this.listenTo(this.lobbies, "change add", this.render);
             this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
-            this.listenTo(this.player, this.player.PLAYER_EXIT, this.render);
-
             this.render();
         },
 
         render: function () {
             var self = this;
 
-            this.$el.html(this.template(this.lobbies.fetchAll()));
+            this.$el.html(this.template);
 
-            this.$el.find('.lobby-table__join').on('click', function(event){
+            this.$el.find('.button-back').on('click', function(event){
                 event.preventDefault();
-                var lobbyName = $(this).parent().siblings('.lobby-table__name').text();
-                self.joinLobby(lobbyName);
+                Backbone.history.navigate('#lobbies', true);
             });
-
-            this.$el.find('.lobby-box__create').on('click', function (event) {
-                event.preventDefault();
-                Backbone.history.navigate('#create', true);
-            });
-
-            this.$el.find('.js-back-main').on('click', function(event){
-                event.preventDefault();
-                Backbone.history.navigate('#', true);
-            });
-
 
         },
 
-        joinLobby: function(lobbyName){
-            this.player.set({ inLobby: true });
+        createLobby: function (event) {
+            event.preventDefault();
+            var lobbyName = this.$('.new-lobby-box__input').val();
             this.lobby.set({ name: lobbyName });
-            this.player.trigger(this.player.JOINED_LOBBY);
+            this.player.trigger(this.player.CREATED_LOBBY);
+        },
+
+        errorAlreadyExist: function() {
+            this.$el.find('.js-create-error').show();
         },
 
         show: function(){

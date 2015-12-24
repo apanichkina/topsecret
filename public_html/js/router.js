@@ -13,6 +13,7 @@ define([
     'views/manager',
     'views/lobbies',
     'views/lobby',
+    'views/createLobby',
     'models/user',
     'collections/scores',
     'collections/lobbies',
@@ -31,6 +32,7 @@ define([
     ViewManager,
     LobbiesScreen,
     LobbyScreen,
+    CreateLobby,
     UserModel,
     ScoreCollection,
     LobbiesCollection,
@@ -48,6 +50,7 @@ define([
             'signup': 'signupAction',
             'lobbies': 'lobbiesAction',
             'lobby': 'lobbyAction',
+            'create': 'createAction',
             '*default': 'defaultActions'
         },
 
@@ -79,6 +82,7 @@ define([
             this.lobbies = new LobbiesScreen(user, player, lobbies, lobby);
             this.lobby = new LobbyScreen(user, lobby);
             this.game = new GameScreen(user, player, players, game);
+            this.create = new CreateLobby(user, player, lobbies, lobby);
 
             /**
              * Passing views to manager
@@ -90,7 +94,7 @@ define([
             this.viewManager.addView(this.lobbies);
             this.viewManager.addView(this.lobby);
             this.viewManager.addView(this.game);
-
+            this.viewManager.addView(this.create);
 
             /**
              * Setting WebSocket
@@ -119,6 +123,9 @@ define([
         },
         lobbyAction: function() {
             this.lobby.show();
+        },
+        createAction: function () {
+            this.create.show();
         }
     });
 

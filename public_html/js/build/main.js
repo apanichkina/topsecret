@@ -3530,7 +3530,7 @@ define('views/websocket',[
 
             /* unexpected close */
             if(self.user.get('logged_in')){
-                self.error('Unknown error occurred. Please refresh the page.');
+                self.socketError();
             }
 
             /**
@@ -3544,6 +3544,12 @@ define('views/websocket',[
              * Clearing instances
              */
             self.user.clear();
+            self.user.destroy({
+                success: function(){
+                    self.user.trigger(self.user.USER_LOGOUT);
+                }
+            });
+
             self.player.clear();
             self.lobby.unsetTeams();
             self.ws.close();
@@ -3673,7 +3679,7 @@ define('views/websocket',[
             }
         },
 
-        error: function (message) {
+        socketError: function () {
             /*animate the bar*/
             var bar = $('.js-bar');
             bar.slideDown();
@@ -4487,7 +4493,7 @@ define('views/manager',['backbone'], function(Backbone) {
 
     return Manager;
 });
-define('tmpl/lobbies',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var lobbies=__fest_context;__fest_buf+=("<div class=\"new-lobby-box\"><div class=\"new-lobby-box__error js-create-error\">Lobby already exists!</div><div class=\"new-lobby-box__header\">NEW LOBBY</div><form class=\"new-lobby-box__form\"><input class=\"new-lobby-box__input\" placeholder=\"Lobby name\" required=\"required\"/><input class=\"new-lobby-box__submit\" type=\"submit\" value=\"CREATE\"/></form><a href=\"\/#lobbies\" class=\"button-back\">BACK</a></div><div class=\"lobby-box\"><div class=\"lobby-box__header\">AVAILABLE LOBBIES</div><div class=\"lobby-box__outer-table\"><div class=\"lobby-box__inside-table\"><table class=\"lobby-table\"><thead><tr><th>NAME</th><th>PLAYERS</th><th></th></tr></thead>");var i,top,__fest_iterator0;try{__fest_iterator0=lobbies || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr><td class=\"lobby-table__name\">");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].name))}catch(e){__fest_log_error(e.message + "27");}__fest_buf+=("</td><td>");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].count))}catch(e){__fest_log_error(e.message + "28");}__fest_buf+=("\/");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].maxCount))}catch(e){__fest_log_error(e.message + "28");}__fest_buf+=("</td><td><a href=\"#\" class=\"lobby-table__join\">JOIN</a></td></tr>");}__fest_buf+=("</table></div></div><div class=\"lobby-box__refresh\"><a href=\"#\" class=\"lobby-box__refresh_link js-refresh\">REFRESH</a></div><div class=\"lobby-box__create\"><a href=\"#\" class=\"lobby-box__create_link\">CREATE LOBBY</a></div><a href=\"#\" class=\"button-back js-back-main\">BACK</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('tmpl/lobbies',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var lobbies=__fest_context;__fest_buf+=("<div class=\"lobby-box\"><div class=\"lobby-box__header\">AVAILABLE LOBBIES</div><div class=\"lobby-box__outer-table\"><div class=\"lobby-box__inside-table\"><table class=\"lobby-table\"><thead><tr><th>NAME</th><th>PLAYERS</th><th></th></tr></thead>");var i,top,__fest_iterator0;try{__fest_iterator0=lobbies || {};}catch(e){__fest_iterator={};__fest_log_error(e.message);}for(i in __fest_iterator0){top=__fest_iterator0[i];__fest_buf+=("<tr><td class=\"lobby-table__name\">");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].name))}catch(e){__fest_log_error(e.message + "15");}__fest_buf+=("</td><td>");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].count))}catch(e){__fest_log_error(e.message + "16");}__fest_buf+=("\/");try{__fest_buf+=(__fest_escapeHTML(lobbies[i].maxCount))}catch(e){__fest_log_error(e.message + "16");}__fest_buf+=("</td><td><a href=\"#\" class=\"lobby-table__join\">JOIN</a></td></tr>");}__fest_buf+=("</table></div></div><div class=\"lobby-box__create\"><a href=\"#\" class=\"lobby-box__create_link\">CREATE LOBBY</a></div><a href=\"#\" class=\"button-back js-back-main\">BACK</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 define('views/lobbies',[
     'backbone',
     'tmpl/lobbies'
@@ -4499,10 +4505,6 @@ define('views/lobbies',[
     var View = Backbone.View.extend({
 
         template: tmpl,
-
-        events: {
-            "submit": 'createLobby'
-        },
 
         initialize: function (userModel, playerModel, lobbyCollection, currentLobby) {
 
@@ -4523,33 +4525,22 @@ define('views/lobbies',[
 
             this.$el.html(this.template(this.lobbies.fetchAll()));
 
-            this.$('.lobby-table__join').on('click', function(event){
+            this.$el.find('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
                 var lobbyName = $(this).parent().siblings('.lobby-table__name').text();
                 self.joinLobby(lobbyName);
             });
 
-            this.$('.lobby-box__create').on('click', function (event) {
+            this.$el.find('.lobby-box__create').on('click', function (event) {
                 event.preventDefault();
-                self.$('.new-lobby-box').show();
-                self.$('.lobby-box').hide();
+                Backbone.history.navigate('#create', true);
             });
 
-            this.$('.button-back').on('click', function(event){
-                event.preventDefault();
-                self.$('.new-lobby-box').hide();
-                self.$('.lobby-box').show();
-            });
-
-            this.$('.js-back-main').on('click', function(event){
+            this.$el.find('.js-back-main').on('click', function(event){
                 event.preventDefault();
                 Backbone.history.navigate('#', true);
             });
 
-            this.$el.find('.js-refresh').on('click', function(event){
-                event.preventDefault();
-                self.lobbies.trigger(self.lobbies.REQUEST_LOBBIES);
-            });
 
         },
 
@@ -4557,17 +4548,6 @@ define('views/lobbies',[
             this.player.set({ inLobby: true });
             this.lobby.set({ name: lobbyName });
             this.player.trigger(this.player.JOINED_LOBBY);
-        },
-        
-        createLobby: function (event) {
-            event.preventDefault();
-            var lobbyName = this.$('.new-lobby-box__input').val();
-            this.lobby.set({ name: lobbyName });
-            this.player.trigger(this.player.CREATED_LOBBY);
-        },
-
-        errorAlreadyExist: function() {
-            this.$el.find('.js-create-error').show();
         },
 
         show: function(){
@@ -4648,6 +4628,83 @@ define('views/lobby',[
 
     return View;
 });
+define('tmpl/create',[],function () { return function (__fest_context){"use strict";var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var lobbies=__fest_context;__fest_buf+=("<div class=\"new-lobby-box\"><div class=\"new-lobby-box__error js-create-error\">Lobby already exists!</div><div class=\"new-lobby-box__header\">NEW LOBBY</div><form class=\"new-lobby-box__form\"><input class=\"new-lobby-box__input\" placeholder=\"Lobby name\" required=\"required\"/><input class=\"new-lobby-box__submit\" type=\"submit\" value=\"CREATE\"/></form><a href=\"\/#lobbies\" class=\"button-back\">BACK</a></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('views/createLobby',[
+    'backbone',
+    'tmpl/create'
+], function (
+    Backbone,
+    tmpl
+) {
+
+    var View = Backbone.View.extend({
+
+        template: tmpl,
+
+        events: {
+            "submit": 'createLobby'
+        },
+
+        initialize: function (userModel, playerModel, lobbyCollection, currentLobby) {
+
+            this.user = userModel;
+            this.player = playerModel;
+            this.lobbies = lobbyCollection;
+            this.lobby = currentLobby;
+
+            this.listenTo(this.lobby, this.lobby.ALREADY_EXIST, this.errorAlreadyExist);
+            this.render();
+        },
+
+        render: function () {
+            var self = this;
+
+            this.$el.html(this.template);
+
+            this.$el.find('.button-back').on('click', function(event){
+                event.preventDefault();
+                Backbone.history.navigate('#lobbies', true);
+            });
+
+        },
+
+        createLobby: function (event) {
+            event.preventDefault();
+            var lobbyName = this.$('.new-lobby-box__input').val();
+            this.lobby.set({ name: lobbyName });
+            this.player.trigger(this.player.CREATED_LOBBY);
+        },
+
+        errorAlreadyExist: function() {
+            this.$el.find('.js-create-error').show();
+        },
+
+        show: function(){
+            if(!this.user.get('logged_in')){
+                Backbone.history.navigate('#', true);
+                return;
+            }
+
+            if(this.player.get('inLobby')){
+                Backbone.history.navigate('#lobby', true);
+                return;
+            }
+
+            this.$el.show();
+            this.trigger("show", this);
+
+        },
+
+        hide: function(){
+            this.$el.hide();
+        }
+
+    });
+
+    return View;
+
+});
+
 define('api/userSync',[
     'backbone'
 ], function(
@@ -5107,6 +5164,7 @@ define('router',[
     'views/manager',
     'views/lobbies',
     'views/lobby',
+    'views/createLobby',
     'models/user',
     'collections/scores',
     'collections/lobbies',
@@ -5125,6 +5183,7 @@ define('router',[
     ViewManager,
     LobbiesScreen,
     LobbyScreen,
+    CreateLobby,
     UserModel,
     ScoreCollection,
     LobbiesCollection,
@@ -5142,6 +5201,7 @@ define('router',[
             'signup': 'signupAction',
             'lobbies': 'lobbiesAction',
             'lobby': 'lobbyAction',
+            'create': 'createAction',
             '*default': 'defaultActions'
         },
 
@@ -5173,6 +5233,7 @@ define('router',[
             this.lobbies = new LobbiesScreen(user, player, lobbies, lobby);
             this.lobby = new LobbyScreen(user, lobby);
             this.game = new GameScreen(user, player, players, game);
+            this.create = new CreateLobby(user, player, lobbies, lobby);
 
             /**
              * Passing views to manager
@@ -5184,7 +5245,7 @@ define('router',[
             this.viewManager.addView(this.lobbies);
             this.viewManager.addView(this.lobby);
             this.viewManager.addView(this.game);
-
+            this.viewManager.addView(this.create);
 
             /**
              * Setting WebSocket
@@ -5213,6 +5274,9 @@ define('router',[
         },
         lobbyAction: function() {
             this.lobby.show();
+        },
+        createAction: function () {
+            this.create.show();
         }
     });
 

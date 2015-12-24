@@ -95,6 +95,12 @@ define([
              * Clearing instances
              */
             self.user.clear();
+            self.user.destroy({
+                success: function(){
+                    self.user.trigger(self.user.USER_LOGOUT);
+                }
+            });
+
             self.player.clear();
             self.lobby.unsetTeams();
             self.ws.close();

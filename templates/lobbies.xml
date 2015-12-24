@@ -1,16 +1,4 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="lobbies">
-    <div class="new-lobby-box">
-        <div class="new-lobby-box__error js-create-error"> Lobby already exists! </div>
-        <div class="new-lobby-box__header">NEW LOBBY</div>
-        <form class="new-lobby-box__form">
-            <input class="new-lobby-box__input" placeholder="Lobby name" required="required" />
-            <input class="new-lobby-box__submit" type="submit" value="CREATE"/>
-        </form>
-        <a href="/#lobbies" class="button-back">
-            BACK
-        </a>
-    </div>
-
     <div class="lobby-box">
         <div class="lobby-box__header">AVAILABLE LOBBIES</div>
         <div class="lobby-box__outer-table">
@@ -33,7 +21,6 @@
                 </table>
             </div>
         </div>
-        <div class="lobby-box__refresh"><a href="#" class="lobby-box__refresh_link js-refresh">REFRESH</a></div>
         <div class="lobby-box__create"><a href="#" class="lobby-box__create_link">CREATE LOBBY</a></div>
         <a href="#" class="button-back js-back-main">BACK</a>
     </div>

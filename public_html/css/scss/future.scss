@@ -181,17 +181,6 @@ html {
       }
     }
 
-  &__refresh{
-    @extend .lobby-box__create;
-    &_link{
-      @extend .lobby-box__create_link;
-      &:hover{
-        color: yellow;
-        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
-      }
-    }
-  }
-
   &__outer-table{
     position: relative;
     padding: 50px 0 5px 0;
@@ -216,7 +205,6 @@ html {
 
 .new-lobby-box{
   @extend .lobby-box;
-  display: none;
   text-align: center;
 
   &__error{
