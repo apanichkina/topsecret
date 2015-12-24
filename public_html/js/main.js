@@ -12,13 +12,13 @@ require.config({
         shoma: "lib/shoma"
     },
     shim: {
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        'underscore': {
-            exports: '_'
-        },
+        //'backbone': {
+        //    deps: ['underscore', 'jquery'],
+        //    exports: 'Backbone'
+        //},
+        //'underscore': {
+        //    exports: '_'
+        //},
         'shoma': {
             deps: ['jquery'],
             exports: 'Shoma'
@@ -29,11 +29,11 @@ require.config({
 define([
     'backbone',
     'shoma',
-    //'router'
+    'router'
 ], function(
     Backbone,
-    Shoma
-    //router
+    Shoma,
+    router
 ){
     Backbone.history.start();
 

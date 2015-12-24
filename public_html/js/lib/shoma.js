@@ -1,49 +1,35 @@
-//     Shoma.js 0.0.1
-//
-//     (c) 2015 Shamil Makhmutov
-//     Shoma may be freely distributed under the MIT license.
-//     For all details and documentation:
-//     http://iShoma.com
-
 ;define(function () {
 
-    var tv = $('#tv');
-    var tvMain = $('#tv__main');
-    var tvRight = $('#tv__right');
-    var tvTop = $('#tv__top');
-    var tvRightBtn = $('#tv__right__btn');
-    var tvRightHs = $('#tv__right__hs');
-    var desk = $('#desk');
-    var clock = $('.clock');
-    var dp10 = $('#dp10');
-    var nintendo = $('#nintendo');
+    var tv = $('#tv'),
+        tvMain = $('#tv__main'),
+        tvRight = $('#tv__right'),
+        tvTop = $('#tv__top'),
+        tvRightBtn = $('#tv__right__btn'),
+        tvRightHs = $('#tv__right__hs'),
+        desk = $('#desk'),
+        clock = $('.clock'),
+        dp10 = $('#dp10'),
+        nintendo = $('#nintendo'),
+        html = $('html');
 
-    var tvWidth;
-    var tvHeight;
-    var tvBorder;
-
-    var tvRightWidth;
-    var tvRightHeight;
-
-    var tvRightBtnWidth;
-
-    var tvRightHsWidth;
-    var tvRightHsHeight;
-    var tvRightHsBorder;
-
-    var tvMainWidth;
-    var tvMainHeight;
-    var tvMainBorder;
-    var tvMainBorderRadius;
-
-    var tvTopWidth;
-    var tvTopHeight;
-
-    var clockD;
-
-    var dp10Width;
-    var nintendoWidth;
-    var nintendoHeight;
+    var tvWidth,
+        tvHeight,
+        tvBorder,
+        tvRightWidth,
+        tvRightHeight,
+        tvRightBtnWidth,
+        tvRightHsWidth,
+        tvRightHsHeight,
+        tvRightHsBorder,
+        tvMainWidth,
+        tvMainHeight,
+        tvMainBorder,
+        tvMainBorderRadius,
+        tvTopWidth,
+        tvTopHeight,
+        clockD,
+        dp10Width,
+        nintendoWidth,nintendoHeight;
 
     var TVR = 16 / 9;
     var TVR_OLD = 3 / 2;
@@ -85,6 +71,10 @@
 
         tvMain.height(tvMainHeight);
         tvMain.width(tvMainWidth);
+
+        html.css({
+            'font-size': tvMainHeight / 200
+        });
     }
 
     function tvMainBorderSize() {
@@ -182,7 +172,6 @@
         resizeEvent();
         initClock();
         moveSecondHands();
-
         setUpMinuteHands()
     });
 

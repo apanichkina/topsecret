@@ -6,6 +6,14 @@
   font-family: led-digital-7;
   src: url(../fonts/led-counter-7.ttf); }
 
+@keyframes to_yellow {
+  from {
+    color: white;
+    text-shadow: 0 0 0 #fefe22, 0 0 0 #fefe22; }
+  to {
+    color: yellow;
+    text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22; } }
+
 body {
   overflow: hidden;
   position: relative; }
@@ -14,125 +22,33 @@ html, body {
   background: #9cb2cb fixed;
   height: 100%;
   padding: 0;
-  margin: 0; }
-
-.clock {
-  border-radius: 50%;
-  background: url(/img/clock.png) no-repeat center;
-  background-size: cover;
-  height: 5em;
-  position: absolute;
-  width: 5em; }
-  .clock__cminutes, .clock__chours, .clock__cseconds {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0; }
-  .clock__hours {
-    background: red;
-    height: 30%;
-    left: 48%;
-    position: absolute;
-    top: 20%;
-    transform-origin: 50% 100%;
-    width: 4%; }
-  .clock__minutes {
-    background: red;
-    height: 40%;
-    left: 48.5%;
-    position: absolute;
-    top: 10%;
-    transform-origin: 50% 100%;
-    width: 3%; }
-  .clock__seconds {
-    background: #000;
-    height: 48%;
-    left: 49%;
-    position: absolute;
-    top: 11%;
-    transform-origin: 50% 80%;
-    width: 2%;
-    z-index: 8; }
-  .clock__chours {
-    animation: rotate 43200s infinite; }
-  .clock__cminutes {
-    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
-  .clock__cseconds {
-    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
-
-@keyframes rotate {
-  100% {
-    transform: rotateZ(360deg); } }
-
-#dp10 {
-  background: lightgrey;
-  background-image: url(/img/dp10.png);
-  background-size: cover;
-  border: 20px solid #e5d0a3;
-  position: absolute; }
-
-#nintendo {
-  position: absolute;
-  background-image: url(/img/nintendo.png);
-  background-size: cover; }
-
-#desk {
-  position: absolute;
-  background: #fcbb4f;
-  bottom: 0;
-  width: 100%; }
-
-#tv {
-  background: #e5d0a3;
-  position: absolute;
-  border: solid #8e4c26; }
-  #tv__main {
-    position: absolute;
-    background: #97a19f;
-    border: solid black; }
-  #tv__right {
-    position: absolute;
-    background: #394048;
-    right: 0; }
-    #tv__right__btn {
-      position: absolute;
-      background-image: url(/img/btn.png);
-      background-size: cover;
-      border-radius: 50%; }
-    #tv__right__hs {
-      background-image: url(/img/hs.png);
-      background-repeat: round;
-      position: absolute;
-      border: solid #e0e3d7; }
-  #tv__top {
-    background-image: url(/img/top.png);
-    background-size: cover;
-    position: absolute; }
+  margin: 0;
+  -webkit-text-size-adjust: none; }
 
 .main-menu {
-  width: 50%;
-  margin: 50px auto;
+  width: 90%;
+  height: 200rem;
+  margin: 0 auto;
   text-align: center;
-  background: rgba(28, 28, 28, 0.7);
-  border: 2px white solid;
-  padding: 10px;
-  min-width: 300px; }
+  border: 2% white solid;
+  text-shadow: -1px 1px 2px black, 1px -1px 2px white;
+  text-decoration: none;
+  padding: 0;
+  position: inherit; }
   .main-menu__button {
-    font: bold 38px led-digital-7;
+    font: bold 25rem led-digital-7;
     text-decoration: none;
-    text-align: center;
     display: block;
-    width: 60%;
-    margin: 10px auto;
-    padding: 20px;
-    color: #fff;
-    border-radius: 10px; }
+    margin: 0 auto;
+    color: white;
+    padding-top: 11rem;
+    transition: color,text-shadow 0.5s; }
     .main-menu__button:hover {
       color: yellow;
-      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
+      text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22; }
   .main-menu__header {
-    font: bold 56px led-digital-7;
+    font: bold 35rem led-digital-7;
+    padding-top: 10rem;
     color: #fff; }
 
 .box {
@@ -145,7 +61,7 @@ html, body {
   text-align: center;
   display: block;
   margin: 0 auto;
-  padding: 10px 0 20px 0;
+  padding: 5% 0 20px 0;
   background: transparent; }
   .button-back:hover {
     color: yellow;
@@ -338,4 +254,105 @@ html, body {
     padding: 0; }
 
 #page {
-  height: 100%; }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  background: url(/img/football_field.jpg);
+  background-size: cover; }
+
+.clock {
+  border-radius: 50%;
+  background: url(/img/clock.png) no-repeat center;
+  background-size: cover;
+  height: 5em;
+  position: absolute;
+  width: 5em; }
+  .clock__cminutes, .clock__chours, .clock__cseconds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+  .clock__hours {
+    background: red;
+    height: 30%;
+    left: 48%;
+    position: absolute;
+    top: 20%;
+    transform-origin: 50% 100%;
+    width: 4%; }
+  .clock__minutes {
+    background: red;
+    height: 40%;
+    left: 48.5%;
+    position: absolute;
+    top: 10%;
+    transform-origin: 50% 100%;
+    width: 3%; }
+  .clock__seconds {
+    background: #000;
+    height: 48%;
+    left: 49%;
+    position: absolute;
+    top: 11%;
+    transform-origin: 50% 80%;
+    width: 2%;
+    z-index: 8; }
+  .clock__chours {
+    animation: rotate 43200s infinite; }
+  .clock__cminutes {
+    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
+  .clock__cseconds {
+    transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44); }
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg); } }
+
+#dp10 {
+  background: lightgrey;
+  background-image: url(/img/dp10.png);
+  background-size: cover;
+  border: 20px solid #e5d0a3;
+  position: absolute; }
+
+#nintendo {
+  position: absolute;
+  background-image: url(/img/nintendo.png);
+  background-size: cover; }
+
+#desk {
+  position: absolute;
+  background: #fcbb4f;
+  bottom: 0;
+  width: 100%; }
+
+#tv {
+  background: #e5d0a3;
+  position: absolute;
+  border: solid #8e4c26; }
+  #tv__main {
+    position: absolute;
+    background: #97a19f;
+    border: solid black; }
+  #tv__right {
+    position: absolute;
+    background: #394048;
+    right: 0; }
+    #tv__right__btn {
+      position: absolute;
+      background-image: url(/img/btn.png);
+      background-size: cover;
+      border-radius: 50%; }
+    #tv__right__hs {
+      background-image: url(/img/hs.png);
+      background-repeat: round;
+      position: absolute;
+      border: solid #e0e3d7; }
+  #tv__top {
+    background-image: url(/img/top.png);
+    background-size: cover;
+    position: absolute; }

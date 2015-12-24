@@ -21,6 +21,18 @@ $border-color: white;
   src: url(../fonts/led-counter-7.ttf);
 }
 
+@keyframes to_yellow {
+  from {
+    color: white;
+    text-shadow: 0 0 0 #fefe22, 0 0 0 #fefe22;
+  }
+  to {
+    color: yellow;
+    text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22;
+  }
+}
+
+
 body {
   overflow: hidden;
   position: relative;
@@ -31,159 +43,42 @@ html, body {
   height: 100%;
   padding: 0;
   margin: 0;
-}
-
-.clock {
-  border-radius: 50%;
-  background: url(/img/clock.png) no-repeat center;
-  background-size: cover;
-  height: 5em;
-  position: absolute;
-  width: 5em;
-
-  &__cminutes, &__chours, &__cseconds {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  &__hours {
-    background: red;
-    height: 30%;
-    left: 48%;
-    position: absolute;
-    top: 20%;
-    transform-origin: 50% 100%;
-    width: 4%;
-  }
-
-  &__minutes {
-    background: red;
-    height: 40%;
-    left: 48.5%;
-    position: absolute;
-    top: 10%;
-    transform-origin: 50% 100%;
-    width: 3%;
-  }
-
-  &__seconds {
-    background: #000;
-    height: 48%;
-    left: 49%;
-    position: absolute;
-    top: 11%;
-    transform-origin: 50% 80%;
-    width: 2%;
-    z-index: 8;
-  }
-
-  &__chours {
-    animation: rotate 43200s infinite;
-  }
-  &__cminutes {
-    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
-  }
-  &__cseconds {
-    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
-  }
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotateZ(360deg);
-  }
-}
-
-#dp10 {
-  background: lightgrey;
-  background-image: url(/img/dp10.png);
-  background-size: cover;
-  border: 20px solid $tv_backgound;
-  position: absolute;
-}
-
-#nintendo {
-  position: absolute;
-  background-image: url(/img/nintendo.png);
-  background-size: cover;
-}
-
-#desk {
-  position: absolute;
-  background: $desk_background;
-  bottom: 0;
-  width: 100%;
-}
-
-#tv {
-  background: $tv_backgound;
-  position: absolute;
-  border: solid $tv_border;
-
-  &__main {
-    position: absolute;
-    background: $tv__main-background;
-    border: solid black;
-  }
-
-  &__right {
-    position: absolute;
-    background: $tv__right_background;
-    right: 0;
-
-    &__btn {
-      position: absolute;
-      background-image: url(/img/btn.png);
-      background-size: cover;
-      border-radius: 50%;
-    }
-
-    &__hs {
-      background-image: url(/img/hs.png);
-      background-repeat: round;
-      position: absolute;
-      border: solid $tv__right_border;
-    }
-  }
-
-  &__top {
-    background-image: url(/img/top.png);
-    background-size: cover;
-    position: absolute;
-  }
-
+  -webkit-text-size-adjust: none;
 }
 
 .main-menu {
-  width: 50%;
-  margin: 50px auto;
+  width: 90%;
+  height: 200rem;
+  margin: 0 auto;
   text-align: center;
-  background: #{$black-background};
-  border: 2px #{$border-color} #{$border-style};
-  padding: 10px;
-  min-width: 300px;
+  //background: #{$black-background};
+  border: 2% #{$border-color} #{$border-style};
+  text-shadow: -1px 1px 2px black, 1px -1px 2px white;
+  text-decoration: none;
+  padding: 0;
+  position: inherit;
 
   &__button {
-    font: bold 38px #{$main-font-style};
+    font: bold 25rem #{$main-font-style};
     text-decoration: none;
-    text-align: center;
     display: block;
-    width: 60%;
-    margin: 10px auto;
-    padding: 20px;
-    color: #{$main-font-color};
-    border-radius: 10px;
+    margin: 0 auto;
+    //color: #{$main-font-color};
+    color: rgba(255, 255, 255, 1);
+    padding-top: 11rem;
+    transition: color,text-shadow 0.5s;
+    //border-radius: 10px;
     &:hover {
       color: yellow;
-      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+      text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22;
+      //animation-name: to_yellow;
+      //animation-duration: 0.5s;
     }
   }
 
   &__header {
-    font: bold 56px #{$main-font-style};
+    font: bold 35rem #{$main-font-style};
+    padding-top: 10rem;
     color: #{$main-font-color};
   }
 }
@@ -199,7 +94,7 @@ html, body {
   text-align: center;
   display: block;
   margin: 0 auto;
-  padding: 10px 0 20px 0;
+  padding: 5% 0 20px 0;
   background: transparent;
   &:hover {
     color: yellow;
@@ -474,5 +369,135 @@ html, body {
 }
 
 #page {
+  position: absolute;
+  width: 100%;
   height: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  background: url(/img/football_field.jpg);
+  background-size: cover;
+}
+
+.clock {
+  border-radius: 50%;
+  background: url(/img/clock.png) no-repeat center;
+  background-size: cover;
+  height: 5em;
+  position: absolute;
+  width: 5em;
+
+  &__cminutes, &__chours, &__cseconds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__hours {
+    background: red;
+    height: 30%;
+    left: 48%;
+    position: absolute;
+    top: 20%;
+    transform-origin: 50% 100%;
+    width: 4%;
+  }
+
+  &__minutes {
+    background: red;
+    height: 40%;
+    left: 48.5%;
+    position: absolute;
+    top: 10%;
+    transform-origin: 50% 100%;
+    width: 3%;
+  }
+
+  &__seconds {
+    background: #000;
+    height: 48%;
+    left: 49%;
+    position: absolute;
+    top: 11%;
+    transform-origin: 50% 80%;
+    width: 2%;
+    z-index: 8;
+  }
+
+  &__chours {
+    animation: rotate 43200s infinite;
+  }
+  &__cminutes {
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
+  }
+  &__cseconds {
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+#dp10 {
+  background: lightgrey;
+  background-image: url(/img/dp10.png);
+  background-size: cover;
+  border: 20px solid $tv_backgound;
+  position: absolute;
+}
+
+#nintendo {
+  position: absolute;
+  background-image: url(/img/nintendo.png);
+  background-size: cover;
+}
+
+#desk {
+  position: absolute;
+  background: $desk_background;
+  bottom: 0;
+  width: 100%;
+}
+
+#tv {
+  background: $tv_backgound;
+  position: absolute;
+  border: solid $tv_border;
+
+  &__main {
+    position: absolute;
+    background: $tv__main-background;
+    border: solid black;
+  }
+
+  &__right {
+    position: absolute;
+    background: $tv__right_background;
+    right: 0;
+
+    &__btn {
+      position: absolute;
+      background-image: url(/img/btn.png);
+      background-size: cover;
+      border-radius: 50%;
+    }
+
+    &__hs {
+      background-image: url(/img/hs.png);
+      background-repeat: round;
+      position: absolute;
+      border: solid $tv__right_border;
+    }
+  }
+
+  &__top {
+    background-image: url(/img/top.png);
+    background-size: cover;
+    position: absolute;
+  }
 }
