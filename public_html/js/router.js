@@ -100,9 +100,8 @@ define([
              * Setting WebSocket
              * */
             this.websocket = new WebSocket(user, lobbies, lobby, player, players, game);
-
-
         },
+
         defaultActions: function () {
             this.main.show();
         },

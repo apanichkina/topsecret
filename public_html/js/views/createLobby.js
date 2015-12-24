@@ -35,6 +35,8 @@ define([
                 Backbone.history.navigate('#lobbies', true);
             });
 
+            this.$el.find('.js-autofocus').focus();
+
         },
 
         createLobby: function (event) {
@@ -59,6 +61,7 @@ define([
                 return;
             }
 
+            this.render();
             this.$el.show();
             this.trigger("show", this);
 
