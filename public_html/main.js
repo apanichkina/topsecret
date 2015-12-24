@@ -50,3 +50,15 @@ $(window).on("orientationchange", function (event) {
 });
 
 $(window).trigger("orientationchange");
+
+$(document).ready(function(){
+
+    var ws = new WebSocket("ws://"+window.location.host+"/game/");
+
+    ws.onmessage = function(data){
+        console.log(data);
+    };
+
+    $()
+
+});
