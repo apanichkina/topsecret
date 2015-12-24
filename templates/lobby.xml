@@ -4,20 +4,20 @@
         <div>
             <table class="current-lobby-table">
                 <tr>
-                    <td class="current-lobby-table__td_red">TEAM RED</td>
-                    <td class="current-lobby-table__td_blue">TEAM BLUE</td>
+                    <td class="current-lobby-table__td_choco">TEAM CHOCO</td>
+                    <td class="current-lobby-table__td_ginger">TEAM GINGER</td>
                 </tr>
                 <tr>
-                    <td><fest:value>context.team['0'][0]</fest:value></td>
                     <td><fest:value>context.team['1'][0]</fest:value></td>
+                    <td><fest:value>context.team['0'][0]</fest:value></td>
                 </tr>
                 <tr>
-                    <td><fest:value>context.team['0'][1]</fest:value></td>
                     <td><fest:value>context.team['1'][1]</fest:value></td>
+                    <td><fest:value>context.team['0'][1]</fest:value></td>
                 </tr>
                 <tr>
-                    <td><fest:value>context.team['0'][2]</fest:value></td>
                     <td><fest:value>context.team['1'][2]</fest:value></td>
+                    <td><fest:value>context.team['0'][2]</fest:value></td>
                 </tr>
             </table>
         </div>

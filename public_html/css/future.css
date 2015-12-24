@@ -140,21 +140,18 @@ html, body {
     font: bold 48px led-digital-7;
     color: #fff;
     margin-top: 10px; }
-  .lobby-box__create, .lobby-box__refresh {
+  .lobby-box__create {
     border-top: 2px dashed white;
     margin-top: 10px;
     text-align: center;
     padding: 20px 0 10px 0; }
-    .lobby-box__create_link, .lobby-box__refresh_link {
+    .lobby-box__create_link {
       text-decoration: none;
       color: #fff;
       font: bold 32px led-digital-7; }
-      .lobby-box__create_link:hover, .lobby-box__refresh_link:hover {
+      .lobby-box__create_link:hover {
         color: yellow;
         text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
-  .lobby-box__refresh_link:hover {
-    color: yellow;
-    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
   .lobby-box__outer-table {
     position: relative;
     padding: 50px 0 5px 0; }
@@ -171,7 +168,6 @@ html, body {
       width: 30.3%; }
 
 .new-lobby-box {
-  display: none;
   text-align: center; }
   .new-lobby-box__error {
     display: none;
@@ -208,10 +204,14 @@ html, body {
   table-layout: fixed; }
   .current-lobby-table td {
     width: 50%; }
-  .current-lobby-table__td_red {
-    color: red; }
-  .current-lobby-table__td_blue {
-    color: blue; }
+  .current-lobby-table__td {
+    padding: 15px; }
+    .current-lobby-table__td_ginger {
+      padding: 10px;
+      color: #ed4830; }
+    .current-lobby-table__td_choco {
+      padding: 10px;
+      color: #b37b11; }
 
 .scoreboard {
   width: 50%;

@@ -208,18 +208,7 @@ html, body {
       }
     }
 
-  &__refresh{
-    @extend .lobby-box__create;
-    &_link{
-      @extend .lobby-box__create_link;
-      &:hover{
-        color: yellow;
-        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
-      }
-    }
-  }
-
-  &__outer-table {
+  &__outer-table{
     position: relative;
     padding: 50px 0 5px 0;
 
@@ -243,7 +232,6 @@ html, body {
 
 .new-lobby-box {
   @extend .lobby-box;
-  display: none;
   text-align: center;
 
   &__error {
@@ -309,12 +297,15 @@ html, body {
   & td {
     width: 50%;
   }
-  &__td {
-    &_red {
-      color: red;
+  &__td{
+    padding: 15px;
+    &_ginger{
+      padding: 10px;
+      color: #ed4830;
     }
-    &_blue {
-      color: blue;
+    &_choco{
+      padding: 10px;
+      color: #b37b11;
     }
   }
 
