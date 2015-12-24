@@ -49,16 +49,38 @@ $(window).on("orientationchange", function (event) {
     }
 });
 
-$(window).trigger("orientationchange");
+function Transport () {
 
-$(document).ready(function(){
+    this.ws = new WebSocket("ws://" + window.location.host + "/game/");
 
-    var ws = new WebSocket("ws://"+window.location.host+"/game/");
-
-    ws.onmessage = function(data){
+    this.ws.onmessage = function (data) {
         console.log(data);
     };
 
-    $()
+}
+
+Transport.prototype.send = function (data) {
+    this.ws.send(JSON.stringify(data));
+};
+
+$(window).trigger("orientationchange");
+
+$(document).ready(function () {
+    var ws = new Transport();
+    $('.js-up').on('tap', function () {
+        ws.send({code: 7});
+    });
+
+    $('.js-down').on('tap', function () {
+        ws.send({code: 6});
+    });
+
+    $('.js-left').on('tap', function () {
+        ws.send({code: 5});
+    });
+
+    $('.js-right').on('tap', function () {
+        ws.send({code: 4});
+    });
 
 });
