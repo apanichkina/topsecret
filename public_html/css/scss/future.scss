@@ -1,7 +1,13 @@
 $main-font-color: #fff;
 $main-font-style: led-digital-7;
-$background-url: "../img/football_field.jpg";
 $black-background: rgba(28, 28, 28, 0.7);
+$background: rgb(156, 178, 203);
+$desk_background: rgb(252, 187, 79);
+$tv_backgound: rgb(229, 208, 163);
+$tv_border: rgb(142, 76, 38);
+$tv__right_background: rgb(57, 64, 72);
+$tv__right_border: rgb(224, 227, 215);
+$tv__main-background: rgb(151, 161, 159);
 $border-style: solid;
 $border-color: white;
 $error-font-color: #FFEEEE;
@@ -9,10 +15,22 @@ $error-background: #f80000;
 $game-background-url:  "../img/background_color.jpg";
 
 
-@font-face{
+@font-face {
   font-family: led-digital-7;
   src: url(../fonts/led-counter-7.woff);
 }
+
+@keyframes to_yellow {
+  from {
+    color: white;
+    text-shadow: 0 0 0 #fefe22, 0 0 0 #fefe22;
+  }
+  to {
+    color: yellow;
+    text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22;
+  }
+}
+
 
 body {
   background-size: cover;
@@ -20,11 +38,17 @@ body {
   padding: 0;
   background-repeat: no-repeat;
   height: 100%;
-  background-image: url(#{$background-url});
-  overflow: hidden; }
+  //background-image: url(#{$background-url});
+  overflow: hidden;
+  position: relative;
+}
 
-html {
+html, body {
+  background: $background fixed;
   height: 100%;
+  padding: 0;
+  margin: 0;
+  -webkit-text-size-adjust: none;
 }
 
 .notification-bar{
@@ -53,37 +77,43 @@ html {
 }
 
 .main-menu {
-  width: 50%;
-  margin: 50px auto;
+  width: 90%;
+  height: 200rem;
+  margin: 0 auto;
   text-align: center;
-  background: #{$black-background};
-  border: 2px #{$border-color} #{$border-style};
-  padding: 10px;
-  min-width: 300px;
+  //background: #{$black-background};
+  border: 2% #{$border-color} #{$border-style};
+  text-shadow: -1px 1px 2px black, 1px -1px 2px white;
+  text-decoration: none;
+  padding: 0;
+  position: inherit;
 
-    &__button {
-      font: bold 38px #{$main-font-style};
-      text-decoration: none;
-      text-align: center;
-      display: block;
-      width: 60%;
-      margin: 10px auto;
-      padding: 20px;
-      color: #{$main-font-color};
-      border-radius: 10px;
-      &:hover{
-        color: yellow;
-        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
-      }
+  &__button {
+    font: bold 25rem #{$main-font-style};
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    //color: #{$main-font-color};
+    color: rgba(255, 255, 255, 1);
+    padding-top: 11rem;
+    transition: color,text-shadow 0.5s;
+    //border-radius: 10px;
+    &:hover {
+      color: yellow;
+      text-shadow: -1px 1px 4px #fefe22, 1px -1px 4px #fefe22;
+      //animation-name: to_yellow;
+      //animation-duration: 0.5s;
+    }
   }
 
-    &__header{
-      font: bold 56px #{$main-font-style};
-      color: #{$main-font-color};
-    }
+  &__header {
+    font: bold 35rem #{$main-font-style};
+    padding-top: 10rem;
+    color: #{$main-font-color};
+  }
 }
 
-.box{
+.box {
   margin: 50px auto;
 }
 .button-back {
@@ -93,9 +123,9 @@ html {
   text-align: center;
   display: block;
   margin: 0 auto;
-  padding: 10px 0 20px 0;
+  padding: 5% 0 20px 0;
   background: transparent;
-  &:hover{
+  &:hover {
     color: yellow;
     text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
   }
@@ -110,7 +140,7 @@ html {
   border: 2px #{$border-style} #{$border-color};
   min-width: 300px;
 
-  &__input{
+  &__input {
     font: 28px #{$main-font-style};
     color: #{$main-font-color};
     width: 50%;
@@ -120,7 +150,7 @@ html {
     border: 2px #{$border-style} #{$border-color};
   }
 
-  &__submit{
+  &__submit {
     cursor: pointer;
     font: bold 32px #{$main-font-style};
     margin: 0 auto;
@@ -129,24 +159,22 @@ html {
     background: transparent;
     display: block;
     border: 0;
-    &:hover{
+    &:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
-  &__error{
+  &__error {
     color: #fff;
     font: 14px #{$main-font-style};
     padding: 15px;
     width: 50%;
     text-align: center;
     background: rgba(255, 3, 62, 0.75);
-    margin: 10px auto;
-    margin-top: 0;
+    margin: 0 auto 10px;
   }
 }
-
 
 .lobby-box {
   margin: 50px auto;
@@ -191,7 +219,7 @@ html {
     }
   }
 
-  &__outer-table{
+  &__outer-table {
     position: relative;
     padding: 50px 0 5px 0;
 
@@ -202,7 +230,7 @@ html {
     }
   }
 
-  &__inside-table{
+  &__inside-table {
     overflow: auto;
     border-top: 2px dashed white;
     max-height: 350px;
@@ -213,12 +241,12 @@ html {
   }
 }
 
-.new-lobby-box{
+.new-lobby-box {
   @extend .lobby-box;
   display: none;
   text-align: center;
 
-  &__error{
+  &__error {
     @extend .user-form__error;
     display: none;
     margin-top: 20px;
@@ -226,27 +254,27 @@ html {
     width: 50%;
   }
 
-  &__header{
+  &__header {
     @extend .lobby-box__header;
   }
 
-  &__form{
+  &__form {
     @extend .user-form;
     background: transparent;
     border: 0;
   }
 
-  &__input{
+  &__input {
     @extend .user-form__input;
     width: 100%;
   }
 
-  &__submit{
+  &__submit {
     @extend .user-form__submit;
   }
 }
 
-.lobby-table{
+.lobby-table {
   border: 0;
   width: 100%;
   text-align: center;
@@ -256,16 +284,16 @@ html {
   border-collapse: collapse;
   max-height: 300px;
 
-  &__join{
+  &__join {
     text-decoration: none;
     color: #{$main-font-color};
-    &:hover{
+    &:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
     }
   }
 
-  &__name{
+  &__name {
     word-break: break-all;
   }
 
@@ -275,17 +303,17 @@ html {
 
 }
 
-.current-lobby-table{
+.current-lobby-table {
   @extend .lobby-table;
   table-layout: fixed;
-  & td{
+  & td {
     width: 50%;
   }
-  &__td{
-    &_red{
+  &__td {
+    &_red {
       color: red;
     }
-    &_blue{
+    &_blue {
       color: blue;
     }
   }
@@ -300,13 +328,13 @@ html {
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
 
-  &__header{
+  &__header {
     margin-top: 20px;
     font: bold 28px #{$main-font-style};
     color: #fff;
   }
 
-  &__table{
+  &__table {
     font: 28px #{$main-font-style};
     text-decoration: none;
     text-align: center;
@@ -316,7 +344,7 @@ html {
     color: #{$main-font-color};
     background: transparent;
     border-radius: 10px;
-    & th{
+    & th {
       padding-bottom: 5px;
     }
 
@@ -330,27 +358,26 @@ html {
   background-size: cover;
   background-image: url(#{$game-background-url});
 
-  &__header{
+  &__header {
     margin: 0;
-    background-image: url("../img/tablo.png");
     padding: 10px 0 10px 10px;
     min-width: 800px;
     background-size: cover;
-    background-repeat: no-repeat;
+    background: url("../img/tablo.png") no-repeat;
     border-radius: 10px;
     text-align: center;
-    &_left{
+    &_left {
       float: left;
       left: 10px;
       padding: 0 14px;
     }
-    &_right{
+    &_right {
       right: 10px;
       padding: 0 14px;
       float: right;
     }
 
-    &__button{
+    &__button {
       background-color: transparent;
       height: 30px;
       padding: 0 14px;
@@ -359,13 +386,13 @@ html {
       color: white;
       text-align: center;
       text-decoration: none;
-      &:hover{
+      &:hover {
         color: yellow;
         text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
       }
     }
 
-    &__text{
+    &__text {
       font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
       color: #ffffff;
       text-align: center;
@@ -376,7 +403,8 @@ html {
     background-size: cover;
     background-image: url(#{$game-background-url});
   }
-  &__field{
+
+  &__field {
     margin: 0;
     padding: 0 0 10px 10px;
     position: absolute;
@@ -394,7 +422,135 @@ html {
 }
 
 #page {
-  height: 100%;
+  position: absolute;
   width: 100%;
+  height: 100%;
   float: left;
+  padding: 0;
+  margin: 0;
+  border-radius: 2px;
+  background: url(/img/football_field.jpg);
+  background-size: cover;
+}
+
+.clock {
+  border-radius: 50%;
+  background: url(/img/clock.png) no-repeat center;
+  background-size: cover;
+  height: 5em;
+  position: absolute;
+  width: 5em;
+
+  &__cminutes, &__chours, &__cseconds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__hours {
+    background: red;
+    height: 30%;
+    left: 48%;
+    position: absolute;
+    top: 20%;
+    transform-origin: 50% 100%;
+    width: 4%;
+  }
+
+  &__minutes {
+    background: red;
+    height: 40%;
+    left: 48.5%;
+    position: absolute;
+    top: 10%;
+    transform-origin: 50% 100%;
+    width: 3%;
+  }
+
+  &__seconds {
+    background: #000;
+    height: 48%;
+    left: 49%;
+    position: absolute;
+    top: 11%;
+    transform-origin: 50% 80%;
+    width: 2%;
+    z-index: 8;
+  }
+
+  &__chours {
+    animation: rotate 43200s infinite;
+  }
+  &__cminutes {
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
+  }
+  &__cseconds {
+    transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+#dp10 {
+  background: lightgrey url(/img/dp10.png);
+  background-size: cover;
+  border: 20px solid $tv_backgound;
+  position: absolute;
+}
+
+#nintendo {
+  position: absolute;
+  background-image: url(/img/nintendo.png);
+  background-size: cover;
+}
+
+#desk {
+  position: absolute;
+  background: $desk_background;
+  bottom: 0;
+  width: 100%;
+}
+
+#tv {
+  background: $tv_backgound;
+  position: absolute;
+  border: solid $tv_border;
+
+  &__main {
+    position: absolute;
+    background: $tv__main-background;
+    border: solid black;
+  }
+
+  &__right {
+    position: absolute;
+    background: $tv__right_background;
+    right: 0;
+
+    &__btn {
+      position: absolute;
+      background-image: url(/img/btn.png);
+      background-size: cover;
+      border-radius: 50%;
+    }
+
+    &__hs {
+      background-image: url(/img/hs.png);
+      background-repeat: round;
+      position: absolute;
+      border: solid $tv__right_border;
+    }
+  }
+
+  &__top {
+    background-image: url(/img/top.png);
+    background-size: cover;
+    position: absolute;
+  }
 }

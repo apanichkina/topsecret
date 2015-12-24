@@ -8,26 +8,32 @@ require.config({
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        shoma: "lib/shoma"
     },
     shim: {
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        'underscore': {
-            exports: '_'
+        //'backbone': {
+        //    deps: ['underscore', 'jquery'],
+        //    exports: 'Backbone'
+        //},
+        //'underscore': {
+        //    exports: '_'
+        //},
+        'shoma': {
+            deps: ['jquery'],
+            exports: 'Shoma'
         }
     }
 });
 
 define([
     'backbone',
+    'shoma',
     'router'
 ], function(
     Backbone,
+    Shoma,
     router
 ){
     Backbone.history.start();
-
 });

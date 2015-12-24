@@ -105,16 +105,30 @@ module.exports = function(grunt) {
             }
         },
 
+
         uglify: {
-            options:{
+            options: {
                 mangle: true
             },
-            build: { /* Подзадача */
+            build: {
+                /* Подзадача */
                 files: {
                     'public_html/js/build.min.js': ['public_html/js/build.js']
                 }
             }
         },
+
+        server: { /* Цель */
+            files: [
+                'public_html/js/**/*.js', /* следим за статикой */
+                'public_html/css/**/*.css',
+                'public_html/index.html'
+            ],
+            options: {
+                interrupt: true,
+                livereload: true /* автоматическая перезагрузка */
+            }
+        }
 
     });
 
