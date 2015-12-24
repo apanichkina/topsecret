@@ -192,10 +192,14 @@ html {
   table-layout: fixed; }
   .current-lobby-table td {
     width: 50%; }
-  .current-lobby-table__td_red {
-    color: red; }
-  .current-lobby-table__td_blue {
-    color: blue; }
+  .current-lobby-table__td {
+    padding: 15px; }
+    .current-lobby-table__td_ginger {
+      padding: 10px;
+      color: #ed4830; }
+    .current-lobby-table__td_choco {
+      padding: 10px;
+      color: #b37b11; }
 
 .scoreboard {
   width: 50%;

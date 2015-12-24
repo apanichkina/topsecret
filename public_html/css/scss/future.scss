@@ -270,11 +270,14 @@ html {
     width: 50%;
   }
   &__td{
-    &_red{
-      color: red;
+    padding: 15px;
+    &_ginger{
+      padding: 10px;
+      color: #ed4830;
     }
-    &_blue{
-      color: blue;
+    &_choco{
+      padding: 10px;
+      color: #b37b11;
     }
   }
 

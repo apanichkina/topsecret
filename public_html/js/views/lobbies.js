@@ -45,7 +45,6 @@ define([
                 Backbone.history.navigate('#', true);
             });
 
-
         },
 
         joinLobby: function(lobbyName){
