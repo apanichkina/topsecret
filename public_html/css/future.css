@@ -16,6 +16,7 @@ html {
   height: 100%; }
 
 .how-to-play {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -29,15 +30,21 @@ html {
     float: right;
     height: 30px;
     width: 30px;
-    margin-top: 10px; }
+    margin-top: 10px;
+    cursor: pointer; }
   .how-to-play__header {
     padding: 0 20px 0 50px;
     margin-top: 20px;
     font: bold 56px led-digital-7;
     color: #fff; }
-  .how-to-play__hint {
+  .how-to-play__hint-pic {
     text-align: center;
     margin: 50px auto; }
+  .how-to-play__hint {
+    text-align: center;
+    margin: 20px auto;
+    font: bold 36px led-digital-7;
+    color: #fff; }
 
 .notification-bar {
   display: none;
@@ -217,7 +224,7 @@ html {
     width: 100%; }
   .new-lobby-box__select, .new-lobby-box__select_label {
     font: bold 32px led-digital-7;
-    margin: 10px auto;
+    margin: 20px auto;
     padding: 10px;
     color: #fff;
     background: transparent;

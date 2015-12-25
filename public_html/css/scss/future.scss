@@ -28,6 +28,7 @@ html {
 }
 
 .how-to-play{
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -42,6 +43,7 @@ html {
     height: 30px;
     width: 30px;
     margin-top: 10px;
+    cursor: pointer;
   }
 
   &__header{
@@ -51,9 +53,16 @@ html {
     color: #{$main-font-color};
   }
 
-  &__hint{
+  &__hint-pic{
     text-align: center;
     margin: 50px auto;
+  }
+
+  &__hint{
+    text-align: center;
+    margin: 20px auto;
+    font: bold 36px #{$main-font-style};
+    color: #{$main-font-color};
   }
 }
 
@@ -307,7 +316,7 @@ html {
 
   &__select{
     font: bold 32px #{$main-font-style};
-    margin: 10px auto;
+    margin: 20px auto;
     padding: 10px;
     color: #{$main-font-color};
     background: transparent;

@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="collection">
     <div class="scoreboard">
-        <div class="scoreboard__header">Scoreboard</div>
+        <div class="scoreboard__header">SCOREBOARD</div>
         <table class="scoreboard__table">
             <tr class="scoreboard__table_header-color">
                 <th>Username</th>
