@@ -27,6 +27,36 @@ html {
   height: 100%;
 }
 
+.how-to-play{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0,0,0,0.9); /*обесцвечиваем фон*/
+  text-align: center;
+
+  &__close{
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+  }
+
+  &__header{
+    padding: 0 20px 0 50px;
+    margin-top: 20px;
+    font: bold 56px #{$main-font-style};
+    color: #{$main-font-color};
+  }
+
+  &__hint{
+    text-align: center;
+    margin: 50px auto;
+  }
+}
+
 .notification-bar{
   display: none;
   width:100%;

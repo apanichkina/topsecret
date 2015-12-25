@@ -26,5 +26,10 @@
         </fest:if>
     </div>
 
+    <div class="how-to-play">
+        <div class="how-to-play__header">HOW TO PLAY GUIDE!<img src="../img/close.png" class="how-to-play__close" /></div>
+        <div class="how-to-play__hint"><img src="../img/hint.png" /></div>
+    </div>
+
 
 </fest:template>
