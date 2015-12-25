@@ -19,6 +19,8 @@ define([
             this.game = gameModel;
 
             this.game.fetch();
+
+            this._prev = [];
             this.listenTo(this.game, "changed", this.render);
             /*
              this.game.on('change', this.wait);
@@ -150,7 +152,9 @@ define([
             this.backgroundcanvas.width = width;
             this.backgroundcanvas.height = height;
             this.backgroundcontainer = {x: 0, y: 0, width: width, height: height};
-            this.backgroundcontext.fillStyle = this.onload();
+
+            this.redrawBackground();
+
             this.canvas.width = width;
             this.canvas.height = height;
             this.container = {x: 0, y: 0, width: width, height: height};
@@ -173,6 +177,7 @@ define([
             var minDistance = parseFloat(this.players.at(j).get("radius")) + parseFloat(this.players.at(i).get("radius"));
             return distance <= minDistance + 1;
         },
+
         isCollision: function (i, j) {
             var a = parseFloat(this.balls[j].x) - parseFloat(this.balls[i].x);
             var b = parseFloat(this.balls[j].y) - parseFloat(this.balls[i].y);
@@ -181,7 +186,7 @@ define([
             return distance <= minDistance + 1;
         },
 
-        onload: function () {
+        redrawBackground: function () {
             var container = this.backgroundcontainer;
             var imageObj = this.imageObj;
             this.backgroundcontext.drawImage(imageObj, container.x, container.y, container.width, container.height);
@@ -192,9 +197,16 @@ define([
             context.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
 
+        savePrev: function (i, x, y) {
+            this._prev[i] = [x,y];
+        },
+
         //TODO closePath;
         animate: function () {
+
             this.context.clearRect(this.container.x, this.container.y, this.container.width, this.container.height);
+
+
             this.timercontext.clearRect(0, 0, this.timercanvas.width, this.timercanvas.height);
             this.scorecontext.clearRect(0, 0, this.scorecanvas.width, this.scorecanvas.height);
             if (this.game.get('isEnded') == false) {
@@ -206,12 +218,15 @@ define([
             }
 
             for (var i = 0; i < this.players.length; i++) {
-                this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
-                Vx = this.players.at(i).get("Vx");
-                Vy = this.players.at(i).get("Vy");
-                y = this.players.at(i).get("y");
-                x = this.players.at(i).get("x");
+                var Vx = this.players.at(i).get("Vx");
+                var Vy = this.players.at(i).get("Vy");
+                var y = this.players.at(i).get("y");
+                var x = this.players.at(i).get("x");
+
+                this.savePrev(i,x,y);
+
                 this.players.at(i).set({x: x + Vx, y: y + Vy});
+                this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
             }
             //Временно не используется
             for (var j = 1; j < this.players.length; ++j) {
@@ -321,13 +336,14 @@ define([
                 context.fillStyle = img;
                 context.fill();
 
-                /* Тут можно подписать своего игрока
+                /*// Тут можно подписать своего игрока
                  if (myArc.isMyPlayer) {
                  context.beginPath();
                  context.font = 'bold 10pt Calibri';
-                 context.fillText('YOU', -13, 0);
+                 context.fillText('RED', -13, 0);
                  }
                  */
+
             } else {
                 context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
@@ -377,28 +393,24 @@ define([
                     this.user.set({clickCode: 5});
                     this.user.trigger(this.user.click);
                 }
-               // else console.log("sooo much speed left");
             }
             if (e.keyCode == 39) {//вправо
                 if (this.players.at(this.number).get("Vx") < this.maxBallSpeed) {
                     this.user.set({clickCode: 4});
                     this.user.trigger(this.user.click);
                 }
-                //else console.log("sooo much speed right");
             }
             if (e.keyCode == 38) {//вверх
                 if (this.players.at(this.number).get("Vy") > -this.maxBallSpeed) {
                     this.user.set({clickCode: 7});
                     this.user.trigger(this.user.click);
                 }
-                //else console.log("sooo much speed top");
             }
             if (e.keyCode == 40) {//вниз
                 if (this.players.at(this.number).get("Vy") < this.maxBallSpeed) {
                     this.user.set({clickCode: 6});
                     this.user.trigger(this.user.click);
                 }
-                //else console.log("sooo much speed down");
             }
         }
     });

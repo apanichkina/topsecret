@@ -22,14 +22,14 @@ define([
         //TODO сильно криво я сделала?
         storage: window.localStorage,
         setScores: function(data) {
-            this.set(data.models[0].attributes.users);
-            console.log(data);
+            this.set(data.models[0].get('users'));//кладем в коллекцию
             this.storage.clear();
+            var ScoreInfo;
             var length = data.length;
             for (var i = 0; i < length; ++i){
-                this.storage.setItem(data.models[i].attributes.name,data.models[i].attributes.score);
+                ScoreInfo = {score: data.models[i].get('score'), lose:data.models[i].get('lose'), draw: data.models[i].get('draw') };
+                this.storage.setItem(data.models[i].get('name'), JSON.stringify(ScoreInfo));
             }
-            console.log(this.storage);
             this.trigger(this.changed);
         },
 
@@ -41,7 +41,8 @@ define([
             for (var i = 0; i < length; ++i){
                 name = this.storage.key(i);
                 score = this.storage.getItem(name);
-                this.add({name: name, score: score});
+                var score = JSON.parse(score);
+                this.add({name: name, score: score.score, lose: score.lose, draw: score.draw});
             }
             this.trigger(this.changed);
         },

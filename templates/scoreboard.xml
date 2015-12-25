@@ -4,7 +4,9 @@
         <table class="scoreboard__table">
             <tr class="scoreboard__table_header-color">
                 <th>Username</th>
-                <th>Score</th>
+                <th>Win</th>
+                <th>Lose</th>
+                <th>Draw</th>
             </tr>
             <fest:each iterate="collection" index="i" value="top">
                 <tr>
@@ -13,6 +15,12 @@
                     </td>
                     <td>
                         <fest:value>collection[i].score</fest:value>
+                    </td>
+                    <td>
+                        <fest:value>collection[i].lose</fest:value>
+                    </td>
+                    <td>
+                        <fest:value>collection[i].draw</fest:value>
                     </td>
                 </tr>
             </fest:each>
