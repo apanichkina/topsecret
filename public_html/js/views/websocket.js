@@ -7,7 +7,7 @@ define([
 
     var View = Backbone.View.extend({
 
-        initialize: function (userModel, lobbyCollection, currentLobby, playerModel, playerCollection, gameModel) {
+        initialize: function (userModel, lobbyCollection, currentLobby, playerModel, playerCollection, gameModel, qrCodeModel) {
 
             this.user = userModel;
             this.lobbies = lobbyCollection;
@@ -15,6 +15,7 @@ define([
             this.players = playerCollection;
             this.player = playerModel;
             this.game = gameModel;
+            this.qrCode = qrCodeModel;
 
             this.listenTo(this.user, this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, this.connect);
 
@@ -120,6 +121,9 @@ define([
                     self.lobbies.set(msg.lobbies);
                     if(!msg.lobbies.length){
                         self.lobbies.trigger('change');
+                    }
+                    if(msg.mobile){
+                        self.qrCode.setCode(msg.mobile);
                     }
                     break;
                 case 1:

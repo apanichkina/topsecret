@@ -86,6 +86,37 @@ html {
 .box{
   margin: 50px auto;
 }
+
+.qrbox{
+  @extend .new-lobby-box;
+  &__header{
+    @extend .new-lobby-box__header;
+  }
+
+  &__img{
+    margin:20px;
+  }
+}
+
+.logged-as{
+  font: bold 22px #{$main-font-style};
+  color: #{$main-font-color};
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+  background: transparent;
+  &:hover{
+    color: yellow;
+    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+  }
+}
+
+.qrlink{
+  @extend .main-menu__button;
+}
+
 .button-back {
   font: bold 32px #{$main-font-style};
   color: #{$main-font-color};

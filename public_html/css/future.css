@@ -44,7 +44,7 @@ html {
   border: 2px white solid;
   padding: 10px;
   min-width: 300px; }
-  .main-menu__button {
+  .main-menu__button, .qrlink {
     font: bold 38px led-digital-7;
     text-decoration: none;
     text-align: center;
@@ -54,7 +54,7 @@ html {
     padding: 20px;
     color: #fff;
     border-radius: 10px; }
-    .main-menu__button:hover {
+    .main-menu__button:hover, .qrlink:hover {
       color: yellow;
       text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
   .main-menu__header {
@@ -63,6 +63,22 @@ html {
 
 .box {
   margin: 50px auto; }
+
+.qrbox__img {
+  margin: 20px; }
+
+.logged-as {
+  font: bold 22px led-digital-7;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+  background: transparent; }
+  .logged-as:hover {
+    color: yellow;
+    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
 
 .button-back {
   font: bold 32px led-digital-7;
@@ -115,7 +131,7 @@ html {
     margin: 10px auto;
     margin-top: 0; }
 
-.lobby-box, .new-lobby-box {
+.lobby-box, .new-lobby-box, .qrbox {
   margin: 50px auto;
   background: rgba(28, 28, 28, 0.7);
   border: 2px white solid;
@@ -128,7 +144,7 @@ html {
     margin: 20px 20px 10px 20px;
     font: bold 36px led-digital-7;
     color: #fff; }
-  .lobby-box__header, .new-lobby-box__header {
+  .lobby-box__header, .new-lobby-box__header, .qrbox__header {
     text-align: center;
     font: bold 48px led-digital-7;
     color: #fff;
@@ -160,7 +176,7 @@ html {
       padding: 30px 10px 0 10px;
       width: 30.3%; }
 
-.new-lobby-box {
+.new-lobby-box, .qrbox {
   text-align: center; }
   .new-lobby-box__error {
     display: none;
