@@ -158,6 +158,7 @@ define([
                     }
                     break;
                 case 8://game start
+                    console.log(msg);
                     self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
                         self.isStarted = true;
                         var ballses = msg.balls;
