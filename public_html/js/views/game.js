@@ -361,7 +361,7 @@ define([
                 else if (winner === 1)
                     winnerName = "Winner Choco";
                 else {
-                    winnerName = "Friendship ";
+                    winnerName = "Draw ";
                     wordLength = 4;
                 }
                 endcontext.strokeText(winnerName, this.endcontainer.width / 2 - (120 / 2) * wordLength, this.endcontainer.height / 2);

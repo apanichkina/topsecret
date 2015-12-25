@@ -35,7 +35,6 @@ define([
          },
 
          isFull: function() {
-             alert(this.get('maxPlayers'));
              return this.attributes.team[0].length + this.attributes.team[1].length == this.get('maxPlayers')
          }
 
