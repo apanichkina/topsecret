@@ -36,7 +36,7 @@ define([
                 return;
             }
 
-            this.$el.show();
+            this.$el.fadeIn(750);
             this.trigger("show", this);
         },
 

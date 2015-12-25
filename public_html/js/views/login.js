@@ -35,7 +35,7 @@ define([
                 return;
             }
 
-            this.$el.show();
+            this.$el.slideDown(750);
             this.trigger('show', this);
         },
 

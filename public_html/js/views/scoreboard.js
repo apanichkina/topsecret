@@ -36,7 +36,7 @@ define([
                     self.collection.setFromLocalStorage();
                 }
             });
-            this.$el.show();
+            this.$el.slideDown(750);
             this.trigger("show", this);
         },
         hide: function () {

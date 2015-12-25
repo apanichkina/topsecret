@@ -135,7 +135,7 @@ define([
                 this.animate();
                 this.firstVisit = false;
             }
-            this.$el.show();
+            this.$el.fadeIn(750);
             this.is_hidden = false;
             this.trigger("show", this);
         },
