@@ -7,7 +7,7 @@ define([
 
     var View = Backbone.View.extend({
 
-        initialize: function (userModel, lobbyCollection, currentLobby, playerModel, playerCollection, gameModel) {
+        initialize: function (userModel, lobbyCollection, currentLobby, playerModel, playerCollection, gameModel, qrCodeModel) {
 
             this.user = userModel;
             this.lobbies = lobbyCollection;
@@ -15,6 +15,7 @@ define([
             this.players = playerCollection;
             this.player = playerModel;
             this.game = gameModel;
+            this.qrCode = qrCodeModel;
 
             this.listenTo(this.user, this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, this.connect);
 
@@ -58,7 +59,8 @@ define([
             self.player.on(self.player.CREATED_LOBBY, function(){
                 console.log("CREATING");
                 var lobbyName = self.lobby.get('name');
-                self.ws.send(JSON.stringify({code: 1, name: lobbyName}));
+                var maxPlayers = self.lobby.get('maxPlayers');
+                self.ws.send(JSON.stringify({code: 1, name: lobbyName, maxPlayers: maxPlayers}));
             });
 
             self.lobby.on(self.lobby.PLAYER_EXIT, function(){
@@ -120,6 +122,9 @@ define([
                     if(!msg.lobbies.length){
                         self.lobbies.trigger('change');
                     }
+                    if(msg.mobile){
+                        self.qrCode.setCode(msg.mobile);
+                    }
                     break;
                 case 1:
                     delete msg.code;
@@ -138,24 +143,14 @@ define([
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
                     self.lobby.trigger(self.lobby.UPDATE);
-                    if(self.lobby.isFull()){
-                        Backbone.history.navigate('#game', true);
-                    } else {
-                        Backbone.history.navigate('#lobby', true);
-                    }
-                    console.log(self.lobby.toJSON());
                     break;
                 case 5:// cant join
                     alert('code 5');
                     break;
                 case 7: //user joins lobby
                     self.lobby.addPlayer(msg.user, msg.team);
-                    if(self.lobby.isFull()){
-                        Backbone.history.navigate('#game', true);
-                    }
                     break;
                 case 8://game start
-                    console.log(msg);
                     self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
                     //if (!self.isStarted) {
                         self.isStarted = true;
@@ -182,6 +177,7 @@ define([
                                 self.game.set({myNumber: i});
                             }
                         }
+                    Backbone.history.navigate('#game', true);
                     //}
                     //else {
                     //    console.log("another start");

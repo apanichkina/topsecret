@@ -20,7 +20,9 @@ define([
     'models/currentLobby',
     'models/player',
     'collections/players',
-    'models/game'
+    'models/game',
+    'models/qrCode',
+    'views/qr'
 ], function(
     Backbone,
     WebSocket,
@@ -39,7 +41,9 @@ define([
     CurrentLobby,
     PlayerModel,
     PlayerCollection,
-    GameModel
+    GameModel,
+    QrCodeModel,
+    Qr
 ){
 
     var Router = Backbone.Router.extend({
@@ -50,8 +54,9 @@ define([
             'signup': 'signupAction',
             'lobbies': 'lobbiesAction',
             'lobby': 'lobbyAction',
+            'qr': 'qrAction',
             'create': 'createAction',
-            '*default': 'defaultActions'
+            '*default': 'defaultActions',
         },
 
         initialize: function () {
@@ -71,6 +76,7 @@ define([
             var player = new PlayerModel();
             var players = new PlayerCollection();
             var game = new GameModel();
+            var qrCode = new QrCodeModel();
 
             /**
              * Define views
@@ -83,6 +89,7 @@ define([
             this.lobby = new LobbyScreen(user, lobby);
             this.game = new GameScreen(user, player, players, game);
             this.create = new CreateLobby(user, player, lobbies, lobby);
+            this.qr = new Qr(user, qrCode);
 
             /**
              * Passing views to manager
@@ -95,11 +102,12 @@ define([
             this.viewManager.addView(this.lobby);
             this.viewManager.addView(this.game);
             this.viewManager.addView(this.create);
+            this.viewManager.addView(this.qr);
 
             /**
              * Setting WebSocket
              * */
-            this.websocket = new WebSocket(user, lobbies, lobby, player, players, game);
+            this.websocket = new WebSocket(user, lobbies, lobby, player, players, game, qrCode);
         },
 
         defaultActions: function () {
@@ -126,6 +134,9 @@ define([
         },
         createAction: function () {
             this.create.show();
+        },
+        qrAction: function(){
+            this.qr.show();
         }
     });
 

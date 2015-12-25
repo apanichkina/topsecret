@@ -86,6 +86,37 @@ html {
 .box{
   margin: 50px auto;
 }
+
+.qrbox{
+  @extend .new-lobby-box;
+  &__header{
+    @extend .new-lobby-box__header;
+  }
+
+  &__img{
+    margin:20px;
+  }
+}
+
+.logged-as{
+  font: bold 22px #{$main-font-style};
+  color: #{$main-font-color};
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+  background: transparent;
+  &:hover{
+    color: yellow;
+    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+  }
+}
+
+.qrlink{
+  @extend .main-menu__button;
+}
+
 .button-back {
   font: bold 32px #{$main-font-style};
   color: #{$main-font-color};
@@ -156,6 +187,13 @@ html {
   max-height: 650px;
   max-width: 710px;
   min-width: 400px;
+
+    &__no-lobbies{
+      text-align: center;
+      margin: 20px 20px 10px 20px;
+      font: bold 36px #{$main-font-style};
+      color: #{$main-font-color};
+    }
 
     &__header{
       text-align: center;
@@ -270,11 +308,14 @@ html {
     width: 50%;
   }
   &__td{
-    &_red{
-      color: red;
+    padding: 15px;
+    &_ginger{
+      padding: 10px;
+      color: #ed4830;
     }
-    &_blue{
-      color: blue;
+    &_choco{
+      padding: 10px;
+      color: #b37b11;
     }
   }
 

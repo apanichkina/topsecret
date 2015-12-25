@@ -54,6 +54,11 @@ define([
                 self.$('#js-logout').hide();
                 self.$('#js-play').hide();
             }
+
+            this.$el.find('.js-open-qr').on('click', function(event){
+                event.preventDefault();
+                Backbone.history.navigate('#qr', true);
+            });
         },
 
         show: function () {

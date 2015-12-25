@@ -3,7 +3,14 @@
         <div class="new-lobby-box__error js-create-error"> Lobby already exists! </div>
         <div class="new-lobby-box__header">NEW LOBBY</div>
         <form class="new-lobby-box__form">
-            <input class="js-autofocus new-lobby-box__input" placeholder="Lobby name" required="required" />
+            <input id="js-autofocus" class="new-lobby-box__input" placeholder="Lobby name" required="required" />
+            <select class="new-lobby-box__select">
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+            </select>
             <input class="new-lobby-box__submit" type="submit" value="CREATE"/>
         </form>
         <a href="/#lobbies" class="button-back">

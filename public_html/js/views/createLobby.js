@@ -35,14 +35,14 @@ define([
                 Backbone.history.navigate('#lobbies', true);
             });
 
-            this.$el.find('.js-autofocus').focus();
-
+            this.$el.find('#js-autofocus').focus();
         },
 
         createLobby: function (event) {
             event.preventDefault();
             var lobbyName = this.$('.new-lobby-box__input').val();
-            this.lobby.set({ name: lobbyName });
+            var maxPlayers = this.$el.find('.new-lobby-box__select').val();
+            this.lobby.set({ name: lobbyName, maxPlayers: maxPlayers });
             this.player.trigger(this.player.CREATED_LOBBY);
         },
 
@@ -70,7 +70,6 @@ define([
         hide: function(){
             this.$el.hide();
         }
-
     });
 
     return View;

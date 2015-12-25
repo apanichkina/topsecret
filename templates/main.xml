@@ -4,6 +4,9 @@
         <a href="/#lobbies" id="js-play" class="main-menu__button">
             PLAY
         </a>
+        <fest:if test="data.user">
+            <a href="#" class="qrlink js-open-qr">ENABLE GAMEPAD</a>
+        </fest:if>
         <a href="/#scoreboard" class="main-menu__button">
             SCOREBOARD
         </a>
@@ -17,7 +20,7 @@
             LOGOUT
         </a>
         <fest:if test="data.user">
-            <div class="button-back">
+            <div class="logged-as">
                 Logged in as<fest:space/><fest:value>data.user</fest:value>
             </div>
         </fest:if>

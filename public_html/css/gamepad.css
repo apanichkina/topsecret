@@ -1,0 +1,84 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background: rgb(217, 217, 217);
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    font-size: 10px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.gamepad {
+    position: absolute;
+    padding: 0;
+}
+
+.gamepad_landscape {
+    width:100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+.gamepad_portrait {
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg);
+    top: calc(50vh - 50vw);
+    left: calc( 50vw - 50vh );
+}
+
+.gamepad__main {
+    background: rgb(145, 145, 145);
+    border-radius: 1rem;
+    height: 90%;
+    margin: 5% 2% 0 2%;
+}
+
+.main__title {
+    width: 100%;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10rem;
+    color: rgb(194, 21, 22);
+    padding-top: 2.5%;
+}
+
+.main__left {
+    float: left;
+    transform: rotate(90deg);
+}
+
+.main__right {
+    float: right;
+}
+
+.main__left, .main__right {
+    width: 50rem;
+    height: 50rem;
+    margin: 5%;
+}
+
+.main__btnBlock {
+    float: left;
+    height: 49%;
+    width: 49%;
+    background: rgb(170, 170, 170);
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    margin-top: 50.5%;
+}
+
+.main__btn {
+    background: rgb(194, 21, 22);
+    margin-top: 10%;
+    margin-left: 10%;
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+}
