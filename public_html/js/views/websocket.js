@@ -143,16 +143,22 @@ define([
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
                     self.lobby.trigger(self.lobby.UPDATE);
+                    Backbone.history.navigate('#lobby', true);
+                    if(this.lobby.isFull()){
+                        Backbone.history.navigate('#game', true);
+                    }
                     break;
                 case 5:// cant join
                     alert('code 5');
                     break;
                 case 7: //user joins lobby
                     self.lobby.addPlayer(msg.user, msg.team);
+                    if(this.lobby.isFull()){
+                        Backbone.history.navigate('#game', true);
+                    }
                     break;
                 case 8://game start
                     self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
-                    //if (!self.isStarted) {
                         self.isStarted = true;
                         var ballses = msg.balls;
                         var playersCount = ballses.length;
@@ -177,11 +183,6 @@ define([
                                 self.game.set({myNumber: i});
                             }
                         }
-                    Backbone.history.navigate('#game', true);
-                    //}
-                    //else {
-                    //    console.log("another start");
-                    //}
                     break;
                 case 10://current coordinate
                     self.game.set({isStarted: true, isEnded: false});

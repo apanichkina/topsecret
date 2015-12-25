@@ -32,7 +32,7 @@ define([
             this.$el.find('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
                 var lobbyName = $(this).parent().siblings('.lobby-table__name').text();
-                var maxPlayers = $(this).parent().siblings('.js-count').find('js-max').text();
+                var maxPlayers = $(this).parent().siblings('.js-count').find('.js-max').text();
                 self.joinLobby(lobbyName, maxPlayers);
             });
 

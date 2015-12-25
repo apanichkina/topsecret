@@ -19,6 +19,18 @@
                     <td><fest:value>context.team['1'][2]</fest:value></td>
                     <td><fest:value>context.team['0'][2]</fest:value></td>
                 </tr>
+                <tr>
+                    <td><fest:value>context.team['1'][3]</fest:value></td>
+                    <td><fest:value>context.team['0'][3]</fest:value></td>
+                </tr>
+                <tr>
+                    <td><fest:value>context.team['1'][4]</fest:value></td>
+                    <td><fest:value>context.team['0'][4]</fest:value></td>
+                </tr>
+                <tr>
+                    <td><fest:value>context.team['1'][5]</fest:value></td>
+                    <td><fest:value>context.team['0'][5]</fest:value></td>
+                </tr>
             </table>
         </div>
         <div class="button-back">Leave</div>

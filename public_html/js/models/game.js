@@ -24,7 +24,8 @@ define([
             playersRadius: 20,
             team0: 0,
             team1: 0,
-            myNumber: 0
+            myNumber: 0,
+            isStarted: false
         },
         setProperties: function(data){
             this.set(data);
