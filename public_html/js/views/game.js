@@ -7,6 +7,7 @@ define([
     var View = Backbone.View.extend({
 
         template: tmpl,
+        is_hidden: true,
 
         initialize: function (userModel, playerModel, playersCollection, gameModel) {
 
@@ -135,9 +136,11 @@ define([
                 this.firstVisit = false;
             }
             this.$el.show();
+            this.is_hidden = false;
             this.trigger("show", this);
         },
         hide: function () {
+            this.is_hidden = true;
             this.$el.hide();
         },
 
@@ -402,25 +405,25 @@ define([
 
         processKey: function (e) {
             var msg;
-            if (e.keyCode == 37) {//влево
+            if (!this.is_hidden && e.keyCode == 37) {//влево
                 if (this.players.at(this.number).get("Vx") > -this.maxBallSpeed) {
                     this.user.set({clickCode: 5});
                     this.user.trigger(this.user.click);
                 }
             }
-            if (e.keyCode == 39) {//вправо
+            if (!this.is_hidden && e.keyCode == 39) {//вправо
                 if (this.players.at(this.number).get("Vx") < this.maxBallSpeed) {
                     this.user.set({clickCode: 4});
                     this.user.trigger(this.user.click);
                 }
             }
-            if (e.keyCode == 38) {//вверх
+            if (!this.is_hidden && e.keyCode == 38) {//вверх
                 if (this.players.at(this.number).get("Vy") > -this.maxBallSpeed) {
                     this.user.set({clickCode: 7});
                     this.user.trigger(this.user.click);
                 }
             }
-            if (e.keyCode == 40) {//вниз
+            if (!this.is_hidden && e.keyCode == 40) {//вниз
                 if (this.players.at(this.number).get("Vy") < this.maxBallSpeed) {
                     this.user.set({clickCode: 6});
                     this.user.trigger(this.user.click);
