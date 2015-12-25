@@ -173,6 +173,7 @@ define([
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
+                                name: ballses[i].name.substring(0,11),
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
@@ -194,6 +195,7 @@ define([
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
+                                name: ballses[i].name.substring(0,11),
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),

@@ -104,13 +104,15 @@ define([
             this.imageObjHead2.src = "../../img/head2.png";
 
             this.maxBallSpeed = this.game.get("maxSpeed");
-            this.borderWidth = 3;
+            this.borderWidth = 4;
 
 
             window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
 
             this.firstVisit = true;
+            this.endFontSize = 120;
+            this.playerNameFontSize = 15;
 
 
         },
@@ -141,7 +143,7 @@ define([
 
         //helpers
         resizeCanvas: function () {
-            var width = window.innerWidth - 26;
+            var width = window.innerWidth;
             if (width < 800) width = 800;
             this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight - 40;
@@ -319,6 +321,14 @@ define([
                 context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
                 var imgW = radius * this.coordinateStepY * 2;
                 var imgH = radius * this.coordinateStepY * 2;
+                var fontSize = this.playerNameFontSize;
+
+                // Тут можно подписать игрока
+                context.beginPath();
+                context.fillStyle = "white";
+                context.font = fontSize+'pt Calibri';
+                context.fillText(myArc.get("name"), -fontSize * (myArc.get("name").length + 1) / 4, radius + fontSize);
+
                 context.rotate(Math.atan2(myArc.get("Vy"), myArc.get("Vx")) - Math.PI / 2);
 
                 if (myArc.get("isMyPlayer")) {
@@ -336,13 +346,20 @@ define([
                 context.fillStyle = img;
                 context.fill();
 
-                /*// Тут можно подписать своего игрока
-                 if (myArc.isMyPlayer) {
-                 context.beginPath();
-                 context.font = 'bold 10pt Calibri';
-                 context.fillText('RED', -13, 0);
-                 }
-                 */
+                //// Тут можно подписать своего игрока
+                // if (myArc.get("isMyPlayer")) {
+                //     context.beginPath();
+                //     context.fillStyle = "white";
+                //     context.font = 'bold '+this.playerNameFontSize+'pt Calibri';
+                //     context.fillText(this.names[0], -this.playerNameFontSize * this.names[0].length / 4, -(radius));
+                // } else
+                // {
+                //     context.beginPath();
+                //     context.fillStyle = "white";
+                //     context.font = 'bold 15pt Calibri';
+                //     context.fillText(this.names[1],-this.names[1].length/2, -(5+radius));
+                // }
+
 
             } else {
                 context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
@@ -366,21 +383,18 @@ define([
 
             if (game.get('isEnded') == true) {
                 endcontext.beginPath();
-
-                endcontext.font = '120px Calibri';
+                endcontext.font = this.endFontSize+'px Calibri';
                 endcontext.lineWidth = 3;
                 endcontext.strokeStyle = 'black';
-                var wordLength = 6;
                 var winnerName = "";
                 var winner = this.game.get('winner');
                 if (winner === 0) winnerName = "Winner Ginger";
                 else if (winner === 1)
                     winnerName = "Winner Choco";
                 else {
-                    winnerName = "Draw ";
-                    wordLength = 4;
+                    winnerName = "Draw";
                 }
-                endcontext.strokeText(winnerName, this.endcontainer.width / 2 - (120 / 2) * wordLength, this.endcontainer.height / 2);
+                endcontext.strokeText(winnerName, this.endcontainer.width / 2 - this.endFontSize * winnerName.length / 4, this.endcontainer.height / 2);
                 endcontext.fill();
             }
 
