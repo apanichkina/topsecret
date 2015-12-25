@@ -29,6 +29,8 @@ html {
 
 .doge{
   float:left;
+  position:relative;
+  margin-left: -100px;
 }
 
 .how-to-play{
@@ -75,7 +77,7 @@ html {
 
   &__hint-pic{
     text-align: center;
-    padding-right: 142px;
+    padding-right: 42px;
     margin: 50px auto;
   }
 
@@ -330,8 +332,12 @@ html {
   }
 
   &__input{
-    @extend .user-form__input;
-    width: 100%;
+    font: 28px #{$main-font-style};
+    color: #{$main-font-color};
+    margin-bottom: 15px;
+    padding: 10px;
+    background: transparent;
+    border: 2px #{$border-style} #{$border-color};
   }
 
   &__submit{

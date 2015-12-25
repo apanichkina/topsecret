@@ -67,6 +67,15 @@ define([
             this.$el.find('.js-hint-enable').on('click', function (event) {
                 self.$el.find('.how-to-play').fadeIn(750);
             });
+
+            var doge = this.$el.find('.doge');
+
+            doge.hover(function(){
+                $(this).animate({left: '100px'}, 500)
+            }, function(){
+                $(this).animate({left: '0px'}, 500)
+            });
+
         },
 
         show: function () {

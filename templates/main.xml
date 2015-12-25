@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
     <div class="main-menu">
-        <div class="main-menu__header">DA FOOTBALL<sub style="font-size: 15px">v.0.2.0</sub></div>
+        <div class="main-menu__header">TOPSECRET GAME</div>
         <a href="/#lobbies" id="js-play" class="main-menu__button">
             PLAY
         </a>
