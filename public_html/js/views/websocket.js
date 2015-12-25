@@ -158,6 +158,7 @@ define([
                     }
                     break;
                 case 8://game start
+                    console.log(msg);
                     self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
                         self.isStarted = true;
                         var ballses = msg.balls;
@@ -173,6 +174,7 @@ define([
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
+                                name: ballses[i].name.substring(0,11),
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),
@@ -194,6 +196,7 @@ define([
                         for (var i = 1; i < playersCount; i++) {
                             self.players.add([{
                                 id: i,
+                                name: ballses[i].name.substring(0,11),
                                 radius: self.game.get("playersRadius"),
                                 x: ballses[i].x.valueOf(),
                                 y: ballses[i].y.valueOf(),

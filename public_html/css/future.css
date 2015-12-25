@@ -101,9 +101,6 @@ html {
   margin: 0 auto;
   padding: 10px 0 20px 0;
   background: transparent; }
-  .logged-as:hover {
-    color: yellow;
-    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
 
 .button-back {
   font: bold 32px led-digital-7;
@@ -328,7 +325,6 @@ html {
     background-image: url(../img/background_color.jpg); }
   .game__field {
     margin: 0;
-    padding: 0 0 10px 10px;
     position: absolute;
     z-index: 1; }
   .game__sprite {
