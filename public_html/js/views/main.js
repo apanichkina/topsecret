@@ -45,8 +45,8 @@ define([
         render: function () {
             var self = this;
 
-            if (self.user.get('logged_in')){
-                this.$el.html(self.template({ user: self.user.get('name') }));
+            if (self.user.get('logged_in')) {
+                this.$el.html(self.template({user: self.user.get('name')}));
                 self.$('#js-login').hide();
                 self.$('#js-signup').hide();
             } else {
@@ -55,9 +55,17 @@ define([
                 self.$('#js-play').hide();
             }
 
-            this.$el.find('.js-open-qr').on('click', function(event){
+            this.$el.find('.js-open-qr').on('click', function (event) {
                 event.preventDefault();
                 Backbone.history.navigate('#qr', true);
+            });
+
+            this.$el.find('.js-hint-close').on('click', function (event) {
+                self.$el.find('.how-to-play').fadeOut(750);
+            });
+
+            this.$el.find('.js-hint-enable').on('click', function (event) {
+                self.$el.find('.how-to-play').fadeIn(750);
             });
         },
 

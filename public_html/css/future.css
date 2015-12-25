@@ -15,8 +15,12 @@ body {
 html {
   height: 100%; }
 
+.doge {
+  float: left; }
+
 .how-to-play {
   display: none;
+  min-width: 700px;
   position: absolute;
   top: 0;
   left: 0;
@@ -26,6 +30,18 @@ html {
   background-color: rgba(0, 0, 0, 0.9);
   /*обесцвечиваем фон*/
   text-align: center; }
+  .how-to-play__enable {
+    font: bold 22px led-digital-7;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+    background: transparent; }
+    .how-to-play__enable:hover {
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22; }
   .how-to-play__close {
     float: right;
     height: 30px;
@@ -39,6 +55,7 @@ html {
     color: #fff; }
   .how-to-play__hint-pic {
     text-align: center;
+    padding-right: 142px;
     margin: 50px auto; }
   .how-to-play__hint {
     text-align: center;
@@ -74,8 +91,8 @@ html {
   text-align: center;
   background: rgba(28, 28, 28, 0.7);
   border: 2px white solid;
-  padding: 10px;
-  min-width: 300px; }
+  padding: 10px 0 10px 0;
+  min-width: 500px; }
   .main-menu__button, .qrlink {
     font: bold 38px led-digital-7;
     text-decoration: none;
@@ -106,8 +123,9 @@ html {
   text-align: center;
   display: block;
   margin: 0 auto;
-  padding: 10px 0 20px 0;
-  background: transparent; }
+  padding: 20px 0 10px 0;
+  background: transparent;
+  border-top: 2px dashed white; }
 
 .button-back {
   font: bold 32px led-digital-7;
@@ -129,7 +147,7 @@ html {
   padding-top: 20px;
   text-align: center;
   border: 2px solid white;
-  min-width: 300px; }
+  min-width: 500px; }
   .user-form__input, .new-lobby-box__input {
     font: 28px led-digital-7;
     color: #fff;
@@ -167,7 +185,7 @@ html {
   width: 50%;
   max-height: 650px;
   max-width: 710px;
-  min-width: 400px; }
+  min-width: 500px; }
   .lobby-box__no-lobbies {
     text-align: center;
     margin: 20px 20px 10px 20px;
@@ -266,7 +284,7 @@ html {
 
 .scoreboard {
   width: 50%;
-  min-width: 400px;
+  min-width: 500px;
   margin: 30px auto;
   text-align: center;
   background: rgba(28, 28, 28, 0.7);

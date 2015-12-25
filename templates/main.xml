@@ -23,12 +23,17 @@
             <div class="logged-as">
                 Logged in as<fest:space/><fest:value>data.user</fest:value>
             </div>
+            <a href="#" class="how-to-play__enable js-hint-enable">HOW TO PLAY</a>
         </fest:if>
     </div>
 
+
     <div class="how-to-play">
-        <div class="how-to-play__header">HOW TO PLAY GUIDE!<img src="../img/close.png" class="how-to-play__close" /></div>
-        <div class="how-to-play__hint"><img src="../img/hint.png" /></div>
+        <div class="how-to-play__header">HOW TO PLAY GUIDE!<img src="../img/close.png" class="how-to-play__close js-hint-close" /></div>
+        <div class="how-to-play__hint-pic"><img class="doge" src="../img/doge2.png" /><img src="../img/hint.png" /></div>
+        <div class="how-to-play__hint">AS SIMPLE AS THAT!</div>
+        <div class="how-to-play__hint">BRAND NEW CONTROLS!</div>
+        <div class="how-to-play__hint">JUST PRESS REPEATEDLY, NEVER HOLD!</div>
     </div>
 
 

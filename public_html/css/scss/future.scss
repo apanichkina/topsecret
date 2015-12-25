@@ -27,8 +27,13 @@ html {
   height: 100%;
 }
 
+.doge{
+  float:left;
+}
+
 .how-to-play{
   display: none;
+  min-width: 700px;
   position: absolute;
   top: 0;
   left: 0;
@@ -37,6 +42,21 @@ html {
   z-index: 1000;
   background-color: rgba(0,0,0,0.9); /*обесцвечиваем фон*/
   text-align: center;
+
+  &__enable{
+    font: bold 22px #{$main-font-style};
+    color: #{$main-font-color};
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+    background: transparent;
+    &:hover{
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
+  }
 
   &__close{
     float: right;
@@ -55,6 +75,7 @@ html {
 
   &__hint-pic{
     text-align: center;
+    padding-right: 142px;
     margin: 50px auto;
   }
 
@@ -97,8 +118,8 @@ html {
   text-align: center;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
-  padding: 10px;
-  min-width: 300px;
+  padding: 10px 0 10px 0;
+  min-width: 500px;
 
     &__button {
       font: bold 38px #{$main-font-style};
@@ -144,9 +165,9 @@ html {
   text-align: center;
   display: block;
   margin: 0 auto;
-  padding: 10px 0 20px 0;
+  padding: 20px 0 10px 0;
   background: transparent;
-
+  border-top: 2px dashed #{$border-color};
 }
 
 .qrlink{
@@ -175,7 +196,7 @@ html {
   padding-top: 20px;
   text-align: center;
   border: 2px #{$border-style} #{$border-color};
-  min-width: 300px;
+  min-width: 500px;
 
   &__input{
     font: 28px #{$main-font-style};
@@ -222,7 +243,7 @@ html {
   width: 50%;
   max-height: 650px;
   max-width: 710px;
-  min-width: 400px;
+  min-width: 500px;
 
     &__no-lobbies{
       text-align: center;
@@ -380,7 +401,7 @@ html {
 
 .scoreboard {
   width: 50%;
-  min-width: 400px;
+  min-width: 500px;
   margin: 30px auto;
   text-align: center;
   background: #{$black-background};
