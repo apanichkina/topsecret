@@ -32,7 +32,8 @@ define([
             this.$el.find('.lobby-table__join').on('click', function(event){
                 event.preventDefault();
                 var lobbyName = $(this).parent().siblings('.lobby-table__name').text();
-                self.joinLobby(lobbyName);
+                var maxPlayers = $(this).parent().siblings('.js-count').find('js-max').text();
+                self.joinLobby(lobbyName, maxPlayers);
             });
 
             this.$el.find('.lobby-box__create').on('click', function (event) {
@@ -47,9 +48,10 @@ define([
 
         },
 
-        joinLobby: function(lobbyName){
+        joinLobby: function(lobbyName, maxPlayers){
             this.player.set({ inLobby: true });
-            this.lobby.set({ name: lobbyName });
+            this.lobby.set({ name: lobbyName, maxPlayers: maxPlayers });
+            console.log(this.lobby);
             this.player.trigger(this.player.JOINED_LOBBY);
         },
 

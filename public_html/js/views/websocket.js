@@ -143,24 +143,14 @@ define([
                 case 4: //joinLobby
                     self.lobby.set({ team: msg.users });
                     self.lobby.trigger(self.lobby.UPDATE);
-                    if(self.lobby.isFull()){
-                        Backbone.history.navigate('#game', true);
-                    } else {
-                        Backbone.history.navigate('#lobby', true);
-                    }
-                    console.log(self.lobby.toJSON());
                     break;
                 case 5:// cant join
                     alert('code 5');
                     break;
                 case 7: //user joins lobby
                     self.lobby.addPlayer(msg.user, msg.team);
-                    if(self.lobby.isFull()){
-                        Backbone.history.navigate('#game', true);
-                    }
                     break;
                 case 8://game start
-                    console.log(msg);
                     self.game.set({isStarted: true, isEnded: false, team0: 0, team1: 0});
                     //if (!self.isStarted) {
                         self.isStarted = true;
@@ -187,6 +177,7 @@ define([
                                 self.game.set({myNumber: i});
                             }
                         }
+                    Backbone.history.navigate('#game', true);
                     //}
                     //else {
                     //    console.log("another start");
