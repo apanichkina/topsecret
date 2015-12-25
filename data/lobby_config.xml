@@ -1,6 +1,6 @@
 <class type="resourceSystem.resourceObjects.LobbyConfig">
     <teams>2</teams>
-    <members>10</members>
+    <members>2</members>
     <fieldWidth>1397</fieldWidth>
     <fieldHeight>953</fieldHeight>
     <ballRadius>10</ballRadius>
