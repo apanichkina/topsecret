@@ -149,6 +149,11 @@ html {
     font: bold 48px led-digital-7;
     color: #fff;
     margin-top: 10px; }
+  .lobby-box__footer {
+    text-align: center;
+    font: bold 28px led-digital-7;
+    color: #fff;
+    margin: 20px 0 20px 0; }
   .lobby-box__create {
     border-top: 2px dashed white;
     margin-top: 10px;
@@ -188,6 +193,14 @@ html {
     border: 0; }
   .new-lobby-box__input {
     width: 100%; }
+  .new-lobby-box__select, .new-lobby-box__select_label {
+    font: bold 32px led-digital-7;
+    margin: 10px auto;
+    padding: 10px;
+    color: #fff;
+    background: transparent;
+    display: inline-block;
+    border: 0; }
 
 .lobby-table, .current-lobby-table {
   border: 0;

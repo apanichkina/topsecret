@@ -25,17 +25,23 @@ define([
 
          addPlayer: function(user, team){
              this.attributes.team[team].push(user);
+             this.set({'currentPlayers': this.countPlayers()});
              this.trigger(this.UPDATE);
          },
 
          removePlayer: function(user) {
              this.attributes.team[0] = _.without(this.attributes.team[0], user);
              this.attributes.team[1] = _.without(this.attributes.team[1], user);
+             this.set({'currentPlayers': this.countPlayers()});
              this.trigger(this.UPDATE);
          },
 
          isFull: function() {
-             return this.attributes.team[0].length + this.attributes.team[1].length == this.get('maxPlayers')
+             return this.countPlayers() == this.get('maxPlayers')
+         },
+
+         countPlayers: function() {
+             return this.attributes.team[0].length + this.attributes.team[1].length;
          }
 
 

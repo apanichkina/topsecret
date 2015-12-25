@@ -202,6 +202,13 @@ html {
       margin-top: 10px;
     }
 
+    &__footer{
+      text-align: center;
+      font: bold 28px #{$main-font-style};
+      color: #{$main-font-color};
+      margin: 20px 0 20px 0;
+    }
+
     &__create {
       border-top: 2px dashed #{$border-color};
       margin-top: 10px;
@@ -269,6 +276,20 @@ html {
 
   &__submit{
     @extend .user-form__submit;
+  }
+
+  &__select{
+    font: bold 32px #{$main-font-style};
+    margin: 10px auto;
+    padding: 10px;
+    color: #{$main-font-color};
+    background: transparent;
+    display: inline-block;
+    border: 0;
+
+    &_label{
+      @extend .new-lobby-box__select;
+    }
   }
 }
 

@@ -4,7 +4,8 @@
         <div class="new-lobby-box__header">NEW LOBBY</div>
         <form class="new-lobby-box__form">
             <input id="js-autofocus" class="new-lobby-box__input" placeholder="Lobby name" required="required" />
-            <select class="new-lobby-box__select">
+            <label class="new-lobby-box__select_label" for="select">Max players<fest:space></fest:space></label>
+            <select class="new-lobby-box__select" id="select">
                 <option value="2">2</option>
                 <option value="4">4</option>
                 <option value="6">6</option>
