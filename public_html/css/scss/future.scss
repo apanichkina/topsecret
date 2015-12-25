@@ -33,7 +33,7 @@ html {
 
 .how-to-play{
   display: none;
-  min-width: 700px;
+  min-width: 780px;
   position: absolute;
   top: 0;
   left: 0;
@@ -62,7 +62,7 @@ html {
     float: right;
     height: 30px;
     width: 30px;
-    margin-top: 10px;
+    margin-top: 7px;
     cursor: pointer;
   }
 
@@ -158,6 +158,9 @@ html {
   }
 }
 
+.breaker{
+  height: 20px;
+}
 .logged-as{
   font: bold 22px #{$main-font-style};
   color: #{$main-font-color};

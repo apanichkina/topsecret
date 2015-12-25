@@ -20,7 +20,7 @@ html {
 
 .how-to-play {
   display: none;
-  min-width: 700px;
+  min-width: 780px;
   position: absolute;
   top: 0;
   left: 0;
@@ -46,7 +46,7 @@ html {
     float: right;
     height: 30px;
     width: 30px;
-    margin-top: 10px;
+    margin-top: 7px;
     cursor: pointer; }
   .how-to-play__header {
     padding: 0 20px 0 50px;
@@ -115,6 +115,9 @@ html {
 
 .qrbox__img {
   margin: 20px; }
+
+.breaker {
+  height: 20px; }
 
 .logged-as {
   font: bold 22px led-digital-7;
