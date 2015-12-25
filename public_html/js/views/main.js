@@ -75,11 +75,10 @@ define([
             }, function(){
                 $(this).animate({left: '0px'}, 500)
             });
-
         },
 
         show: function () {
-            this.$el.fadeIn(750);
+            this.$el.slideDown(750);
             this.trigger("show", this);
         },
 
@@ -95,6 +94,8 @@ define([
                     self.user.trigger(self.user.USER_LOGOUT);
                 }
             });
+
+            this.$el.hide().slideDown(750);
         }
 
     });

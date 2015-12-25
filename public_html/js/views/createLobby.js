@@ -62,7 +62,7 @@ define([
             }
 
             this.render();
-            this.$el.fadeIn(750);
+            this.$el.show();
             this.trigger("show", this);
 
         },

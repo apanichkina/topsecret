@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 stderr: true
             },
             server: {
-                command: 'java -jar 4pg.jar'
+                command: 'java -jar 4pg-beta.jar'
             }
         },
 

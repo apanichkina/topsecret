@@ -120,7 +120,7 @@ html {
   text-align: center;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
-  padding: 10px 0 10px 0;
+  padding: 10px;
   min-width: 500px;
 
     &__button {
@@ -411,7 +411,7 @@ html {
 .scoreboard {
   width: 50%;
   min-width: 500px;
-  margin: 30px auto;
+  margin: 50px auto;
   text-align: center;
   background: #{$black-background};
   border: 2px #{$border-color} #{$border-style};
