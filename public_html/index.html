@@ -50,7 +50,8 @@
 </div>
 
 <script type="text/javascript">
-    window.onload = function () {
+    //.addEventListener('load_successful',function(){console.log("load_successful")});
+    window.onbuild = function () {
         $('.preloader__spinner').fadeOut();
         $('.preloader__text').fadeOut();
         $('.preloader').delay(350).fadeOut('slow');

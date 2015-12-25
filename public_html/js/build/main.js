@@ -5278,6 +5278,7 @@ define('router',[
 
         defaultActions: function () {
             this.main.show();
+            $(window).trigger('build');
         },
         scoreboardAction: function () {
             this.scoreboard.show();
