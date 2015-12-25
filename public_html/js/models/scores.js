@@ -15,7 +15,9 @@ define([
 
         defaults: {
             name:'',
-            score:0
+            score:0,
+            lose:0,
+            draw:0
         }
 
     });
