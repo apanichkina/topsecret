@@ -4,51 +4,54 @@
 
 define([
     'backbone',
-    'tmpl/scoreboard',
-    'models/scores',
-    'collections/scores'
+    'tmpl/scoreboard'
 ], function(
     Backbone,
-    tmpl,
-    Score,
-    collection
+    tmpl
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        initialize: function () {
-            $('#page').append(this.el);
-            this.collection = new collection();
-            this.collection.set(
-                [
-                    {name: "Ann", score:78809},
-                    {name: "Sanya", score:78809},
-                    {name:"Oleg", score:1000},
-                    {name:"Artem", score:1200},
-                    {name:"Ivan", score:1000},
-                    {name:"Ilya", score:48680},
-                    {name:"Ira", score:200},
-                    {name:"Katya", score:2345},
-                    {name:"Setgey", score:670},
-                    {name:"Belodedov", score:9999999},
-                    {name:"Aa", score:1},
-                    {name:"Mr.Cat", score:1234567}
-                ]);
+
+        initialize: function (scoreCollection) {
+
+            this.collection = scoreCollection;
+
+            this.listenTo(this.collection, this.collection.changed, this.render);
+
             this.render();
         },
         render: function () {
-            this.$el.html(this.template(this.collection.firstN(10)));
+            this.$el.html(this.template(this.collection.toJSON()));
         },
         show: function () {
-            this.$el.show();
+            var self = this;
+            this.collection.fetch({
+                success: function(data) {
+                    self.collection.setScores(data);
+                },
+                error: function() {
+                    console.log("errAnn");
+                    self.collection.setFromLocalStorage();
+                }
+            });
+            this.$el.slideDown(750);
             this.trigger("show", this);
         },
         hide: function () {
             this.$el.hide();
+        },
+
+        supportsStorage: function() {
+           try{
+               return 'localStorage' in window && window['localStorage'] !== null;
+           } catch(e) {
+               return false;
+           }
         }
 
     });
 
-    return new View();
+    return View;
 });

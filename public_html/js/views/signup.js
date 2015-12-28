@@ -1,42 +1,41 @@
 define([
     'backbone',
-    'tmpl/signup',
-    'models/user'
+    'tmpl/signup'
 ], function(
     Backbone,
-    tmpl,
-    userModel
+    tmpl
 ){
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-
         events: {
-            "click .user-form__submit": "send",
-            "enter": "send"
+            submit: "send"
         },
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.listenTo(this.user, this.user.signupFailedEvent, function () {
-                this.$(".user-form__error").show();
+        initialize: function (userModel) {
+            this.user = userModel;
+
+            this.listenTo(this.user, this.user.USER_SIGNUP_FAILED + " " + this.user.USER_SIGN_UP_SUCCESS + " " + this.user.USER_LOGIN_SUCCESS, function () {
+                if(this.user.get('logged_in')) {
+                    this.render();
+                }
             });
             this.render();
         },
 
         render: function () {
             this.$el.html(this.template);
-            this.$el.find('input').keyup(function(e){
-                if(e.keyCode == 13){
-                    $(this).trigger('enter');
-                }
-            });
         },
 
         show: function () {
-            this.$el.show();
+
+            if(this.user.get('logged_in')){
+                Backbone.history.navigate('#', true);
+                return;
+            }
+
+            this.$el.slideDown(750);
             this.trigger('show', this);
         },
 
@@ -44,8 +43,11 @@ define([
             this.$el.hide();
         },
 
-
         // Helpers
+
+        showError: function(message){
+            this.$(".user-form__error").text(message).show();
+        },
 
         passwordMatch: function () {
             var pw1 = this.$("input[name=password]").val();
@@ -78,18 +80,19 @@ define([
 
         send: function (event) {
             event.preventDefault();
+            var self = this;
 
             if(!this.allFilled()){
-                this.$(".user-form__error").text("All fields must be filled!").show();
+                self.showError("All fields must be filled!");
             }
             else if (!this.validLogin()) {
-                this.$(".user-form__error").text("Wrong login!").show();
+                self.showError("Wrong login!");
             }
             else if (!this.validEmail()) {
-                this.$(".user-form__error").text("Wrong email!").show();
+                self.showError("Wrong email!");
             }
             else if (!this.passwordMatch()) {
-                this.$(".user-form__error").text("Passwords don't match!").show();
+                self.showError("Passwords don't match!");
             }
             else {
                 this.$(".user-form__error").hide();
@@ -97,14 +100,34 @@ define([
                 var name = this.$("input[name=name]").val();
                 var email = this.$("input[name=email]").val();
 
-                this.user.save({
-                    name: name,
-                    password: pass,
-                    email: email
+                this.user.save(null, {
+                    data: JSON.stringify({
+                        name: name,
+                        password: pass,
+                        email: email
+                    }),
+
+                    success: function(model, data) {
+                        self.user.clear();
+                        if(data.code == 2) {
+                            self.showError(data.response.description);
+                            self.user.trigger(self.user.USER_SIGNUP_FAILED);
+                            return;
+                        }
+
+                        self.user.set(_.extend(data.response, { logged_in: true }));
+
+                        self.user.trigger(self.user.USER_SIGN_UP_SUCCESS);
+                    },
+
+                    error: function(model, data) {
+                        self.user.clear();
+                        self.showError(data.response.description);
+                    }
                 });
             }
         }
     });
 
-    return new View();
+    return View;
 });

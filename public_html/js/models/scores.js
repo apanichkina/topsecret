@@ -3,16 +3,23 @@
  */
 
 define([
-    'backbone'
+    'backbone',
+    'api/scoreSync'
 ], function(
-    Backbone
+    Backbone,
+    scoreSync
 ){
 
     var Model = Backbone.Model.extend({
+        url: "/",
+
         defaults: {
             name:'',
-            score:0
+            score:0,
+            lose:0,
+            draw:0
         }
+
     });
 
     return Model;

@@ -8,11 +8,18 @@ define([
 ){
 
     var Model = Backbone.Model.extend({
+
+        /**
+         * Player events
+         */
+        JOINED_LOBBY: 'joinedLobby',
+        CREATED_LOBBY: 'createdLobby',
+
+
         defaults: {
-            id: 0,
-            x: 0,
-            y: 0,
-            radius: 20,
+            x: 100,
+            y: 100,
+            radius: 5,
             Vx: 0,
             Vy: 0,
             type: "human",
@@ -20,12 +27,15 @@ define([
                 return this.Vx + this.Vy;
             }
         },
-        constructor: function(id,currX,currY) {
-            this.id = id;
-            this.x = currX;
-            this.y = currY;
+        initialize: function () {
         }
+        //idAttribute: id
+        //constructor: function(id,currX,currY) {
+        //    this.id = id;
+        //    this.x = currX;
+        //    this.y = currY;
+        //}
     });
 
-    return new Model();
+    return Model;
 });

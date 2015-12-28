@@ -1,29 +1,24 @@
 define([
     'backbone',
-    'tmpl/login',
-    'models/user'
+    'tmpl/login'
 ], function(
     Backbone,
-    tmpl,
-    userModel
+    tmpl
 ){
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
 
         events: {
-            "click .user-form__submit": "send",
-            "enter": "send"
+            submit: "send"
         },
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.listenTo(this.user, this.user.loginFailedEvent + " " + this.user.loginCompleteEvent + " " + this.user.signupCompleteEvent, function () {
-                if(!this.user.get('logged_in')) {
-                    this.$(".user-form__error").text("Invalid credentials!").show();
-                } else {
-                    this.$(".user-form__error").text("Invalid credentials!").hide();
+        initialize: function (userModel) {
+            this.user = userModel;
+
+            this.listenTo(this.user, this.user.USER_LOGIN_FAILED + " " + this.user.USER_LOGIN_SUCCESS + " " + this.user.USER_SIGN_UP_SUCCESS, function () {
+                if(this.user.get('logged_in')) {
+                    this.render();
                 }
             });
 
@@ -31,36 +26,75 @@ define([
         },
         render: function () {
             this.$el.html(this.template);
-            this.$el.find('input').on('keyup', function(e){
-                if(e.keyCode == 13){
-                    $(this).trigger('enter');
-                }
-            });
         },
+
         show: function () {
-            this.$el.show();
+
+            if(this.user.get('logged_in')){
+                Backbone.history.navigate('#', true);
+                return;
+            }
+
+            this.$el.slideDown(750);
             this.trigger('show', this);
         },
+
         hide: function () {
             this.$el.hide();
         },
 
+        allFilled: function() {
+            var isValid = true;
+            this.$(".user-form__input").each(function(){
+                if ($.trim($(this).val()).length == 0){
+                    isValid = false;
+                }
+            });
+            return isValid;
+        },
+
+        showError: function(message){
+            this.$(".user-form__error").text(message).show();
+        },
+
         send: function(event) {
             event.preventDefault();
+            var self = this;
 
-            var name = this.$("input[name=name]").val();
-            var pass = this.$("input[name=password]").val();
+            if(!self.allFilled()){
+                self.showError('All fields must be filled!');
+                return;
+            }
 
-            this.user.set("name", name);
-            this.user.set("password", pass);
+            var name = self.$("input[name=name]").val();
+            var pass = self.$("input[name=password]").val();
 
-            this.user.fetch({
-                name: name,
-                password: pass
+            self.user.fetch({
+                data: JSON.stringify({
+                    name: name,
+                    password: pass
+                }),
+
+                success: function(model, data) {
+                    self.user.clear();
+                    if(data.code == 1) {
+                        self.showError(data.response.description);
+                        self.user.trigger(self.user.USER_LOGIN_FAILED);
+                        return;
+                    }
+
+                    self.user.set(_.extend(data.response, { logged_in: true }));
+                    self.user.trigger(self.user.USER_LOGIN_SUCCESS);
+                },
+
+                error: function(model, data) {
+                    self.user.clear();
+                    self.showError(data.response.description);
+                }
             });
         }
 
     });
 
-    return new View();
+    return View;
 });

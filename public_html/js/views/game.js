@@ -1,31 +1,49 @@
-/**
- * Created by Alex on 21.09.15.
- */
-
 define([
     'backbone',
-    'tmpl/game',
-    'models/user',
-    'models/player',
-    'collections/players'
+    'tmpl/game'
 ], function (Backbone,
-             tmpl,
-             userModel,
-             player,
-             players) {
+             tmpl) {
 
     var View = Backbone.View.extend({
 
         template: tmpl,
-        user: userModel,
-        player: player,
-        players: players,
+        is_hidden: true,
 
+        initialize: function (userModel, playerModel, playersCollection, gameModel) {
 
-        initialize: function () {
-            $('#page').append(this.el);
-            this.render();
+            /**
+             * Setting Models
+             * */
+            this.user = userModel;
+            this.player = playerModel;
+            this.players = playersCollection;
+            this.game = gameModel;
+
+            this.game.fetch();
+
+            this._prev = [];
+            this.listenTo(this.game, "changed", this.render);
+            /*
+             this.game.on('change', this.wait);
+             this.user.on('change', this.wait);
+             */
         },
+        /*
+         _waitModel: {
+         game: false,
+         user: false
+         },
+         wait: function (evt, model) {
+         if (model === this.game) {
+         _waitModel.game = true;
+         } else if (model === this.user) {
+         _waitModel.game = true;
+         }
+
+         if (_waitModel.game && _waitModel.user) {
+         this.render();
+         }
+         },*/
         render: function () {
             this.$el.html(this.template);
 
@@ -39,16 +57,43 @@ define([
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
-
+            window.clearAnimation = (function () {
+                return window.cancelRequestAnimationFrame ||
+                    window.webkitCancelRequestAnimationFrame ||
+                    window.mozCancelRequestAnimationFrame ||
+                    window.oCancelRequestAnimationFrame ||
+                    window.msCancelRequestAnimationFrame ||
+                    function (id) {
+                        clearTimeout(id)
+                    };
+            })();
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-            this.fieldW = 1397;
-            this.fieldH = 953;
 
-            this.resizeCanvas();
+            this.endcanvas = document.getElementById('gameEndTablo');
+            this.endcontext = this.canvas.getContext('2d');
+
+            this.backgroundcanvas = document.getElementById('gameBackground');
+            this.backgroundcontext = this.backgroundcanvas.getContext('2d');
+
+            this.timercanvas = document.getElementById('gameTimer');
+            this.timercontext = this.timercanvas.getContext('2d');
+
+            this.scorecanvas = document.getElementById('gameScore');
+            this.scorecontext = this.scorecanvas.getContext('2d');
+
+
+            this.fieldW = this.game.get("fieldWidth");
+            this.fieldH = this.game.get("fieldHeight");
+
+
+            this.gametimeConf = this.game.get("gameTime");
 
             this.imageObj = new Image();
             this.imageObj.src = "../../img/football_field.jpg";
+
+            this.imageObjTablo = new Image();
+            this.imageObjTablo.src = "../../img/tablo.png";
 
             this.imageObjBall = new Image();
             this.imageObjBall.src = "../../img/ball.jpg";
@@ -56,192 +101,183 @@ define([
             this.imageObjHead = new Image();
             this.imageObjHead.src = "../../img/head.png";
 
-            this.balls = [];
-            this.players = new players();
+            this.imageObjHead2 = new Image();
+            this.imageObjHead2.src = "../../img/head2.png";
+
+            this.maxBallSpeed = this.game.get("maxSpeed");
+            this.borderWidth = 4;
 
 
-            this.borderWidth = 3;
-            //TODO сделать как наследника
-            this.ball = {
-                x: this.fieldW / 2,
-                y: this.fieldH / 2,
-                radius: 10,
-                Vx: 0,
-                Vy: 0,
-                type: "ball"
-            };
-            this.maxBallSpeed = 3;
-            this.balls.push(this.ball);
-            this.teamColors = ["ball","yellow","yellow","blue","blue"];
-            this.whoIs = [0,1,0,0,0];
-
-            window.onkeydown = this.processKey.bind(this);
+            window.onkeyup = this.processKey.bind(this);
             window.addEventListener('resize', this.resizeCanvas.bind(this), false);
 
-            this.animate();
+            this.firstVisit = true;
+            this.endFontSize = 120;
+            this.playerNameFontSize = 15;
+
+
         },
         show: function () {
-            console.log(this.user.logged_in);
-            this.$el.show();
-            this.trigger("show", this);
-
-
-            /////Oleg
-            this.ws = new WebSocket("ws://localhost:8083/game/");
-
-            var that = this;
-            this.ws.onmessage = function (event) {
-                var msg = JSON.parse(event.data);
-                var ID = msg.code;
-                console.log(msg);
-                switch (ID) {
-                    case 0:
-                        break;
-                    case 3:
-                        break;
-                    case 8:
-                        if (!that.isStarted) {
-                            that.isStarted = true;
-                            var ballses = msg.balls;
-                            that.addPlayers(ballses);
-                        }
-                        else {
-                            console.log("another start");
-                        }
-                        break;
-                    case 10:
-                        var ballses = msg.balls;
-                        if (!that.isStarted) {
-                            that.isStarted = true;
-                            that.addPlayers(ballses);
-                        }
-                        var playersCount = ballses.length;
-                        for (var i = 0; i < playersCount; i++) {
-                            that.balls[i].x = ballses[i].x;
-                            that.balls[i].y = ballses[i].y;
-                            that.balls[i].Vx = ballses[i].vx;
-                            that.balls[i].Vy = ballses[i].vy;
-                        }
-                        break;
-                    default:
-                        console.log(msg);
-                }
-
-            };
-            this.ws.onopen = function () {
-                var msg = {
-                    code: 2,
-                    lobby: "test"
-                };
-                this.send(JSON.stringify(msg));
-                msg = {
-                    code: 3
-                };
-                this.send(JSON.stringify(msg));
-                console.log("open");
-            };
-            this.ws.onclose = function (event) {
-                console.log("closed");
+            if (!this.user.get('logged_in') || !this.player.get('inLobby')) {
+                Backbone.history.navigate('#', true);
+                return;
             }
+            this.resizeCanvas();
+            this.number = this.game.get("myNumber");
+            if (this.game.get('isStarted') == true) {
+                this.game.set({isStarted: false});
+                var date = new Date();
+                var secconds = date.getSeconds();
+                this.timeToEnd = (secconds + this.gametimeConf);
+            }
+            //window.clearAnimation(this.animate.bind(this));
+            if (this.firstVisit) {
+                this.animate();
+                this.firstVisit = false;
+            }
+            this.$el.show();
+            this.is_hidden = false;
+            this.trigger("show", this);
         },
         hide: function () {
+            this.is_hidden = true;
             this.$el.hide();
         },
 
-
+        //helpers
         resizeCanvas: function () {
-            var width = window.innerWidth - 26;
+            var width = window.innerWidth;
             if (width < 800) width = 800;
             this.coordinateStepX = width / this.fieldW;
             var height = window.innerHeight - 40;
             if (height < 550) height = 550;
-            //if (height < width * this.koef) height = width * this.koef;
+
             this.coordinateStepY = height / this.fieldH;
+
+            this.backgroundcanvas.width = width;
+            this.backgroundcanvas.height = height;
+            this.backgroundcontainer = {x: 0, y: 0, width: width, height: height};
+
+            this.redrawBackground();
+
             this.canvas.width = width;
             this.canvas.height = height;
             this.container = {x: 0, y: 0, width: width, height: height};
 
-        },
-        //helpers
-        addPlayers: function (ballses) {
-            var playersCount = ballses.length;
-            for (var i = 1; i < playersCount; i++) {
-                //var newplayer=new player(i,ballses[i].x.valueOf(),ballses[i].y.valueOf());
-                //this.players.add([{id:i,x:ballses[i].x.valueOf(),y:ballses[i].y.valueOf()}]);
-                var myArc = {
-                    x: ballses[i].x.valueOf(),
-                    y: ballses[i].y.valueOf(),
-                    radius: 20,
-                    Vx: ballses[i].vx.valueOf(),
-                    Vy: ballses[i].vy.valueOf(),
-                    type: "human",
-                    isNotStop: function () {
-                        return this.Vx + this.Vy;
-                    },
-                    borderColor: this.teamColors[i],
-                    isMyPlayer: this.whoIs[i]
+            this.timercanvas.width = 100;
+            this.timercanvas.height = 20;
 
-                };
-                this.balls.push(myArc);
-            }
+            this.scorecanvas.width = 300;
+            this.scorecanvas.height = 20;
+
+            this.endcanvas.width = width;
+            this.endcanvas.height = height;
+            this.endcontainer = {x: 13, y: 0, width: width, height: height};
         },
 
-        isCollision: function (i, j) { //проверить удар по касательной
+        isCollisionPlayers: function (i, j) {
+            var a = parseFloat(this.players.at(j).get("x")) - parseFloat(this.players.at(i).get("x"));
+            var b = parseFloat(this.players.at(j).get("y")) - parseFloat(this.players.at(i).get("y"));
+            var distance = Math.sqrt(a * a + b * b);
+            var minDistance = parseFloat(this.players.at(j).get("radius")) + parseFloat(this.players.at(i).get("radius"));
+            return distance <= minDistance + 1;
+        },
+
+        isCollision: function (i, j) {
             var a = parseFloat(this.balls[j].x) - parseFloat(this.balls[i].x);
             var b = parseFloat(this.balls[j].y) - parseFloat(this.balls[i].y);
             var distance = Math.sqrt(a * a + b * b);
             var minDistance = parseFloat(this.balls[j].radius) + parseFloat(this.balls[i].radius);
             return distance <= minDistance + 1;
         },
-        onload: function () {
-            var container = this.container;
+
+        redrawBackground: function () {
+            var container = this.backgroundcontainer;
             var imageObj = this.imageObj;
-            this.context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+            this.backgroundcontext.drawImage(imageObj, container.x, container.y, container.width, container.height);
         },
+
+        onloadTablo: function (container, context) {
+            var imageObj = this.imageObjTablo;
+            context.drawImage(imageObj, container.x, container.y, container.width, container.height);
+        },
+
+        savePrev: function (i, x, y) {
+            this._prev[i] = [x,y];
+        },
+
+        //TODO closePath;
         animate: function () {
-            this.resizeCanvas();
-            this.context.fillStyle = this.onload();
-            for (var i = 0; i < this.balls.length; i++) {
-                var myArc = this.balls[i];
-                this.drawArc(myArc, this.context);
 
-                //Временно не используется
-                var goal_right = false;
-                var goal_left = false;
-                if (myArc.type == "ball") {
-                    if (myArc.y - myArc.radius > this.fieldH * 0.44 && myArc.y + myArc.radius < this.fieldH * 0.565) {
-                        if (myArc.x - myArc.radius <= 20) goal_left = true;
-                        else if (myArc.x + myArc.radius >= this.fieldW - 20) goal_right = true;
-                    }
-                }
+            this.context.clearRect(this.container.x, this.container.y, this.container.width, this.container.height);
 
-                if (((myArc.x + myArc.Vx + myArc.radius) * this.coordinateStepX > this.container.x + this.container.width) || ((myArc.x - myArc.radius + myArc.Vx) * this.coordinateStepX < this.container.x)) {
-                    myArc.Vx = -myArc.Vx;
-                }
-                if (((myArc.y + myArc.Vy + myArc.radius) * this.coordinateStepY > this.container.y + this.container.height) || ((myArc.y - myArc.radius + myArc.Vy) * this.coordinateStepY < this.container.y)) {
-                    myArc.Vy = -myArc.Vy;
-                }
 
-                myArc.x += myArc.Vx;
-                myArc.y += myArc.Vy;
+            this.timercontext.clearRect(0, 0, this.timercanvas.width, this.timercanvas.height);
+            this.scorecontext.clearRect(0, 0, this.scorecanvas.width, this.scorecanvas.height);
+            if (this.game.get('isEnded') == false) {
+                var date = new Date();
+                this.gametime = (this.timeToEnd - date.getSeconds()) % 60;
+            }
+            else {
+                this.gametime = 0;
+            }
+
+            for (var i = 0; i < this.players.length; i++) {
+                var Vx = this.players.at(i).get("Vx");
+                var Vy = this.players.at(i).get("Vy");
+                var y = this.players.at(i).get("y");
+                var x = this.players.at(i).get("x");
+
+                this.savePrev(i,x,y);
+
+                this.players.at(i).set({x: x + Vx, y: y + Vy});
+                this.drawArc(this.game, this.players.at(i), this.context, this.timercontext, this.scorecontext, this.endcontext);
             }
             //Временно не используется
-            for (var j = 1; j < this.balls.length; ++j) {
+            for (var j = 1; j < this.players.length; ++j) {
                 for (var i = j - 1; i >= 0; --i) {
 
-                    if (this.isCollision(i, j)) {
+                    if (this.isCollisionPlayers(i, j)) {
                         //if (this.balls[i].type == "ball") this.collision(i,j);
                         //else if (this.balls[j].type == "ball") this.collision(j,i);
-                        this.collision(i, j);
+                        this.collisionPlayers(i, j);
                     }
                 }
             }
-
             requestAnimFrame(this.animate.bind(this));
 
 
         },
-        //TODO попробовать с трением
+        collisionPlayers: function (i, j) {
+            if (this.players.at(i).get("type") != "ball") {
+                this.players.at(i).set({Vx: -this.players.at(i).get("Vx"), Vy: -this.players.at(i).get("Vy")});
+                this.players.at(j).set({Vx: -this.players.at(j).get("Vx"), Vy: -this.players.at(j).get("Vy")})
+            }
+            else { //столкновение с мячиком
+                if (this.players.at(j).get("Vx") == 0 && this.players.at(j).get("Vy") == 0) { //игрок изначально стоял
+                    this.players.at(i).set({Vx: -this.players.at(i).get("Vx"), Vy: -this.players.at(i).get("Vy")});
+                }
+                else {
+                    var delta = -this.players.at(i).get("Vx") + this.players.at(j).get("Vx");
+                    if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
+                    else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;
+                    this.players.at(i).set({Vx: delta});
+                    if (delta != 0)
+                        this.players.at(j).set({Vx: -delta / Math.abs(delta)});
+
+                    delta = -this.players.at(i).get("Vy") + this.players.at(j).get("Vy");
+                    if (delta > this.maxBallSpeed) delta = this.maxBallSpeed;
+                    else if (delta < -this.maxBallSpeed) delta = -this.maxBallSpeed;
+                    this.players.at(i).set({Vy: delta});
+                    //this.balls[i].Vy = - this.balls[i].Vy + this.balls[j].Vy;
+                    if (delta != 0)
+                        this.players.at(j).set({Vy: -delta / Math.abs(delta)});
+                }
+                //this.balls[i].x += this.balls[i].Vx;
+                //this.balls[i].y += this.balls[i].Vy;
+            }
+
+        },
         collision: function (i, j) {
             if (this.balls[i].type != "ball") {
                 this.balls[i].Vx = -this.balls[i].Vx;
@@ -276,74 +312,125 @@ define([
                 this.balls[i].y += this.balls[i].Vy;
             }
         },
-
-        drawArc: function (myArc, context) {
+        drawArc: function (game, myArc, context, timercontext, scorecontext, endcontext) {
             var img;
+            var x = myArc.get("x");
+            var y = myArc.get("y");
+            var radius = myArc.get("radius");
             context.save();
             context.beginPath();
-            if (myArc.type == "human") {
+            if (myArc.get("type") == "human") {
 
-                context.translate(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY);
-                var imgW = myArc.radius * this.coordinateStepY * 2;
-                var imgH = myArc.radius * this.coordinateStepY * 2;
-                context.rotate(Math.atan2(myArc.Vy, myArc.Vx) - Math.PI / 2);
+                context.translate(x * this.coordinateStepX, y * this.coordinateStepY);
+                var imgW = radius * this.coordinateStepY * 2;
+                var imgH = radius * this.coordinateStepY * 2;
+                var fontSize = this.playerNameFontSize;
 
-                context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
-                context.strokeStyle = myArc.borderColor;
-                context.lineWidth = this.borderWidth;
-                context.stroke();
-                context.fill();
-
+                // Тут можно подписать игрока
                 context.beginPath();
-                img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                context.fillStyle = "white";
+                context.font = fontSize+'pt Calibri';
+                context.fillText(myArc.get("name"), -fontSize * (myArc.get("name").length + 1) / 4, radius + fontSize);
+
+                context.rotate(Math.atan2(myArc.get("Vy"), myArc.get("Vx")) - Math.PI / 2);
+
+                if (myArc.get("isMyPlayer")) {
+                    context.arc(0, 0, imgH / 2, 0, 2 * Math.PI, false);
+                    context.strokeStyle = "white";
+                    context.lineWidth = this.borderWidth;
+                    context.stroke();
+                    context.fill();
+                }
+                context.beginPath();
+                if (myArc.get("team") == 0) {
+                    img = context.drawImage(this.imageObjHead, -imgW / 2, -imgH / 2, imgW, imgH);
+                } else img = context.drawImage(this.imageObjHead2, -imgW / 2, -imgH / 2, imgW, imgH);
 
                 context.fillStyle = img;
                 context.fill();
 
-                if (myArc.isMyPlayer) {
-                    context.beginPath();
-                    context.font = 'bold 10pt Calibri';
-                    context.fillText('YOU', -13, 0);
-                }
+                //// Тут можно подписать своего игрока
+                // if (myArc.get("isMyPlayer")) {
+                //     context.beginPath();
+                //     context.fillStyle = "white";
+                //     context.font = 'bold '+this.playerNameFontSize+'pt Calibri';
+                //     context.fillText(this.names[0], -this.playerNameFontSize * this.names[0].length / 4, -(radius));
+                // } else
+                // {
+                //     context.beginPath();
+                //     context.fillStyle = "white";
+                //     context.font = 'bold 15pt Calibri';
+                //     context.fillText(this.names[1],-this.names[1].length/2, -(5+radius));
+                // }
+
 
             } else {
-                context.arc(myArc.x * this.coordinateStepX, myArc.y * this.coordinateStepY, myArc.radius * this.coordinateStepY, 0, 2 * Math.PI, false);
+                context.arc(x * this.coordinateStepX, y * this.coordinateStepY, radius * this.coordinateStepY, 0, 2 * Math.PI, false);
                 img = context.createPattern(this.imageObjBall, 'repeat');
                 context.fillStyle = img;
                 context.fill();
             }
             context.restore();
+            timercontext.beginPath();
+            timercontext.font = '20px led-digital-7';
+            timercontext.fillStyle = "white";
+            timercontext.fill();
+            timercontext.fillText("Time " + this.gametime, 0, 15);
+            timercontext.closePath();
+
+            scorecontext.beginPath();
+            scorecontext.font = '20px led-digital-7';
+            scorecontext.fillStyle = "white";
+            scorecontext.fill();
+            scorecontext.fillText("Choco " + this.game.get("team1") + " : " + this.game.get("team0") + " Ginger", 0, 15);
+
+            if (game.get('isEnded') == true) {
+                endcontext.beginPath();
+                endcontext.font = this.endFontSize+'px Calibri';
+                endcontext.lineWidth = 3;
+                endcontext.strokeStyle = 'black';
+                var winnerName = "";
+                var winner = this.game.get('winner');
+                if (winner === 0) winnerName = "Winner Ginger";
+                else if (winner === 1)
+                    winnerName = "Winner Choco";
+                else {
+                    winnerName = "Draw";
+                }
+                endcontext.strokeText(winnerName, this.endcontainer.width / 2 - this.endFontSize * winnerName.length / 4, this.endcontainer.height / 2);
+                endcontext.fill();
+            }
 
         },
 
         processKey: function (e) {
             var msg;
-            if (e.keyCode == 37) {
-                msg = {
-                    code: 5
-                };
-                this.ws.send(JSON.stringify(msg));
+            if (!this.is_hidden && e.keyCode == 37) {//влево
+                if (this.players.at(this.number).get("Vx") > -this.maxBallSpeed) {
+                    this.user.set({clickCode: 5});
+                    this.user.trigger(this.user.click);
+                }
             }
-            if (e.keyCode == 39) {
-                msg = {
-                    code: 4
-                };
-                this.ws.send(JSON.stringify(msg));
+            if (!this.is_hidden && e.keyCode == 39) {//вправо
+                if (this.players.at(this.number).get("Vx") < this.maxBallSpeed) {
+                    this.user.set({clickCode: 4});
+                    this.user.trigger(this.user.click);
+                }
             }
-            if (e.keyCode == 38) {
-                msg = {
-                    code: 7
-                };
-                this.ws.send(JSON.stringify(msg));
+            if (!this.is_hidden && e.keyCode == 38) {//вверх
+                if (this.players.at(this.number).get("Vy") > -this.maxBallSpeed) {
+                    this.user.set({clickCode: 7});
+                    this.user.trigger(this.user.click);
+                }
             }
-            if (e.keyCode == 40) {
-                msg = {
-                    code: 6
-                };
-                this.ws.send(JSON.stringify(msg));
+            if (!this.is_hidden && e.keyCode == 40) {//вниз
+                if (this.players.at(this.number).get("Vy") < this.maxBallSpeed) {
+                    this.user.set({clickCode: 6});
+                    this.user.trigger(this.user.click);
+                }
             }
         }
     });
 
-    return new View();
+    return View;
 });

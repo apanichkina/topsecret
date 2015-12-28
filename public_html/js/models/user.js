@@ -6,40 +6,27 @@ define([
     userSync
 ) {
 
-    var UserModel = Backbone.Model.extend({
+    var Model = Backbone.Model.extend({
 
         url: "/",
         sync: userSync,
 
-        signupCompleteEvent: 'signupCompleteEvent',
-        signupFailedEvent: 'signupFailedEvent',
-        loginCompleteEvent: 'loginCompleteEvent',
-        loginFailedEvent: 'loginFailedEvent',
+        /**
+         * User events
+         */
+        USER_SIGN_UP_SUCCESS: 'signupCompleteEvent',
+        USER_SIGNUP_FAILED: 'signupFailedEvent',
+        USER_LOGIN_SUCCESS: 'loginCompleteEvent',
+        USER_LOGOUT: 'logoutEvent',
+        USER_LOGIN_FAILED: 'loginFailedEvent',
 
-        loginSuccess: function (data) {
-            this.set('email', data.response.email);
-            this.set('logged_in', true);
-            this.trigger(this.loginCompleteEvent);
-        },
+        click: "clickCode",
 
-        loginFailed: function (data) {
-            this.clear();
-            this.trigger(this.loginFailedEvent);
-        },
-
-        signupSuccess: function(data) {
-            this.set('logged_in', true);
-            this.trigger(this.signupCompleteEvent);
-        },
-
-        signupFailed: function (data) {
-            this.clear();
-            this.trigger(this.signupFailedEvent);
-        }
+        idAttribute: 'name'
 
 
     });
 
-    return new UserModel();
+    return Model;
 
 });

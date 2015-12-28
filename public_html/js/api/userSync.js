@@ -6,17 +6,19 @@ define([
 
     var methodMap = {
         'create': 'POST',
-        'read': 'POST'
+        'read': 'POST',
+        'delete': 'POST'
     };
 
     var urlMap  = {
         'login': '/api/v1/auth/signin/',
-        'signup': '/api/v1/auth/signup/'
+        'signup': '/api/v1/auth/signup/',
+        'logout': '/api/v1/auth/logout/',
+        'profile': '/api/v1/auth/profile/'
     };
 
     return function(method, model, options) {
         var params = {type: methodMap[method]};
-        var modelData = model.toJSON();
 
         params.dataType = 'json';
         params.contentType = 'application/json';
@@ -24,36 +26,25 @@ define([
 
         if (method === 'create') {
             params.url = urlMap['signup'];
-            params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.signupSuccess(data);
-                } else {
-                    model.signupFailed(data);
-                }
-            };
-            params.error = function () {
-                alert("BAD SHIT");
-            };
+            params.data = options.data;
         }
 
         if(method === 'read') {
-            alert('login');
-            params.url = urlMap['login'];
-            params.data = JSON.stringify(modelData);
-            params.success = function (data) {
-                if(data.code == 0) {
-                    model.loginSuccess(data);
-                } else {
-                    model.loginFailed(data);
-                }
-            };
-            params.error = function () {
-                alert("BAD SHIT");
+            if(options.data){
+                params.url = urlMap['login'];
+                params.data = options.data;
+            } else {
+                params.url = urlMap['profile'];
+                params.type = 'GET';
             }
+
         }
 
-        return Backbone.ajax(params);
+        if(method === 'delete') {
+            params.url = urlMap['logout'];
+        }
+
+        return Backbone.ajax(_.extend(params, options));
     }
 
 

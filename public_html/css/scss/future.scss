@@ -1,0 +1,515 @@
+$main-font-color: #fff;
+$main-font-style: led-digital-7;
+$background-url: "../img/football_field.jpg";
+$black-background: rgba(28, 28, 28, 0.7);
+$border-style: solid;
+$border-color: white;
+$error-font-color: #FFEEEE;
+$error-background: #f80000;
+$game-background-url:  "../img/background_color.jpg";
+
+
+@font-face{
+  font-family: led-digital-7;
+  src: url(../fonts/led-counter-7.woff);
+}
+
+body {
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  background-repeat: no-repeat;
+  height: 100%;
+  background-image: url(#{$background-url});
+  overflow: hidden; }
+
+html {
+  height: 100%;
+}
+
+.doge{
+  float:left;
+  position:relative;
+  margin-left: -100px;
+}
+
+.how-to-play{
+  display: none;
+  min-width: 780px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0,0,0,0.9); /*обесцвечиваем фон*/
+  text-align: center;
+
+  &__enable{
+    font: bold 22px #{$main-font-style};
+    color: #{$main-font-color};
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+    background: transparent;
+    &:hover{
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
+  }
+
+  &__close{
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin-top: 7px;
+    cursor: pointer;
+  }
+
+  &__header{
+    padding: 0 20px 0 50px;
+    margin-top: 20px;
+    font: bold 56px #{$main-font-style};
+    color: #{$main-font-color};
+  }
+
+  &__hint-pic{
+    text-align: center;
+    padding-right: 42px;
+    margin: 50px auto;
+  }
+
+  &__hint{
+    text-align: center;
+    margin: 20px auto;
+    font: bold 36px #{$main-font-style};
+    color: #{$main-font-color};
+  }
+}
+
+.notification-bar{
+  display: none;
+  width:100%;
+  background-color: #{$error-background};
+  position: fixed;
+  z-index: 100;
+  color: #{$error-font-color};
+  line-height: 60px;
+  font: bold 22px #{$main-font-style};
+  padding: 10px 0 10px 0;
+  text-align: center;
+  &__message{
+    display: inline-block;
+    text-align: center;
+    padding-left: 40px;
+    &_close{
+      float: right;
+      margin-right: 20px;
+      width:20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}
+
+.main-menu {
+  width: 50%;
+  margin: 50px auto;
+  text-align: center;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+  padding: 10px;
+  min-width: 500px;
+
+    &__button {
+      font: bold 38px #{$main-font-style};
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      width: 60%;
+      margin: 10px auto;
+      padding: 20px;
+      color: #{$main-font-color};
+      border-radius: 10px;
+      &:hover{
+        color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+      }
+  }
+
+    &__header{
+      font: bold 56px #{$main-font-style};
+      color: #{$main-font-color};
+    }
+}
+
+.box{
+  margin: 50px auto;
+}
+
+.qrbox{
+  @extend .new-lobby-box;
+  &__header{
+    @extend .new-lobby-box__header;
+  }
+
+  &__img{
+    margin:20px;
+  }
+}
+
+.breaker{
+  height: 20px;
+}
+.logged-as{
+  font: bold 22px #{$main-font-style};
+  color: #{$main-font-color};
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 20px 0 10px 0;
+  background: transparent;
+  border-top: 2px dashed #{$border-color};
+}
+
+.qrlink{
+  @extend .main-menu__button;
+}
+
+.button-back {
+  font: bold 32px #{$main-font-style};
+  color: #{$main-font-color};
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+  background: transparent;
+  &:hover{
+    color: yellow;
+    text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+  }
+}
+
+.user-form {
+  margin: 0 auto;
+  width: 50%;
+  background: #{$black-background};
+  padding-top: 20px;
+  text-align: center;
+  border: 2px #{$border-style} #{$border-color};
+  min-width: 500px;
+
+  &__input{
+    font: 28px #{$main-font-style};
+    color: #{$main-font-color};
+    width: 50%;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: transparent;
+    border: 2px #{$border-style} #{$border-color};
+  }
+
+  &__submit{
+    cursor: pointer;
+    font: bold 32px #{$main-font-style};
+    margin: 0 auto;
+    padding: 10px;
+    color: #{$main-font-color};
+    background: transparent;
+    display: block;
+    border: 0;
+    &:hover{
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
+  }
+
+  &__error{
+    color: #fff;
+    font: 14px #{$main-font-style};
+    padding: 15px;
+    width: 50%;
+    text-align: center;
+    background: rgba(255, 3, 62, 0.75);
+    margin: 10px auto;
+    margin-top: 0;
+  }
+}
+
+
+.lobby-box {
+  margin: 50px auto;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+  width: 50%;
+  max-height: 650px;
+  max-width: 710px;
+  min-width: 500px;
+
+    &__no-lobbies{
+      text-align: center;
+      margin: 20px 20px 10px 20px;
+      font: bold 36px #{$main-font-style};
+      color: #{$main-font-color};
+    }
+
+    &__header{
+      text-align: center;
+      font: bold 48px #{$main-font-style};
+      color: #{$main-font-color};
+      margin-top: 10px;
+    }
+
+    &__footer{
+      text-align: center;
+      font: bold 28px #{$main-font-style};
+      color: #{$main-font-color};
+      margin: 20px 0 20px 0;
+    }
+
+    &__create {
+      border-top: 2px dashed #{$border-color};
+      margin-top: 10px;
+      text-align: center;
+      padding: 20px 0 10px 0;
+      &_link {
+        text-decoration: none;
+        color: #{$main-font-color};
+        font: bold 32px #{$main-font-style};
+        &:hover {
+          color: yellow;
+          text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+        }
+      }
+    }
+
+  &__outer-table{
+    position: relative;
+    padding: 50px 0 5px 0;
+
+    & thead tr {
+      position: absolute;
+      left: 0;
+      top: 20px;
+    }
+  }
+
+  &__inside-table{
+    overflow: auto;
+    border-top: 2px dashed white;
+    max-height: 350px;
+    & td {
+      padding: 30px 10px 0 10px;
+      width: 30.3%;
+    }
+  }
+}
+
+.new-lobby-box{
+  @extend .lobby-box;
+  text-align: center;
+
+  &__error{
+    @extend .user-form__error;
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    width: 50%;
+  }
+
+  &__header{
+    @extend .lobby-box__header;
+  }
+
+  &__form{
+    @extend .user-form;
+    background: transparent;
+    border: 0;
+  }
+
+  &__input{
+    font: 28px #{$main-font-style};
+    color: #{$main-font-color};
+    margin-bottom: 15px;
+    padding: 10px;
+    background: transparent;
+    border: 2px #{$border-style} #{$border-color};
+  }
+
+  &__submit{
+    @extend .user-form__submit;
+  }
+
+  &__select{
+    font: bold 32px #{$main-font-style};
+    margin: 20px auto;
+    padding: 10px;
+    color: #{$main-font-color};
+    background: transparent;
+    display: inline-block;
+    border: 0;
+
+    &_label{
+      @extend .new-lobby-box__select;
+    }
+  }
+}
+
+.lobby-table{
+  border: 0;
+  width: 100%;
+  text-align: center;
+  color: #{$main-font-color};
+  padding: 10px 0 10px 0;
+  font: 28px #{$main-font-style};
+  border-collapse: collapse;
+  max-height: 300px;
+
+  &__join{
+    text-decoration: none;
+    color: #{$main-font-color};
+    &:hover{
+      color: yellow;
+      text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+    }
+  }
+
+  &__name{
+    word-break: break-all;
+  }
+
+  & thead th {
+    width: 8.4em;
+  }
+
+}
+
+.current-lobby-table{
+  @extend .lobby-table;
+  table-layout: fixed;
+  & td{
+    width: 50%;
+  }
+  &__td{
+    padding: 15px;
+    &_ginger{
+      padding: 10px;
+      color: #ed4830;
+    }
+    &_choco{
+      padding: 10px;
+      color: #b37b11;
+    }
+  }
+
+}
+
+.scoreboard {
+  width: 50%;
+  min-width: 500px;
+  margin: 50px auto;
+  text-align: center;
+  background: #{$black-background};
+  border: 2px #{$border-color} #{$border-style};
+
+  &__header{
+    margin-top: 20px;
+    font: bold 28px #{$main-font-style};
+    color: #fff;
+  }
+
+  &__table{
+    font: 28px #{$main-font-style};
+    text-decoration: none;
+    text-align: center;
+    width: 80%;
+    margin: 10px auto;
+    padding: 20px;
+    color: #{$main-font-color};
+    background: transparent;
+    border-radius: 10px;
+    & th{
+      padding-bottom: 5px;
+    }
+
+  }
+
+}
+
+.game {
+  margin: -8px;
+  padding: 10px;
+  background-size: cover;
+  background-image: url(#{$game-background-url});
+
+  &__header{
+    margin: 0;
+    background-image: url("../img/tablo.png");
+    padding: 10px 0 10px 10px;
+    min-width: 800px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    text-align: center;
+    &_left{
+      float: left;
+      left: 10px;
+      padding: 0 14px;
+    }
+    &_right{
+      right: 10px;
+      padding: 0 14px;
+      float: right;
+    }
+
+    &__button{
+      background-color: transparent;
+      height: 30px;
+      padding: 0 14px;
+      border-radius: 2px;
+      font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      &:hover{
+        color: yellow;
+        text-shadow: -1px 1px 8px #fefe22, 1px -1px 8px #fefe22;
+      }
+    }
+
+    &__text{
+      font: normal normal bold 20px/1 "advent-pro", #{$main-font-style}, sans-serif;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+  &__area{
+    position: relative;
+    background-size: cover;
+    background-image: url(#{$game-background-url});
+  }
+  &__field{
+    margin: 0;
+    position: absolute;
+    z-index: 1;
+  }
+  &__sprite{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 100;
+  }
+  &__endtablo{
+    position: absolute;
+  }
+}
+
+#page {
+  height: 100%;
+  width: 100%;
+  float: left;
+}

@@ -1,21 +1,42 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
     <div class="main-menu">
-        <div class="main-menu__header">Da football</div>
-        <a href="/#game" id="js-play" class="main-menu__button">
-            Play
+        <div class="main-menu__header">DA FOOTBALL GAME</div>
+        <a href="/#lobbies" id="js-play" class="main-menu__button">
+            PLAY
         </a>
+        <fest:if test="data.user">
+            <a href="#" class="qrlink js-open-qr">ENABLE GAMEPAD</a>
+        </fest:if>
         <a href="/#scoreboard" class="main-menu__button">
-            Scoreboard
+            SCOREBOARD
         </a>
         <a href="/#login" id="js-login" class="main-menu__button">
-            Login
+            LOGIN
         </a>
         <a href="/#signup" id="js-signup" class="main-menu__button">
-            Sign Up
+            SIGN UP
         </a>
         <a href="/#" id="js-logout" class="main-menu__button">
-            Logout
+            LOGOUT
         </a>
+        <fest:if test="data.user">
+            <div class="logged-as">
+                Logged in as<fest:space/><fest:value>data.user</fest:value>
+            </div>
+            <a href="#" class="how-to-play__enable js-hint-enable">HOW TO PLAY</a>
+        </fest:if>
+    </div>
+
+
+    <div class="how-to-play">
+        <div class="how-to-play__header">HOW TO PLAY GUIDE!<img src="../img/close.png" class="how-to-play__close js-hint-close" /></div>
+        <div class="how-to-play__hint-pic"><img class="doge" src="../img/doge2.png" /><img src="../img/hint.png" /></div>
+        <div class="how-to-play__hint">AS SIMPLE AS THAT!</div>
+        <div class="how-to-play__hint">BRAND NEW CONTROLS!</div>
+        <div class="how-to-play__hint">JUST PRESS REPEATEDLY, NEVER HOLD!</div>
+        <div class="breaker"> </div>
+        <div class="how-to-play__hint">PS: IF YOUR COMPUTER DOESN'T SUPPORT ARROW KEYS FEATURE</div>
+        <div class="how-to-play__hint">YOU MAY TRY OUR WONDERFUL GAMEPAD THEN!</div>
     </div>
 
 
