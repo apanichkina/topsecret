@@ -10,7 +10,7 @@ shell: {
         stderr: true
     },
 	server: {
-        command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main '+process.env.PORT
+        command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main '+ PORT
 	}
 },
 
